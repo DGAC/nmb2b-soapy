@@ -1,0 +1,15 @@
+appdirs==1.4.3
+attrs==19.1.0
+cached-property==1.5.1
+certifi==2019.6.16
+chardet==3.0.4
+defusedxml==0.6.0
+idna==2.8
+isodate==0.6.0
+lxml==4.3.4
+pytz==2019.1
+requests==2.22.0
+requests-toolbelt==0.9.1
+six==1.12.0
+urllib3==1.25.3
+zeep==3.4.0
