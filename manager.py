@@ -24,13 +24,14 @@ class Manager():
         self.session = Session()
         self.session.auth = HTTPBasicAuth(B2B_PROXY['key'], B2B_PROXY['secret'])        
         self.wsdl = WSDL_PROXY + wanted_services + "_PREOPS_" + version + ".wsdl"
-        self.cache = SqliteCache(path='./data/sqlite.db', timeout=60)
+        self.cache = SqliteCache(path='./data/sqlite.db')
         self.transport = Transport(session=self.session, cache=self.cache)        
         self.conf = {
             'wsdl': self.wsdl,
             'transport': self.transport
         }
     
+    # -----------------------------------------------------------------------------------------
     def set_available_services(self):
         self.available_services = []
         client = Client(**self.conf)
@@ -44,22 +45,28 @@ class Manager():
         for service in self.available_services:
             print('  * ', service)
     
+    # -----------------------------------------------------------------------------------------
     def set_operations_of_service(self, service_name):
         if not self.available_services:
             self.set_available_services()
         if not service_name in self.available_services:
-            print(f"Le service {service_name} n'est pas disponible.")
+            raise Exception(f"Le service {service_name} n'est pas disponible.")
         client = Client(**self.conf, service_name=service_name)
         operations = [op for op in client.service.__dir__() if not op.startswith('__')]
-        self
-        print(f"Les opérations disponibles pour {service_name} sont : ")
-        for op in operations:
-            print(' * ', op)
+        self.available_operations[service_name] = operations
     
+    def show_operations_of_service(self, service_name):
+        if not service_name in self.available_operations:
+            self.set_operations_of_service(service_name=service_name)
+        print(f"Les opérations disponibles pour {service_name} sont : ")
+        for operation in self.available_operations[service_name]:
+            print('  * ', operation)
+    
+    # -----------------------------------------------------------------------------------------
     def queryFlightsByAirspace(
-        self, airspace, sendTime=utils.sendTime(), dataset, trafficType,
+        self, airspace, dataset, trafficType,
         includeProposalFlights, includeForecastFlights, 
-        trafficWindow):
+        trafficWindow, sendTime=utils.sendTime()):
         client = Client(**self.conf, service_name='FlightManagementService')
         return client.service.queryFlightsByAirspace(
             airspace=airspace, sendTime=sendTime, dataset=self.dataset, trafficType=trafficType,
