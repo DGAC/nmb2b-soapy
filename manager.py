@@ -69,17 +69,16 @@ class Manager():
     def queryFlightsByAirspace(
         self, airspace, dataset, trafficType,
         includeProposalFlights, includeForecastFlights,
-        trafficWindow, requestedFlightFields=[], sendTime=utils.sendTime(),
-        py_output=True):
+        trafficWindow, requestedFlightFields=[], sendTime=utils.sendTime()):
         client = Client(**self.conf, service_name='FlightManagementService')
         self.tmp_data = client.service.queryFlightsByAirspace(
             airspace=airspace, dataset=self.dataset, trafficType=trafficType,
             includeProposalFlights=includeProposalFlights, includeForecastFlights=includeForecastFlights, 
             trafficWindow=trafficWindow, requestedFlightFields=requestedFlightFields, sendTime=sendTime)
-        if py_output:
-            return serialize_object(self.tmp_data)
         return self.tmp_data
 
+    def convert_data_to_json(self, obj):
+        return serialize_object(self.tmp_data)
     # def queryFlightsByAerodrome(
     #     self, aerodrome, dataset, trafficType,
     #     includeProposalFlights, includeForecastFlights, 
