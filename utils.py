@@ -14,14 +14,16 @@ import requests
 
 #from decolog import *
 #from dsnaproxies import dsnaproxies
+from shared_vars import DATA_PATH
 
 
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 # Nouveaux utilitaires par Maxence
-def write_content_to_file(filename, content):
-	os.makedirs(os.path.dirname(filename), exist_ok=True)
-	with open(filename, 'w') as file_to_be_written:
+def write_content_to_file(filename, content, rep=DATA_PATH):
+	os.makedirs(os.path.dirname(rep+filename), exist_ok=True)
+	full_path = os.path.join(rep, filename)
+	with open(full_path, 'w') as file_to_be_written:
 		file_to_be_written.write(content)
  
 def get_datetime(nbr_days=0):

@@ -24,3 +24,6 @@ DEFAULT_DATASET = "OPERATIONAL"
 def get_dataset(wanted_dataset):
 	if wanted_dataset in ALLOWED_DATASET: return wanted_dataset
 	return "OPERATIONAL"
+
+ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
+DATA_PATH = os.path.join(ROOT_PATH, "data")

@@ -5,6 +5,8 @@ from requests.auth import HTTPBasicAuth
 from zeep import Client, Settings
 from zeep.cache import SqliteCache
 from zeep.transports import Transport
+from zeep.helpers import serialize_object
+import json
 
 from shared_vars import (B2B_PROXY, DEFAULT_B2B_VERSION, DEFAULT_DATASET,
                          WSDL_PROXY, get_dataset)
@@ -30,6 +32,7 @@ class Manager():
             'wsdl': self.wsdl,
             'transport': self.transport
         }
+        self.tmp_data = None
     
     # -----------------------------------------------------------------------------------------
     def set_available_services(self):
@@ -65,10 +68,28 @@ class Manager():
     # -----------------------------------------------------------------------------------------
     def queryFlightsByAirspace(
         self, airspace, dataset, trafficType,
-        includeProposalFlights, includeForecastFlights, 
-        trafficWindow, sendTime=utils.sendTime()):
+        includeProposalFlights, includeForecastFlights,
+        trafficWindow, requestedFlightFields=[], sendTime=utils.sendTime(),
+        py_output=True):
         client = Client(**self.conf, service_name='FlightManagementService')
-        return client.service.queryFlightsByAirspace(
-            airspace=airspace, sendTime=sendTime, dataset=self.dataset, trafficType=trafficType,
+        self.tmp_data = client.service.queryFlightsByAirspace(
+            airspace=airspace, dataset=self.dataset, trafficType=trafficType,
             includeProposalFlights=includeProposalFlights, includeForecastFlights=includeForecastFlights, 
-            trafficWindow=trafficWindow)
+            trafficWindow=trafficWindow, requestedFlightFields=requestedFlightFields, sendTime=sendTime)
+        if py_output:
+            return serialize_object(self.tmp_data)
+        return self.tmp_data
+
+    # def queryFlightsByAerodrome(
+    #     self, aerodrome, dataset, trafficType,
+    #     includeProposalFlights, includeForecastFlights, 
+    #     trafficWindow, sendTime=utils.sendTime(),
+    #     py_output=True):
+    #     client = Client(**self.conf, service_name='FlightManagementService')
+    #     self.tmp_data = client.service.queryFlightsByAirspace(
+    #         aerodrome=aerodrome, aerodromeRole=aerodromeRole, sendTime=sendTime, dataset=self.dataset, trafficType=trafficType,
+    #         includeProposalFlights=includeProposalFlights, includeForecastFlights=includeForecastFlights, 
+    #         trafficWindow=trafficWindow)
+    #     if py_output:
+    #         return serialize_object(self.tmp_data)
+    #     return self.tmp_data
