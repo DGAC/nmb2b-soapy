@@ -16,22 +16,35 @@ import utils
 class Manager():
 
     def __init__(
-        self, version=DEFAULT_B2B_VERSION, wanted_services="FlightServices", 
-        dataset=DEFAULT_DATASET, *args, **kwargs):
+        self, 
+        version=DEFAULT_B2B_VERSION, 
+        wanted_services="FlightServices", 
+        dataset=DEFAULT_DATASET, 
+        *args, **kwargs
+        ):
         
         self.wanted_services = wanted_services
         self.available_services = []
         self.available_operations = {}
-        self.dataset = get_dataset(dataset)
+        
+        self._default_params_for_queries = {
+            'dataset':                  get_dataset(dataset),
+            'trafficType':              'LOAD',
+            'includeProposalFlights':   True, 
+            'includeForecastFlights':   True,
+            'sendTime':                 utils.sendTime(),
+        }
+        
         self.session = Session()
         self.session.auth = HTTPBasicAuth(B2B_PROXY['key'], B2B_PROXY['secret'])        
         self.wsdl = WSDL_PROXY + wanted_services + "_PREOPS_" + version + ".wsdl"
         self.cache = SqliteCache(path='./data/sqlite.db')
         self.transport = Transport(session=self.session, cache=self.cache)        
         self.conf = {
-            'wsdl': self.wsdl,
-            'transport': self.transport
+            'wsdl':         self.wsdl,
+            'transport':    self.transport
         }
+        
         self.tmp_data = None
     
     # -----------------------------------------------------------------------------------------
@@ -66,29 +79,91 @@ class Manager():
             print('  * ', operation)
     
     # -----------------------------------------------------------------------------------------
+    def convert_data_to_json(self, obj):
+        return serialize_object(self.tmp_data)
+
+    # -----------------------------------------------------------------------------------------
     def queryFlightsByAirspace(
-        self, airspace, dataset, trafficType,
-        includeProposalFlights, includeForecastFlights,
-        trafficWindow, requestedFlightFields=[], sendTime=utils.sendTime()):
+        self, 
+        airspace, 
+        startTime, 
+        endTime, 
+        requestedFlightFields=  [],
+        dataset=                None,
+        trafficType=            None,
+        includeProposalFlights= None,
+        includeForecastFlights= None,
+        sendTime=               None,
+        ):
+
+        dataset = self._default_params_for_queries['dataset'] if not dataset else dataset
+        trafficType = self._default_params_for_queries['trafficType'] if not trafficType else trafficType
+        includeProposalFlights = self._default_params_for_queries['includeProposalFlights'] if not includeProposalFlights else includeProposalFlights
+        includeForecastFlights = self._default_params_for_queries['includeForecastFlights'] if not includeForecastFlights else includeForecastFlights
+        sendTime = self._default_params_for_queries['sendTime'] if not sendTime else sendTime
+        trafficWindow = {'wef': startTime, 'unt': endTime}
+
         client = Client(**self.conf, service_name='FlightManagementService')
         self.tmp_data = client.service.queryFlightsByAirspace(
-            airspace=airspace, dataset=self.dataset, trafficType=trafficType,
+            airspace=airspace, 
+            dataset=dataset, trafficType=trafficType,
             includeProposalFlights=includeProposalFlights, includeForecastFlights=includeForecastFlights, 
             trafficWindow=trafficWindow, requestedFlightFields=requestedFlightFields, sendTime=sendTime)
         return self.tmp_data
+    
+    def queryFlightsByAerodrome(
+        self, 
+        aerodrome,
+        aerodromeRole,
+        startTime, 
+        endTime, 
+        requestedFlightFields=  [],
+        dataset=                None,
+        trafficType=            None,
+        includeProposalFlights= None,
+        includeForecastFlights= None,
+        sendTime=               None,
+        ):
 
-    def convert_data_to_json(self, obj):
-        return serialize_object(self.tmp_data)
-    # def queryFlightsByAerodrome(
-    #     self, aerodrome, dataset, trafficType,
-    #     includeProposalFlights, includeForecastFlights, 
-    #     trafficWindow, sendTime=utils.sendTime(),
-    #     py_output=True):
-    #     client = Client(**self.conf, service_name='FlightManagementService')
-    #     self.tmp_data = client.service.queryFlightsByAirspace(
-    #         aerodrome=aerodrome, aerodromeRole=aerodromeRole, sendTime=sendTime, dataset=self.dataset, trafficType=trafficType,
-    #         includeProposalFlights=includeProposalFlights, includeForecastFlights=includeForecastFlights, 
-    #         trafficWindow=trafficWindow)
-    #     if py_output:
-    #         return serialize_object(self.tmp_data)
-    #     return self.tmp_data
+        dataset = self._default_params_for_queries['dataset'] if not dataset else dataset
+        trafficType = self._default_params_for_queries['trafficType'] if not trafficType else trafficType
+        includeProposalFlights = self._default_params_for_queries['includeProposalFlights'] if not includeProposalFlights else includeProposalFlights
+        includeForecastFlights = self._default_params_for_queries['includeForecastFlights'] if not includeForecastFlights else includeForecastFlights
+        sendTime = self._default_params_for_queries['sendTime'] if not sendTime else sendTime
+        trafficWindow = {'wef': startTime, 'unt': endTime}
+
+        client = Client(**self.conf, service_name='FlightManagementService')
+        self.tmp_data = client.service.queryFlightsByAerodrome(
+            aerodrome=aerodrome, aerodromeRole=aerodromeRole, 
+            dataset=dataset, trafficType=trafficType,
+            includeProposalFlights=includeProposalFlights, includeForecastFlights=includeForecastFlights, 
+            trafficWindow=trafficWindow, requestedFlightFields=requestedFlightFields, sendTime=sendTime)
+        return self.tmp_data
+    
+    def queryFlightsByTrafficVolume(
+        self, 
+        trafficVolume, 
+        startTime, 
+        endTime, 
+        requestedFlightFields=  [],
+        dataset=                None,
+        trafficType=            None,
+        includeProposalFlights= None,
+        includeForecastFlights= None,
+        sendTime=               None,
+        ):
+
+        dataset = self._default_params_for_queries['dataset'] if not dataset else dataset
+        trafficType = self._default_params_for_queries['trafficType'] if not trafficType else trafficType
+        includeProposalFlights = self._default_params_for_queries['includeProposalFlights'] if not includeProposalFlights else includeProposalFlights
+        includeForecastFlights = self._default_params_for_queries['includeForecastFlights'] if not includeForecastFlights else includeForecastFlights
+        sendTime = self._default_params_for_queries['sendTime'] if not sendTime else sendTime
+        trafficWindow = {'wef': startTime, 'unt': endTime}
+
+        client = Client(**self.conf, service_name='FlightManagementService')
+        self.tmp_data = client.service.queryFlightsByTrafficVolume(
+            trafficVolume=trafficVolume, 
+            dataset=dataset, trafficType=trafficType,
+            includeProposalFlights=includeProposalFlights, includeForecastFlights=includeForecastFlights, 
+            trafficWindow=trafficWindow, requestedFlightFields=requestedFlightFields, sendTime=sendTime)
+        return self.tmp_data
