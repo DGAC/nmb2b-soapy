@@ -4,7 +4,7 @@ before_script:
   - python --version
   - sh install.sh
  
- stages:
+stages:
   - deploy
 
 test_deploy:
