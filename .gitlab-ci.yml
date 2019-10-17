@@ -1,13 +1,10 @@
-image: 
-  name: docker:latest
-  entrypoint: [""]
+image: "python:3.7"
 
 
 before_script:
-  - apk add --no-cache py-pip python-dev libffi-dev openssl-dev gcc libc-dev make
+  - python --version
+  - sh install.sh
  
-install:
+deploy:
   only: 
     - master
-  script:
-    - sh install.sh
