@@ -1,9 +1,10 @@
-image: python:latest
+image: 
+  name: docker:latest
+  entrypoint: [""]
+
 
 before_script:
-  - python -V
-  - python -m venv venv
-  - source venv/bin/activate
+  - apk add --no-cache py-pip python-dev libffi-dev openssl-dev gcc libc-dev make
   - pip install --upgrade pip
   - pip install -r requirements.txt
  
