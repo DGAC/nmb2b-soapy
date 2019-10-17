@@ -3,11 +3,3 @@ image: "python:3.7"
 before_script:
   - python --version
   - sh install.sh
- 
-stages:
-  - deploy
-
-deploy:
-  stage: deploy
-  only: 
-    - master
