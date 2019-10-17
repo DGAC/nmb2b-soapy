@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/base/4.1"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2017 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, 
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS 
+         Limited, 
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the 
+         following conditions are met: 
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating 
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp; 
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on Airservices Australia: http://www.airservicesaustralia.com/ 
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html 
+         
+         Details on EUROCONTROL: http://www.eurocontrol.int/ 
+         Details on IATA: http://www.iata.org/Pages/default.aspx 
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html 
+         Details on NATS Limited: http://www.nats.co.uk/ 
+         Details on NAV CANADA: http://www.navcanada.ca/ 
+         Details on the UAE GCAA: https://www.gcaa.gov.ae 
+         Details on the ICCAIA: www.iccaia.org 
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members 
+         
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <annotation>
+      <documentation>
+         This package contains representations for basic geometry, numeric, temporal and textual 
+         types. [FIXM] 
+      </documentation>
+   </annotation>
+
+   <simpleType name="AftnAddressType">
+      <annotation>
+         <documentation>
+            Standard AFTN address. 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType"/>
+   </simpleType>
+
+   <simpleType name="AircraftIdentificationType">
+      <annotation>
+         <documentation>
+            A group of letters, figures or a combination thereof which is either identical to, 
+            or the coded equivalent of, the aircraft call sign to be used in air-ground communications, 
+            and which is used to identify the aircraft in ground-ground air traffic services 
+            communications. [ICAO Doc 4444] 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="[A-Z0-9]{2,7}"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="AircraftTypeDesignatorType">
+      <annotation>
+         <documentation>
+            A group of alphanumeric characters used to identify, in an abbreviated form, a type 
+            of aircraft. [ICAO Doc 9426] 
+             
+            Approved aircraft type designators are defined in ICAO Doc. 8643 - Aircraft Type 
+            Designators. [FIXM] 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="[A-Z0-9]{2,4}"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="AirportSlotIdentificationType">
+      <annotation>
+         <documentation>
+            The identifier of the scheduled time of arrival or departure available for allocation 
+            by, or as allocated by, a coordinator for an aircraft movement on a specific date 
+            at a coordinated airport. [adapted from IATA Worldwide Scheduling Guidelines, 21st 
+            Edition] 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <minLength value="0"/>
+         <maxLength value="10"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="CharacterStringType">
+      <annotation>
+         <documentation>
+            A sequence of characters [specialised from ISO19103, chapter 6.5.2.7]. 
+             
+            In FIXM, the maximum length of a CharacterString is set to 4096 characters. [FIXM] 
+            
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <minLength value="0"/>
+         <maxLength value="4096"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="CountType">
+      <annotation>
+         <documentation>
+            Represents non-negative integer counts of objects. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:int">
+         <minInclusive value="0"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="DecimalIndexType">
+      <annotation>
+         <documentation>
+            Generic decimal fraction expressed to tenths, used as scaling or comparison factor. 
+            [FIXM] 
+         </documentation>
+      </annotation>
+      <restriction base="xs:decimal">
+         <totalDigits value="4"/>
+         <fractionDigits value="1"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="DurationType">
+      <annotation>
+         <documentation>
+            Length or distance in the temporal dimension. [ISO 19108, chapter 5.2.3.7] 
+             
+            Duration has no reference to start or stop times. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:duration"/>
+   </simpleType>
+
+   <complexType name="GloballyUniqueFlightIdentifierType">
+      <annotation>
+         <documentation>
+            A single reference for FF-ICE information pertinent to a flight that is unique globally. 
+            [ICAO Doc 9965] 
+            This is a reference that uniquely identifies a specific flight and is independent 
+            of any particular system. [FIXM] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:RestrictedGloballyUniqueFlightIdentifierType">
+            <attribute name="codeSpace" type="xs:string" fixed="urn:uuid" use="required" > 
+               <annotation>
+                  <documentation>
+                     Code Space of the GUFI 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <simpleType name="RestrictedGloballyUniqueFlightIdentifierType">
+      <annotation>
+         <documentation>
+            Helper type for restrictions on GloballyUniqueFlightIdentifierType 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4[a-fA-F0-9]{3}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="ModeACodeType">
+      <annotation>
+         <documentation>
+            Mode A SSR code. [FIXM] 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="[0-7]{4}"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="SsrCodeType">
+      <annotation>
+         <documentation>
+            The number assigned to a particular multiple pulse reply signal transmitted by a 
+            transponder in Mode A or Mode C. [ICAO Doc 4444] 
+            <deprecated> 
+               <deletionVersion>5.0.0</deletionVersion>
+               <deprecationVersion>4.1.0</deprecationVersion>
+               <rationale>CR #14 Remove SSR Mode</rationale>
+               <replacement>Fixm.Base.Types.ModeACode</replacement>
+            </deprecated>
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:RestrictedSsrCodeType">
+            <attribute name="ssrMode" type="fb:SsrModeType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Optional Secondary Surveillance Radar (SSR) Mode. 
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>CR #14. Remove SSR Model</rationale>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <simpleType name="RestrictedSsrCodeType">
+      <annotation>
+         <documentation>
+            Helper type for restrictions on SsrCodeType 
+            <deprecated> 
+               <deletionVersion>5.0.0</deletionVersion>
+               <deprecationVersion>4.1.0</deprecationVersion>
+               <rationale>CR #14 Remove SSR Mode</rationale>
+               <replacement>Fixm.Base.Types.ModeACode</replacement>
+            </deprecated>
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="[0-7]{4}"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="SsrModeType">
+      <annotation>
+         <documentation>
+            Represents the enumeration of Secondary Surveillance Radar (SSR) Modes: 
+            * A - Transponder-Mode A (4 digits-4,096 codes) 
+            * C - Transponder-Mode A (4 digits-4,096 codes) and Mode C 
+            * S - Transponder-Mode S, including both pressure-altitude and aircraft identification 
+            transmission 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="A">
+            <annotation>
+               <documentation>
+                  Indicates Secondary Surveillance Radar (SSR) is operating in Transponder-Mode A. 
+                  
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="C">
+            <annotation>
+               <documentation>
+                  Indicates Secondary Surveillance Radar (SSR) Transponder-Mode A and Mode C. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="S">
+            <annotation>
+               <documentation>
+                  Indicates Secondary Surveillance Radar (SSR) Transponder-Mode S. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="TextNameType">
+      <annotation>
+         <documentation>
+            The official name of a State, an aerodrome, a unit, etc... [AIXM 5.1] 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="([A-Z]|[0-9]|[, !&quot;&amp;amp;#$%'\(\)\*\+\-\./:;&amp;lt;=&amp;gt;\?@\[\\\]\^_\|\{\}])*"/>
+         <minLength value="0"/>
+         <maxLength value="60"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="TimeType">
+      <annotation>
+         <documentation>
+            A combination of a date and a time type. [ISO 19103, chapter 6.5.2.10] 
+            A Time instant placeholder for gml:TimePositionType, in its XML dataTime variation. 
+            [FIXM] 
+         </documentation>
+      </annotation>
+      <restriction base="xs:dateTime">
+         <pattern value="-?([1-9][0-9]{3,}|0[0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T(([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?|(24:00:00(\.0+)?))Z"/>
+      </restriction>
+   </simpleType>
+</schema>

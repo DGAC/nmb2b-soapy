@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/flight/4.1"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:fx="http://www.fixm.aero/flight/4.1"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2017 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, 
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS 
+         Limited, 
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the 
+         following conditions are met: 
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating 
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp; 
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on Airservices Australia: http://www.airservicesaustralia.com/ 
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html 
+         
+         Details on EUROCONTROL: http://www.eurocontrol.int/ 
+         Details on IATA: http://www.iata.org/Pages/default.aspx 
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html 
+         Details on NATS Limited: http://www.nats.co.uk/ 
+         Details on NAV CANADA: http://www.navcanada.ca/ 
+         Details on the UAE GCAA: https://www.gcaa.gov.ae 
+         Details on the ICCAIA: www.iccaia.org 
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members 
+         
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <import namespace="http://www.fixm.aero/base/4.1" schemaLocation="./../../base/Base.xsd"/>
+   <annotation>
+      <documentation>
+         The Arrival package contains information about the  arrival of the flight at an airport, 
+         including approach, landing, and arrival at terminal. 
+      </documentation>
+   </annotation>
+
+   <complexType name="ArrivalType">
+      <annotation>
+         <documentation>
+            Information about the actual arrival of the flight. [FIXM] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="aerodrome" type="fb:AerodromeReferenceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The aerodrome at which the flight has actually arrived. [FIXM] 
+                        <deprecated> 
+                           <deletionVersion>5.0</deletionVersion>
+                           <deprecationVersion>4.1</deprecationVersion>
+                           <rationale>CR #11. Simply Arrival Destination Modeling.</rationale>
+                           <replacement>Fixm.Flight.Arrival.Arrival.arrivalAerodrome</replacement>
+                        </deprecated>
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="arrivalAerodrome" type="fb:AerodromeReferenceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The aerodrome at which the flight has actually arrived. [FIXM] 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="destinationAerodrome" type="fb:AerodromeReferenceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The aerodrome of intended landing. [ICAO Doc 4444 - extracted from the definition 
+                        of Destination Alternate] 
+                        This is the aerodrome at which the flight is scheduled to arrive. [FIXM] 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="destinationAerodromeAlternate" type="fb:AerodromeReferenceType" minOccurs="0" maxOccurs="2" > 
+                  <annotation>
+                     <documentation>
+                        An alternate aerodrome to which an aircraft may proceed should it become either impossible 
+                        or inadvisable to land at the aerodrome of intended landing. [ICAO Doc 4444] 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="reclearanceInFlight" type="fx:ReclearanceInFlightType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The route details to the revised destination aerodrome, followed by the ICAO four-letter 
+                        location indicator of 
+                        the aerodrome. The revised route is subject to reclearance in flight. [ICAO Doc 4444]" 
+                        
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="actualTimeOfArrival" type="fb:TimeType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The actual time of arrival. [ICAO Doc 4444, Appendix 3, Field Type 17] 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="airportSlotIdentification" type="fb:AirportSlotIdentificationType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The identifier of the arrival airport slot allocated to the flight. [FIXM] 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="runwayDirection" type="fb:RunwayDirectionDesignatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The runway direction on which the flight has actually landed. [FIXM] 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="Arrival" type="fx:ArrivalType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="DestinationType">
+      <annotation>
+         <documentation>
+            Information about the planned destination of the flight. [FIXM] 
+            <deprecated> 
+               <deletionVersion>5.0.0</deletionVersion>
+               <deprecationVersion>4.1.0</deprecationVersion>
+               <rationale>CR #11. Simplify Arrival and Destination modeling.</rationale>
+               <replacement>Fixm.Flight.Arrival.Arrival</replacement>
+            </deprecated>
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="aerodrome" type="fb:AerodromeReferenceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The aerodrome of intended landing. [ICAO Doc 4444 - extracted from the definition 
+                        of Destination Alternate] 
+                        This is the aerodrome at which the flight is scheduled to arrive. [FIXM] 
+                        <deprecated> 
+                           <deletionVersion>5.0</deletionVersion>
+                           <deprecationVersion>4.1.0</deprecationVersion>
+                           <rationale>CR #11. Simplify Arrival and Destination modeling.</rationale>
+                           <replacement>Fixm.Flight.Arrival.Arrival.destinationAerodrome</replacement>
+                        </deprecated>
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="aerodromeAlternate" type="fb:AerodromeReferenceType" minOccurs="0" maxOccurs="2000" > 
+                  <annotation>
+                     <documentation>
+                        An alternate aerodrome to which an aircraft may proceed should it become either impossible 
+                        or inadvisable to land at the aerodrome of intended landing. [ICAO Doc 4444] 
+                        <deprecated> 
+                           <deletionVersion>5.0</deletionVersion>
+                           <deprecationVersion>4.1.0</deprecationVersion>
+                           <rationale>CR #11. Simplify Arrival and Destination modeling.</rationale>
+                           <replacement>Fixm.Flight.Arrival.Arrival.destinationAerodromeAlternate</replacement>
+                        </deprecated>
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="reclearanceInFlight" type="fx:ReclearanceInFlightType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The route details to the revised destination aerodrome, followed by the ICAO four-letter 
+                        location indicator of 
+                        the aerodrome. The revised route is subject to reclearance in flight. [ICAO Doc 4444]" 
+                        
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="runwayDirection" type="fb:RunwayDirectionDesignatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The runway direction for landing [FIXM] 
+                     <deprecated> 
+                        <deletionVersion>5.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>CR #11. Simplify Arrival and Destination modeling.</rationale>
+                        <replacement>Fixm.Flight.Arrival.Arrival.runwayDirection</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="Destination" type="fx:DestinationType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="ReclearanceInFlightType">
+      <annotation>
+         <documentation>
+            The route details to the revised destination aerodrome, followed by the ICAO four-letter 
+            location indicator of 
+            the aerodrome. The revised route is subject to reclearance in flight. [ICAO Doc 4444]" 
+            
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="filedRevisedDestinationAerodrome" type="fb:AerodromeReferenceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Aerodrome where the flight will divert to based on the revised route. For example, 
+                        an aerodrome where the flight will divert to if more fuel is used than expected.[FIXM] 
+                        
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="routeToRevisedDestination" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Route to the revised destination aerodrome. [FIXM] 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="ReclearanceInFlight" type="fx:ReclearanceInFlightType" substitutionGroup="fb:Extensible" /> 
+</schema>

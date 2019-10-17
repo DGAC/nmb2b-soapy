@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions
+    targetNamespace="eurocontrol/cfmu/b2b/FlightServices"
+    name="FlightServices"
+    xmlns:flight="eurocontrol/cfmu/b2b/FlightServices"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+  <types>
+    <xs:schema>
+      <xs:import namespace="eurocontrol/cfmu/b2b/FlightServices" schemaLocation="FlightServices_23.0.0.xsd"/>
+    </xs:schema>
+  </types>
+
+  <message name="FlightPlanValidationRequest">
+    <part name="parameters" element="flight:FlightPlanValidationRequest"/>
+  </message>
+  <message name="FlightPlanValidationReply">
+    <part name="parameters" element="flight:FlightPlanValidationReply"/>
+  </message>
+  <message name="RoutingAssistanceRequest">
+    <part name="parameters" element="flight:RoutingAssistanceRequest"/>
+  </message>
+  <message name="RoutingAssistanceReply">
+    <part name="parameters" element="flight:RoutingAssistanceReply"/>
+  </message>
+
+  <portType name="FlightPreparationService">
+    <operation name="validateFlightPlan">
+      <input message="flight:FlightPlanValidationRequest"/>
+      <output message="flight:FlightPlanValidationReply"/>
+    </operation>
+    <operation name="proposeRoutes">
+      <input message="flight:RoutingAssistanceRequest"/>
+      <output message="flight:RoutingAssistanceReply"/>
+    </operation>
+  </portType>
+
+  <binding name="FlightPreparationPortBinding" type="flight:FlightPreparationService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="validateFlightPlan">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="proposeRoutes">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="FlightPreparationService">
+    <port name="FlightPreparationPort" binding="flight:FlightPreparationPortBinding">
+      <soap:address location="https://www.b2b.nm.eurocontrol.int/B2B_OPS/gateway/spec/23.0.0"/>
+    </port>
+  </service>
+  <message name="FlightPlanCreationRequest">
+    <part name="parameters" element="flight:FlightPlanCreationRequest"/>
+  </message>
+  <message name="FlightPlanCreationReply">
+    <part name="parameters" element="flight:FlightPlanCreationReply"/>
+  </message>
+  <message name="FlightPlanUpdateRequest">
+    <part name="parameters" element="flight:FlightPlanUpdateRequest"/>
+  </message>
+  <message name="FlightPlanUpdateReply">
+    <part name="parameters" element="flight:FlightPlanUpdateReply"/>
+  </message>
+  <message name="FlightPlanCancellationRequest">
+    <part name="parameters" element="flight:FlightPlanCancellationRequest"/>
+  </message>
+  <message name="FlightPlanCancellationReply">
+    <part name="parameters" element="flight:FlightPlanCancellationReply"/>
+  </message>
+  <message name="FlightDelayRequest">
+    <part name="parameters" element="flight:FlightDelayRequest"/>
+  </message>
+  <message name="FlightDelayReply">
+    <part name="parameters" element="flight:FlightDelayReply"/>
+  </message>
+  <message name="FlightDepartureRequest">
+    <part name="parameters" element="flight:FlightDepartureRequest"/>
+  </message>
+  <message name="FlightDepartureReply">
+    <part name="parameters" element="flight:FlightDepartureReply"/>
+  </message>
+  <message name="FlightArrivalRequest">
+    <part name="parameters" element="flight:FlightArrivalRequest"/>
+  </message>
+  <message name="FlightArrivalReply">
+    <part name="parameters" element="flight:FlightArrivalReply"/>
+  </message>
+  <message name="FilingStatusRequest">
+    <part name="parameters" element="flight:FilingStatusRequest"/>
+  </message>
+  <message name="FilingStatusReply">
+    <part name="parameters" element="flight:FilingStatusReply"/>
+  </message>
+
+  <portType name="FlightFilingService">
+    <operation name="fileNewFlightPlan">
+      <input message="flight:FlightPlanCreationRequest"/>
+      <output message="flight:FlightPlanCreationReply"/>
+    </operation>
+    <operation name="fileFlightPlanUpdate">
+      <input message="flight:FlightPlanUpdateRequest"/>
+      <output message="flight:FlightPlanUpdateReply"/>
+    </operation>
+    <operation name="fileFlightPlanCancellation">
+      <input message="flight:FlightPlanCancellationRequest"/>
+      <output message="flight:FlightPlanCancellationReply"/>
+    </operation>
+    <operation name="fileFlightDelay">
+      <input message="flight:FlightDelayRequest"/>
+      <output message="flight:FlightDelayReply"/>
+    </operation>
+    <operation name="fileFlightDeparture">
+      <input message="flight:FlightDepartureRequest"/>
+      <output message="flight:FlightDepartureReply"/>
+    </operation>
+    <operation name="fileFlightArrival">
+      <input message="flight:FlightArrivalRequest"/>
+      <output message="flight:FlightArrivalReply"/>
+    </operation>
+    <operation name="retrieveFilingStatus">
+      <input message="flight:FilingStatusRequest"/>
+      <output message="flight:FilingStatusReply"/>
+    </operation>
+  </portType>
+
+  <binding name="FlightFilingPortBinding" type="flight:FlightFilingService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="fileNewFlightPlan">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="fileFlightPlanUpdate">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="fileFlightPlanCancellation">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="fileFlightDelay">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="fileFlightDeparture">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="fileFlightArrival">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="retrieveFilingStatus">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="FlightFilingService">
+    <port name="FlightFilingPort" binding="flight:FlightFilingPortBinding">
+      <soap:address location="https://www.b2b.nm.eurocontrol.int/B2B_OPS/gateway/spec/23.0.0"/>
+    </port>
+  </service>
+  <message name="FlightPlanListRequest">
+    <part name="parameters" element="flight:FlightPlanListRequest"/>
+  </message>
+  <message name="FlightPlanListReply">
+    <part name="parameters" element="flight:FlightPlanListReply"/>
+  </message>
+  <message name="FlightListByKeysRequest">
+    <part name="parameters" element="flight:FlightListByKeysRequest"/>
+  </message>
+  <message name="FlightListByKeysReply">
+    <part name="parameters" element="flight:FlightListByKeysReply"/>
+  </message>
+  <message name="FlightListByAircraftOperatorRequest">
+    <part name="parameters" element="flight:FlightListByAircraftOperatorRequest"/>
+  </message>
+  <message name="FlightListByAircraftOperatorReply">
+    <part name="parameters" element="flight:FlightListByAircraftOperatorReply"/>
+  </message>
+  <message name="FlightListByAerodromeRequest">
+    <part name="parameters" element="flight:FlightListByAerodromeRequest"/>
+  </message>
+  <message name="FlightListByAerodromeReply">
+    <part name="parameters" element="flight:FlightListByAerodromeReply"/>
+  </message>
+  <message name="FlightListByAerodromeSetRequest">
+    <part name="parameters" element="flight:FlightListByAerodromeSetRequest"/>
+  </message>
+  <message name="FlightListByAerodromeSetReply">
+    <part name="parameters" element="flight:FlightListByAerodromeSetReply"/>
+  </message>
+  <message name="FlightListByAirspaceRequest">
+    <part name="parameters" element="flight:FlightListByAirspaceRequest"/>
+  </message>
+  <message name="FlightListByAirspaceReply">
+    <part name="parameters" element="flight:FlightListByAirspaceReply"/>
+  </message>
+  <message name="FlightListByPointRequest">
+    <part name="parameters" element="flight:FlightListByPointRequest"/>
+  </message>
+  <message name="FlightListByPointReply">
+    <part name="parameters" element="flight:FlightListByPointReply"/>
+  </message>
+  <message name="FlightListByTrafficVolumeRequest">
+    <part name="parameters" element="flight:FlightListByTrafficVolumeRequest"/>
+  </message>
+  <message name="FlightListByTrafficVolumeReply">
+    <part name="parameters" element="flight:FlightListByTrafficVolumeReply"/>
+  </message>
+  <message name="FlightListByMeasureRequest">
+    <part name="parameters" element="flight:FlightListByMeasureRequest"/>
+  </message>
+  <message name="FlightListByMeasureReply">
+    <part name="parameters" element="flight:FlightListByMeasureReply"/>
+  </message>
+  <message name="FlightListByHotspotRequest">
+    <part name="parameters" element="flight:FlightListByHotspotRequest"/>
+  </message>
+  <message name="FlightListByHotspotReply">
+    <part name="parameters" element="flight:FlightListByHotspotReply"/>
+  </message>
+  <message name="FlightListByAircraftRegistrationMarkRequest">
+    <part name="parameters" element="flight:FlightListByAircraftRegistrationMarkRequest"/>
+  </message>
+  <message name="FlightListByAircraftRegistrationMarkReply">
+    <part name="parameters" element="flight:FlightListByAircraftRegistrationMarkReply"/>
+  </message>
+  <message name="FlightRetrievalRequest">
+    <part name="parameters" element="flight:FlightRetrievalRequest"/>
+  </message>
+  <message name="FlightRetrievalReply">
+    <part name="parameters" element="flight:FlightRetrievalReply"/>
+  </message>
+  <message name="EarlyDPIRequest">
+    <part name="parameters" element="flight:EarlyDPIRequest"/>
+  </message>
+  <message name="EarlyDPIReply">
+    <part name="parameters" element="flight:EarlyDPIReply"/>
+  </message>
+  <message name="TargetDPITargetRequest">
+    <part name="parameters" element="flight:TargetDPITargetRequest"/>
+  </message>
+  <message name="TargetDPITargetReply">
+    <part name="parameters" element="flight:TargetDPITargetReply"/>
+  </message>
+  <message name="TargetDPISequencedRequest">
+    <part name="parameters" element="flight:TargetDPISequencedRequest"/>
+  </message>
+  <message name="TargetDPISequencedReply">
+    <part name="parameters" element="flight:TargetDPISequencedReply"/>
+  </message>
+  <message name="ATCDPIRequest">
+    <part name="parameters" element="flight:ATCDPIRequest"/>
+  </message>
+  <message name="ATCDPIReply">
+    <part name="parameters" element="flight:ATCDPIReply"/>
+  </message>
+  <message name="CancelDPIRequest">
+    <part name="parameters" element="flight:CancelDPIRequest"/>
+  </message>
+  <message name="CancelDPIReply">
+    <part name="parameters" element="flight:CancelDPIReply"/>
+  </message>
+  <message name="PredictedDPIRequest">
+    <part name="parameters" element="flight:PredictedDPIRequest"/>
+  </message>
+  <message name="PredictedDPIReply">
+    <part name="parameters" element="flight:PredictedDPIReply"/>
+  </message>
+  <message name="FlightUpdateRequest">
+    <part name="parameters" element="flight:FlightUpdateRequest"/>
+  </message>
+  <message name="FlightUpdateReply">
+    <part name="parameters" element="flight:FlightUpdateReply"/>
+  </message>
+  <message name="GeneralAPIRequest">
+    <part name="parameters" element="flight:GeneralAPIRequest"/>
+  </message>
+  <message name="GeneralAPIReply">
+    <part name="parameters" element="flight:GeneralAPIReply"/>
+  </message>
+  <message name="TargetTakeOffAPIRequest">
+    <part name="parameters" element="flight:TargetTakeOffAPIRequest"/>
+  </message>
+  <message name="TargetTakeOffAPIReply">
+    <part name="parameters" element="flight:TargetTakeOffAPIReply"/>
+  </message>
+  <message name="TargetTimeOverAPIRequest">
+    <part name="parameters" element="flight:TargetTimeOverAPIRequest"/>
+  </message>
+  <message name="TargetTimeOverAPIReply">
+    <part name="parameters" element="flight:TargetTimeOverAPIReply"/>
+  </message>
+
+  <portType name="FlightManagementService">
+    <operation name="queryFlightPlans">
+      <input message="flight:FlightPlanListRequest"/>
+      <output message="flight:FlightPlanListReply"/>
+    </operation>
+    <operation name="queryFlightsByKeys">
+      <input message="flight:FlightListByKeysRequest"/>
+      <output message="flight:FlightListByKeysReply"/>
+    </operation>
+    <operation name="queryFlightsByAircraftOperator">
+      <input message="flight:FlightListByAircraftOperatorRequest"/>
+      <output message="flight:FlightListByAircraftOperatorReply"/>
+    </operation>
+    <operation name="queryFlightsByAerodrome">
+      <input message="flight:FlightListByAerodromeRequest"/>
+      <output message="flight:FlightListByAerodromeReply"/>
+    </operation>
+    <operation name="queryFlightsByAerodromeSet">
+      <input message="flight:FlightListByAerodromeSetRequest"/>
+      <output message="flight:FlightListByAerodromeSetReply"/>
+    </operation>
+    <operation name="queryFlightsByAirspace">
+      <input message="flight:FlightListByAirspaceRequest"/>
+      <output message="flight:FlightListByAirspaceReply"/>
+    </operation>
+    <operation name="queryFlightsByPoint">
+      <input message="flight:FlightListByPointRequest"/>
+      <output message="flight:FlightListByPointReply"/>
+    </operation>
+    <operation name="queryFlightsByTrafficVolume">
+      <input message="flight:FlightListByTrafficVolumeRequest"/>
+      <output message="flight:FlightListByTrafficVolumeReply"/>
+    </operation>
+    <operation name="queryFlightsByMeasure">
+      <input message="flight:FlightListByMeasureRequest"/>
+      <output message="flight:FlightListByMeasureReply"/>
+    </operation>
+    <operation name="queryFlightsByHotspot">
+      <input message="flight:FlightListByHotspotRequest"/>
+      <output message="flight:FlightListByHotspotReply"/>
+    </operation>
+    <operation name="queryFlightsByAircraftRegistrationMark">
+      <input message="flight:FlightListByAircraftRegistrationMarkRequest"/>
+      <output message="flight:FlightListByAircraftRegistrationMarkReply"/>
+    </operation>
+    <operation name="retrieveFlight">
+      <input message="flight:FlightRetrievalRequest"/>
+      <output message="flight:FlightRetrievalReply"/>
+    </operation>
+    <operation name="submitEarlyDPI">
+      <input message="flight:EarlyDPIRequest"/>
+      <output message="flight:EarlyDPIReply"/>
+    </operation>
+    <operation name="submitTargetDPITarget">
+      <input message="flight:TargetDPITargetRequest"/>
+      <output message="flight:TargetDPITargetReply"/>
+    </operation>
+    <operation name="submitTargetDPISequenced">
+      <input message="flight:TargetDPISequencedRequest"/>
+      <output message="flight:TargetDPISequencedReply"/>
+    </operation>
+    <operation name="submitATCDPI">
+      <input message="flight:ATCDPIRequest"/>
+      <output message="flight:ATCDPIReply"/>
+    </operation>
+    <operation name="submitCancelDPI">
+      <input message="flight:CancelDPIRequest"/>
+      <output message="flight:CancelDPIReply"/>
+    </operation>
+    <operation name="submitPredictedDPI">
+      <input message="flight:PredictedDPIRequest"/>
+      <output message="flight:PredictedDPIReply"/>
+    </operation>
+    <operation name="submitFlightUpdate">
+      <input message="flight:FlightUpdateRequest"/>
+      <output message="flight:FlightUpdateReply"/>
+    </operation>
+    <operation name="submitGeneralAPI">
+      <input message="flight:GeneralAPIRequest"/>
+      <output message="flight:GeneralAPIReply"/>
+    </operation>
+    <operation name="submitTargetTakeOffAPI">
+      <input message="flight:TargetTakeOffAPIRequest"/>
+      <output message="flight:TargetTakeOffAPIReply"/>
+    </operation>
+    <operation name="submitTargetTimeOverAPI">
+      <input message="flight:TargetTimeOverAPIRequest"/>
+      <output message="flight:TargetTimeOverAPIReply"/>
+    </operation>
+  </portType>
+
+  <binding name="FlightManagementPortBinding" type="flight:FlightManagementService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="queryFlightPlans">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="queryFlightsByKeys">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="queryFlightsByAircraftOperator">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="queryFlightsByAerodrome">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="queryFlightsByAerodromeSet">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="queryFlightsByAirspace">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="queryFlightsByPoint">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="queryFlightsByTrafficVolume">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="queryFlightsByMeasure">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="queryFlightsByHotspot">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="queryFlightsByAircraftRegistrationMark">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="retrieveFlight">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="submitEarlyDPI">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="submitTargetDPITarget">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="submitTargetDPISequenced">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="submitATCDPI">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="submitCancelDPI">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="submitPredictedDPI">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="submitFlightUpdate">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="submitGeneralAPI">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="submitTargetTakeOffAPI">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="submitTargetTimeOverAPI">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="FlightManagementService">
+    <port name="FlightManagementPort" binding="flight:FlightManagementPortBinding">
+      <soap:address location="https://www.b2b.nm.eurocontrol.int/B2B_OPS/gateway/spec/23.0.0"/>
+    </port>
+  </service>
+  <message name="ACC3AccreditationListReplacementRequest">
+    <part name="parameters" element="flight:ACC3AccreditationListReplacementRequest"/>
+  </message>
+  <message name="ACC3AccreditationListReplacementReply">
+    <part name="parameters" element="flight:ACC3AccreditationListReplacementReply"/>
+  </message>
+  <message name="TCOAuthorisationListReplacementRequest">
+    <part name="parameters" element="flight:TCOAuthorisationListReplacementRequest"/>
+  </message>
+  <message name="TCOAuthorisationListReplacementReply">
+    <part name="parameters" element="flight:TCOAuthorisationListReplacementReply"/>
+  </message>
+  <message name="TCOAuthorisationListUpdateRequest">
+    <part name="parameters" element="flight:TCOAuthorisationListUpdateRequest"/>
+  </message>
+  <message name="TCOAuthorisationListUpdateReply">
+    <part name="parameters" element="flight:TCOAuthorisationListUpdateReply"/>
+  </message>
+
+  <portType name="FlightSafetyService">
+    <operation name="replaceACC3AccreditationList">
+      <input message="flight:ACC3AccreditationListReplacementRequest"/>
+      <output message="flight:ACC3AccreditationListReplacementReply"/>
+    </operation>
+    <operation name="replaceTCOAuthorisationList">
+      <input message="flight:TCOAuthorisationListReplacementRequest"/>
+      <output message="flight:TCOAuthorisationListReplacementReply"/>
+    </operation>
+    <operation name="updateTCOAuthorisationList">
+      <input message="flight:TCOAuthorisationListUpdateRequest"/>
+      <output message="flight:TCOAuthorisationListUpdateReply"/>
+    </operation>
+  </portType>
+
+  <binding name="FlightSafetyPortBinding" type="flight:FlightSafetyService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="replaceACC3AccreditationList">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="replaceTCOAuthorisationList">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="updateTCOAuthorisationList">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="FlightSafetyService">
+    <port name="FlightSafetyPort" binding="flight:FlightSafetyPortBinding">
+      <soap:address location="https://www.b2b.nm.eurocontrol.int/B2B_OPS/gateway/spec/23.0.0"/>
+    </port>
+  </service>
+
+</definitions>

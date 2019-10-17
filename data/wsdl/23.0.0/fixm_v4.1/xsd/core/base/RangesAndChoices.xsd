@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/base/4.1"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2017 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, 
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS 
+         Limited, 
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the 
+         following conditions are met: 
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating 
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp; 
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on Airservices Australia: http://www.airservicesaustralia.com/ 
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html 
+         
+         Details on EUROCONTROL: http://www.eurocontrol.int/ 
+         Details on IATA: http://www.iata.org/Pages/default.aspx 
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html 
+         Details on NATS Limited: http://www.nats.co.uk/ 
+         Details on NAV CANADA: http://www.navcanada.ca/ 
+         Details on the UAE GCAA: https://www.gcaa.gov.ae 
+         Details on the ICCAIA: www.iccaia.org 
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members 
+         
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <include schemaLocation="./Extension.xsd"/>
+   <include schemaLocation="./Measures.xsd"/>
+   <include schemaLocation="./Types.xsd"/>
+   <annotation>
+      <documentation>
+         This package contains combinations and choices comprised of various measure elements. 
+         [FIXM] 
+      </documentation>
+   </annotation>
+
+   <complexType name="ColourChoiceType">
+      <annotation>
+         <documentation>
+            A choice between a predefined colour code or any other colour. [FIXM] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <choice>
+               <element name="colourCode" type="fb:ColourCodeType" minOccurs="0" maxOccurs="2000" > 
+                  <annotation>
+                     <documentation>
+                        A code indicating a colour. The list of allowable values comprises 'named' colours, 
+                        not colours being only describable using the RGB or the CYMK or another colour system 
+                        combination. [AIXM 5.1] 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="otherColour" type="fb:CharacterStringType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Any other color that is not among the standards set. [FIXM] 
+                     </documentation>
+                  </annotation>
+               </element>
+            </choice>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="ColourChoice" type="fb:ColourChoiceType" substitutionGroup="fb:Extensible" /> 
+
+   <simpleType name="ColourCodeType">
+      <annotation>
+         <documentation>
+            A code indicating a colour. The list of allowable values comprises 'named' colours, 
+            not colours being only describable using the RGB or the CYMK or another colour system 
+            combination. [AIXM 5.1] 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="RED"/>
+         <enumeration value="ORANGE"/>
+         <enumeration value="YELLOW">
+            <annotation>
+               <documentation>
+                  A code indicating a colour. The list of allowable values comprises 'named' colours, 
+                  not colours being only describable using the RGB or the CYMK or another colour system 
+                  combination. [AIXM 5.1] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="GREEN"/>
+         <enumeration value="BLUE"/>
+         <enumeration value="VIOLET"/>
+         <enumeration value="BLACK"/>
+         <enumeration value="WHITE"/>
+         <enumeration value="GRAY"/>
+         <enumeration value="SILVER"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="FlightLevelOrAltitudeType">
+      <annotation>
+         <documentation>
+            The Choice between flight level or altitude specification. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <choice>
+               <element name="altitude" type="fb:AltitudeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Altitude specification. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="flightLevel" type="fb:FlightLevelType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Flight Level Specification 
+                     </documentation>
+                  </annotation>
+               </element>
+            </choice>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="FlightLevelOrAltitude" type="fb:FlightLevelOrAltitudeType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="FlightLevelOrAltitudeChoiceType">
+      <annotation>
+         <documentation>
+            The altitude choice allows to either represent a specific altitude or an altitude 
+            range with a lower and upper bound 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <choice>
+               <element name="flightLevelOrAltitudeRange" type="fb:VerticalRangeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Altitude or Flight Level that can be expressed as a range between a lower and upper 
+                        bound. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="flightLevelOrAltitudeValue" type="fb:FlightLevelOrAltitudeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Altitude or Flight Level that is defined by a specific value 
+                     </documentation>
+                  </annotation>
+               </element>
+            </choice>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="FlightLevelOrAltitudeChoice" type="fb:FlightLevelOrAltitudeChoiceType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="TemporalChoiceType">
+      <annotation>
+         <documentation>
+            Allows to specify either a time or a time range. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <choice>
+               <element name="temporalRange" type="fb:TemporalRangeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Specified range of time. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="timeValue" type="fb:TimeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Value of time specification. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </choice>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="TemporalChoice" type="fb:TemporalChoiceType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="TemporalRangeType">
+      <annotation>
+         <documentation>
+            Temporal range resulting from assigned speed range. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <attribute name="earliest" type="fb:TimeType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     lower bound of the temporal range. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="latest" type="fb:TimeType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Upper bound of the temporal range. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="TemporalRange" type="fb:TemporalRangeType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="TrueAirspeedChoiceType">
+      <annotation>
+         <documentation>
+            The true airspeed choice indicates that indicated airspeed can either be expressed 
+            as specific with a speed condition or a speed range between lower and upper bounds. 
+            
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <choice>
+               <element name="airspeedRange" type="fb:TrueAirspeedRangeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The airspeed that can be expressed as a range between a lower and upper bound. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="airspeedValue" type="fb:TrueAirspeedType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The airspeed can be expressed as a specific speed. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </choice>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="TrueAirspeedChoice" type="fb:TrueAirspeedChoiceType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="TrueAirspeedRangeType">
+      <annotation>
+         <documentation>
+            The airspeed that can be expressed as a range between a lower and upper bound. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="lowerSpeed" type="fb:TrueAirspeedType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Lower bound of the speed range. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="upperSpeed" type="fb:TrueAirspeedType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Upper bound of the speed range 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="TrueAirspeedRange" type="fb:TrueAirspeedRangeType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="VerticalRangeType">
+      <annotation>
+         <documentation>
+            Represents a vertical range from a lower bound altitude to an upper bound altitude. 
+            
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="lowerBound" type="fb:FlightLevelOrAltitudeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Lower bound altitude of the vertical range. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="upperBound" type="fb:FlightLevelOrAltitudeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Upper bound altitude of the vertical range. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="VerticalRange" type="fb:VerticalRangeType" substitutionGroup="fb:Extensible" /> 
+</schema>

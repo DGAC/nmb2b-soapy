@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/flight/4.1"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:fx="http://www.fixm.aero/flight/4.1"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2017 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, 
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS 
+         Limited, 
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the 
+         following conditions are met: 
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating 
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp; 
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on Airservices Australia: http://www.airservicesaustralia.com/ 
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html 
+         
+         Details on EUROCONTROL: http://www.eurocontrol.int/ 
+         Details on IATA: http://www.iata.org/Pages/default.aspx 
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html 
+         Details on NATS Limited: http://www.nats.co.uk/ 
+         Details on NAV CANADA: http://www.navcanada.ca/ 
+         Details on the UAE GCAA: https://www.gcaa.gov.ae 
+         Details on the ICCAIA: www.iccaia.org 
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members 
+         
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <include schemaLocation="./DangerousGoods.xsd"/>
+   <include schemaLocation="./RadioactiveMaterials.xsd"/>
+   <import namespace="http://www.fixm.aero/base/4.1" schemaLocation="./../../base/Base.xsd"/>
+   <annotation>
+      <documentation>
+         The FlightObject.Cargo.Packaging schema contains information about the packaging 
+         of dangerous goods. 
+      </documentation>
+   </annotation>
+
+   <complexType name="AllPackedInOneType">
+      <annotation>
+         <documentation>
+            A statement identifying the dangerous goods listed are all contained within the same 
+            outer packaging. 
+         </documentation>
+      </annotation>
+      <attribute name="numberOfPackages" type="fb:CountType" use="optional" > 
+         <annotation>
+            <documentation>
+               The number of packages in the same outer packaging. 
+                
+               WARNING 
+               This element is deprecated as of FIXM 4.1.0 per ATMRPP/2 and FIXM CCB decision. The 
+               element will be removed starting FIXM 5.0.0. 
+            </documentation>
+         </annotation>
+      </attribute>
+      <attribute name="qValue" use="optional" > 
+         <annotation>
+            <documentation>
+               The amount of energy released in a reaction. 
+               <deprecated> 
+                  <deletionVersion>5.0.0</deletionVersion>
+                  <deprecationVersion>4.1.0</deprecationVersion>
+                  <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                  <replacement>N/A</replacement>
+               </deprecated>
+            </documentation>
+         </annotation>
+         <simpleType>
+            <restriction base="fb:DecimalIndexType">
+               <maxInclusive value="1.0"/>
+               <minInclusive value="0.0"/>
+            </restriction>
+         </simpleType>
+      </attribute>
+   </complexType>
+   <element name="AllPackedInOne" type="fx:AllPackedInOneType" /> 
+
+   <simpleType name="CompatibilityGroupType">
+      <annotation>
+         <documentation>
+            When shipping dangerous goods, the reference to the group which identifies the kind 
+            of substances and articles deemed to be compatible. 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="[A-H|K-L|N|S]"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="DangerousGoodsDimensionsType">
+      <annotation>
+         <documentation>
+            Weight and volume (not height, width, and depth): 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="grossWeight" type="fb:WeightType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The total gross weight of dangerous goods transported for each unique UN number. 
+                        
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="netWeight" type="fb:WeightType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The total net weight of dangerous goods transported for each unique UN number. 
+                         
+                        WARNING 
+                        This element is deprecated as of FIXM 4.1.0 per ATMRPP/2 and FIXM CCB decision. The 
+                        element will be removed starting FIXM 5.0.0. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="volume" type="fb:VolumeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The total displacement of dangerous goods transported for each unique UN number. 
+                        
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="DangerousGoodsDimensions" type="fx:DangerousGoodsDimensionsType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="DangerousGoodsPackageType">
+      <annotation>
+         <documentation>
+            The part of the IATA Shipper's Declaration For Dangerous Goods that contains the 
+            Line Item information for the shipment. 
+            The part of the IATA Shipper's Declaration For Dangerous Goods that contains the 
+            Overpack Detail for the shipment. 
+            The part of the IATA Shipper's Declaration For Dangerous Goods that contains the 
+            Package Details for the shipment. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="allPackedInOne" type="fx:AllPackedInOneType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        A statement identifying the dangerous goods listed are all contained within the same 
+                        outer packaging. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="hazardClass" type="fx:HazardClassType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        A number assigned to a dangerous good that represents a classification (Class) according 
+                        to the most dominant hazard it represents, potentially followed by a number representing 
+                        a subdivision (Division) within the Class. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="packageDimensions" type="fb:DimensionsType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The vertical component of the package's volumetric dimensions. 
+                        The lateral component of the package's volumetric dimensions. 
+                        The depth component of the package's volumetric dimensions. 
+                        <deprecated> 
+                           <deletionVersion>5.0.0</deletionVersion>
+                           <deprecationVersion>4.1.0</deprecationVersion>
+                           <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                           <replacement>N/A</replacement>
+                        </deprecated>
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="radioactiveMaterials" type="fx:RadioactiveMaterialType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The grouping element for goods that contain radioactive materials. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="shipmentDimensions" type="fx:DangerousGoodsDimensionsType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Weight and volume (not height, width, and depth): 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="subsidiaryHazardClass" type="fx:HazardClassType" minOccurs="0" maxOccurs="2" > 
+                  <annotation>
+                     <documentation>
+                        An identifier of any subsidiary hazard class(es)/division(s) in addition to the primary 
+                        hazard class and division. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="temperatures" type="fx:TemperaturesType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Control Temperature: 
+                         
+                        Emergency Temperature: 
+                         
+                        Flashpoint Temperature: 
+                        The lowest temperature at which it can vaporize to form an ignitable mixture in air. 
+                        
+                        <deprecated> 
+                           <deletionVersion>5.0.0</deletionVersion>
+                           <deprecationVersion>4.1.0</deprecationVersion>
+                           <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                           <replacement>N/A</replacement>
+                        </deprecated>
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="compatibilityGroup" type="fx:CompatibilityGroupType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     When shipping dangerous goods, the reference to the group which identifies the kind 
+                     of substances and articles deemed to be compatible. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="dangerousGoodsLimitation" type="fx:AircraftDangerousGoodsLimitationType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Describes whether the shipment is packed to comply with the limitations prescribed 
+                     for passenger and cargo aircraft or the limitations for cargo aircraft only. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="dangerousGoodsQuantity" type="fb:CountType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The total number of dangerous good packages of the same type and content. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="marinePollutantIndicator" type="fx:MarinePollutantIndicatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     An indicator if the transported dangerous goods have marine pollutant content. 
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                        <replacement>N/A</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="overpackIndicator" type="fx:OverpackIndicatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     An indicator that individual packages are assembled into a single unit for handling. 
+                     
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                        <replacement>N/A</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="packingGroup" type="fx:PackingGroupType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A code that indicates the relative degree of danger presented by various articles 
+                     and substances within a Class or Division. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="packingInstructionNumber" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A number that corresponds to packing instructions required by U.S. and international 
+                     regulations. 
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                        <replacement>N/A</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+               <simpleType>
+                  <restriction base="fb:CharacterStringType">
+                     <pattern value="Y?[0-9]{3}"/>
+                  </restriction>
+               </simpleType>
+            </attribute>
+            <attribute name="productName" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The commonly used trade name associated with a dangerous good. 
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                        <replacement>N/A</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="properShippingName" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The name used to describe a particular article or substance in all shipping documents 
+                     and notifications and, where appropriate, on packaging, as shown in the UN Model 
+                     Regulations Dangerous Goods List. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="reportableQuantity" type="fb:CountType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The minimum amount of hazardous substance released into the environment before the 
+                     Environmental Protection Agency (EPA) requires notification of the release to the 
+                     National Response Centre. 
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                        <replacement>N/A</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="shipmentType" type="fx:ShipmentTypeType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     An indicator used for dangerous cargo of whether the package is radioactive or not. 
+                     
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                        <replacement>N/A</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="supplementaryInformation" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Additional information that may be added to the proper shipping name to more fully 
+                     describe the goods or to identify a particular condition. 
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                        <replacement>N/A</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="technicalName" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The additional chemical name(s) required for some proper shipping names for dangerous 
+                     goods. 
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                        <replacement>N/A</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="typeOfPackaging" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The material or container in which the dangerous good is packaged. 
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                        <replacement>N/A</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="unNumber" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A four-digit identification number assigned by the United Nations Committee of Experts 
+                     on the Transport of Dangerous Goods to identify a substance or a particular group 
+                     of substances considered dangerous goods. 
+                  </documentation>
+               </annotation>
+               <simpleType>
+                  <restriction base="fb:CharacterStringType">
+                     <pattern value="(UN|ID|NA)?\d{4}"/>
+                  </restriction>
+               </simpleType>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="DangerousGoodsPackage" type="fx:DangerousGoodsPackageType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="DangerousGoodsPackageGroupType">
+      <annotation>
+         <documentation>
+            The part of the IATA Shipper's Declaration For Dangerous Goods that contains the 
+            Package Details for the shipment. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="dangerousGoodsPackage" type="fx:DangerousGoodsPackageType" minOccurs="0" maxOccurs="2000" > 
+                  <annotation>
+                     <documentation>
+                        A collection of at least one DangerousGoodsPackage. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="shipmentDimensions" type="fx:DangerousGoodsDimensionsType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Weight and volume (not height, width, and depth): 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="shipmentUseIndicator" type="fx:ShipmentUseType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     An indicator of sole use, by a single shipper, of an aircraft or of a large freight 
+                     container, of which all initial, intermediate and final loading and unloading is 
+                     carried out in accordance with the directions of the shipper or consignee. 
+                      
+                     WARNING 
+                     This element is deprecated as of FIXM 4.1.0 per ATMRPP/2 and FIXM CCB decision. The 
+                     element will be removed starting FIXM 5.0.0. 
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>CR #25. Trim Down DG.</rationale>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="DangerousGoodsPackageGroup" type="fx:DangerousGoodsPackageGroupType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="HazardClassType">
+      <annotation>
+         <documentation>
+            A number assigned to a dangerous good that represents a classification (Class) according 
+            to the most dominant hazard it represents, potentially followed by a number representing 
+            a subdivision (Division) within the Class. 
+            An identifier of any subsidiary hazard class(es)/division(s) in addition to the primary 
+            hazard class and division. 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fx:RestrictedHazardClassType">
+            <attribute name="hazardDivision" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A number representing a subdivision (Division) within the Class. 
+                  </documentation>
+               </annotation>
+               <simpleType>
+                  <restriction base="fb:CountType">
+                     <maxInclusive value="99"/>
+                     <minInclusive value="0"/>
+                  </restriction>
+               </simpleType>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <simpleType name="RestrictedHazardClassType">
+      <annotation>
+         <documentation>
+            Helper type for restrictions on HazardClassType 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CountType">
+         <maxInclusive value="9"/>
+         <minInclusive value="1"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="TemperaturesType">
+      <annotation>
+         <documentation>
+            Control Temperature: 
+             
+            Emergency Temperature: 
+             
+            Flashpoint Temperature: 
+            The lowest temperature at which it can vaporize to form an ignitable mixture in air. 
+            
+            <deprecated> 
+               <deletionVersion>5.0.0</deletionVersion>
+               <deprecationVersion>4.1.0</deprecationVersion>
+               <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+               <replacement>N/A</replacement>
+            </deprecated>
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="controlTemperature" type="fb:TemperatureType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The maximum temperature at which the substance can be safely transported. 
+                         
+                        WARNING 
+                        This element is deprecated as of FIXM 4.1.0 per ATMRPP/2 and FIXM CCB decision. The 
+                        element will be removed starting FIXM 5.0.0. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="emergencyTemperature" type="fb:TemperatureType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The temperature at which emergency procedures shall be implemented in the event of 
+                        loss of temperature control. 
+                         
+                        WARNING 
+                        This element is deprecated as of FIXM 4.1.0 per ATMRPP/2 and FIXM CCB decision. The 
+                        element will be removed starting FIXM 5.0.0. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="flashpointTemperature" type="fb:TemperatureType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The lowest temperature at which it can vaporize to form an ignitable mixture in air. 
+                        
+                         
+                        WARNING 
+                        This element is deprecated as of FIXM 4.1.0 per ATMRPP/2 and FIXM CCB decision. The 
+                        element will be removed starting FIXM 5.0.0. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="Temperatures" type="fx:TemperaturesType" substitutionGroup="fb:Extensible" /> 
+
+   <simpleType name="MarinePollutantIndicatorType">
+      <annotation>
+         <documentation>
+            An indicator if the transported dangerous goods have marine pollutant content. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="MARINE_POLLUTANT">
+            <annotation>
+               <documentation>
+                  Indicates the transported dangerous goods have marine pollutant content. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="OverpackIndicatorType">
+      <annotation>
+         <documentation>
+            An indicator that individual packages are assembled into a single unit for handling. 
+            
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="OVERPACK_USED">
+            <annotation>
+               <documentation>
+                  Indicates that individual packages are assembled into a single unit for handling. 
+                  
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="PackingGroupType">
+      <annotation>
+         <documentation>
+            A code that indicates the relative degree of danger presented by various articles 
+            and substances within a Class or Division. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="I">
+            <annotation>
+               <documentation>
+                  Represents high danger. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="II">
+            <annotation>
+               <documentation>
+                  Represents medium danger. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="III">
+            <annotation>
+               <documentation>
+                  Represents low danger. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="ShipmentUseType">
+      <annotation>
+         <documentation>
+            An indicator of sole use, by a single shipper, of an aircraft or of a large freight 
+            container, of which all initial, intermediate and final loading and unloading is 
+            carried out in accordance with the directions of the shipper or consignee. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="EXCLUSIVE">
+            <annotation>
+               <documentation>
+                  Indicates of sole use, by a single shipper, of an aircraft or of a large freight 
+                  container, of which all initial, intermediate and final loading and unloading is 
+                  carried out in accordance with the directions of the shipper or consignee. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+</schema>

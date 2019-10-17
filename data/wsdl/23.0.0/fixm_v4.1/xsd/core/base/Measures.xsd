@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/base/4.1"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2017 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, 
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS 
+         Limited, 
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the 
+         following conditions are met: 
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating 
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp; 
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on Airservices Australia: http://www.airservicesaustralia.com/ 
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html 
+         
+         Details on EUROCONTROL: http://www.eurocontrol.int/ 
+         Details on IATA: http://www.iata.org/Pages/default.aspx 
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html 
+         Details on NATS Limited: http://www.nats.co.uk/ 
+         Details on NAV CANADA: http://www.navcanada.ca/ 
+         Details on the UAE GCAA: https://www.gcaa.gov.ae 
+         Details on the ICCAIA: www.iccaia.org 
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members 
+         
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <include schemaLocation="./UnitsOfMeasure.xsd"/>
+   <annotation>
+      <documentation>
+         This package contains Measure types and related units of measure. [FIXM] 
+         Base.Measures.UnitsOfMeasure = Units for measure types. [FIXM] 
+      </documentation>
+   </annotation>
+
+   <complexType name="AltitudeType">
+      <annotation>
+         <documentation>
+            The vertical distance of a level, a point or an object considered as a point, measured 
+            from mean sea level (MSL). [ICAO Doc 4444] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:VerticalDistanceType">
+            <attribute name="uom" type="fb:UomAltitudeType" use="required" > 
+               <annotation>
+                  <documentation>
+                     Unit of measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <complexType name="AngleType">
+      <annotation>
+         <documentation>
+            The amount of rotation needed to bring one line or plane into coincidence with another, 
+            generally measured in radians or degrees. [ISO 19103, chapter 6.5.7.9] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:RestrictedAngleType">
+            <attribute name="uom" type="fb:UomAngleType" use="required" > 
+               <annotation>
+                  <documentation>
+                     Unit of measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <simpleType name="RestrictedAngleType">
+      <annotation>
+         <documentation>
+            Helper type for restrictions on AngleType 
+         </documentation>
+      </annotation>
+      <restriction base="fb:MeasureType">
+         <maxInclusive value="360"/>
+         <minInclusive value="0"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="BearingType">
+      <annotation>
+         <documentation>
+            A data type used to represent direction in the coordinate reference system. [ISO 
+            19107, chapter 6.3.12.1] 
+             
+            The value of a bearing indication (at a given point) is measured as the angle between 
+            the bearing and either True North or Magnetic North. The angle is measured clockwise 
+            from 0 degrees up to and including 360 degrees. The value can also be a VOR radial. 
+             [AIXM 5.1] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:AngleType">
+            <attribute name="zeroBearingType" type="fb:ZeroBearingTypeType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A code indicating the direction of the zero bearing. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <complexType name="DimensionsType">
+      <annotation>
+         <documentation>
+            Describes dimensions: width, height, length. 
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="height" type="fb:LengthType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Used, for example, to indicate a package's dimensions. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="length" type="fb:LengthType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Used, for example, to indicate a package's dimensions. 
+               </documentation>
+            </annotation>
+         </element>
+         <element name="width" type="fb:LengthType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Used, for example, to indicate a package's dimensions. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="Dimensions" type="fb:DimensionsType" /> 
+
+   <complexType name="DistanceType">
+      <annotation>
+         <documentation>
+            A type for returning the separation between two points. [ISO 19103, chapter 6.5.7.7] 
+            
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:LengthType"/>
+      </simpleContent>
+   </complexType>
+
+   <complexType name="FlightLevelType">
+      <annotation>
+         <documentation>
+            A surface of constant atmospheric pressure which is related to a specific pressure 
+            datum, 1 013.2 hectopascals (hPa), and is separated from other such surfaces by specific 
+            pressure intervals. [ICAO Doc 4444] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:VerticalDistanceType">
+            <attribute name="uom" type="fb:UomFlightLevelType" use="required" > 
+               <annotation>
+                  <documentation>
+                     Unit of measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <complexType name="FrequencyType">
+      <annotation>
+         <documentation>
+            The frequency value of a navigation system. [AIXM 5.1] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:RestrictedFrequencyType">
+            <attribute name="uom" type="fb:UomFrequencyType" use="required" > 
+               <annotation>
+                  <documentation>
+                     Unit of measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <simpleType name="RestrictedFrequencyType">
+      <annotation>
+         <documentation>
+            Helper type for restrictions on FrequencyType 
+         </documentation>
+      </annotation>
+      <restriction base="fb:MeasureType">
+         <minInclusive value="0"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="GroundSpeedType">
+      <annotation>
+         <documentation>
+            The speed of an aircraft relative to the surface of the earth. [ICAO Doc 9426] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:RestrictedGroundSpeedType">
+            <attribute name="uom" type="fb:UomGroundSpeedType" use="required" > 
+               <annotation>
+                  <documentation>
+                     Unit of measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <simpleType name="RestrictedGroundSpeedType">
+      <annotation>
+         <documentation>
+            Helper type for restrictions on GroundSpeedType 
+         </documentation>
+      </annotation>
+      <restriction base="fb:SpeedType">
+         <minInclusive value="0"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="HeightType">
+      <annotation>
+         <documentation>
+            The vertical distance of a level, a point or an object considered as a point, measured 
+            from a specified datum. [ICAO Doc 4444] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:VerticalDistanceType">
+            <attribute name="ref" type="fb:VerticalReferenceType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Reference for the vertical measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="uom" type="fb:UomHeightType" use="required" > 
+               <annotation>
+                  <documentation>
+                     Unit of measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <complexType name="IndicatedAirspeedType">
+      <annotation>
+         <documentation>
+            The uncorrected reading on the airspeed indicator. [ICAO Doc 9426] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:RestrictedIndicatedAirspeedType">
+            <attribute name="uom" type="fb:UomAirspeedType" use="required" > 
+               <annotation>
+                  <documentation>
+                     Unit of measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <simpleType name="RestrictedIndicatedAirspeedType">
+      <annotation>
+         <documentation>
+            Helper type for restrictions on IndicatedAirspeedType 
+         </documentation>
+      </annotation>
+      <restriction base="fb:SpeedType">
+         <minInclusive value="0"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="LengthType">
+      <annotation>
+         <documentation>
+            The measure of distance as an integral, for example the length of curve, the perimeter 
+            of a polygon as the length of the boundary. [ISO 19103, chapter 6.5.7.6] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:RestrictedLengthType">
+            <attribute name="uom" type="fb:UomLengthType" use="required" > 
+               <annotation>
+                  <documentation>
+                     Unit of measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <simpleType name="RestrictedLengthType">
+      <annotation>
+         <documentation>
+            Helper type for restrictions on LengthType 
+         </documentation>
+      </annotation>
+      <restriction base="fb:MeasureType">
+         <minInclusive value="0"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="MeasureType">
+      <annotation>
+         <documentation>
+            The result from performing the act or process of ascertaining the value of a characteristic 
+            of some entity. [ISO 19103, chapter 6.5.7.2] 
+         </documentation>
+      </annotation>
+      <restriction base="xs:double"/>
+   </simpleType>
+   <element name="Measure" type="fb:MeasureType" /> 
+
+   <complexType name="PressureType">
+      <annotation>
+         <documentation>
+            The value of a pressure. [AIXM 5.1] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:RestrictedPressureType">
+            <attribute name="uom" type="fb:UomPressureType" use="required" > 
+               <annotation>
+                  <documentation>
+                     Unit of measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <simpleType name="RestrictedPressureType">
+      <annotation>
+         <documentation>
+            Helper type for restrictions on PressureType 
+         </documentation>
+      </annotation>
+      <restriction base="fb:MeasureType">
+         <minInclusive value="0"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="RadioactivityType">
+      <annotation>
+         <documentation>
+            The measure of the rate of decay, or activity, of a radioactive material. [FIXM] 
+            
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:MeasureType">
+            <attribute name="uom" type="fb:UomRadioactivityType" use="required" > 
+               <annotation>
+                  <documentation>
+                     Unit of measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <simpleType name="SpeedType">
+      <annotation>
+         <documentation>
+            The value of a speed. [AIXM 5.1] 
+         </documentation>
+      </annotation>
+      <restriction base="fb:MeasureType"/>
+   </simpleType>
+   <element name="Speed" type="fb:SpeedType" substitutionGroup="fb:Measure" /> 
+
+   <complexType name="TemperatureType">
+      <annotation>
+         <documentation>
+            The value of a temperature. [AIXM 5.1] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:MeasureType">
+            <attribute name="uom" type="fb:UomTemperatureType" use="required" > 
+               <annotation>
+                  <documentation>
+                     Unit of measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <complexType name="TrueAirspeedType">
+      <annotation>
+         <documentation>
+            The speed of the aeroplane relative to undisturbed air. [ICAO Doc 9713] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:RestrictedTrueAirspeedType">
+            <attribute name="uom" type="fb:UomAirspeedType" use="required" > 
+               <annotation>
+                  <documentation>
+                     Unit of measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <simpleType name="RestrictedTrueAirspeedType">
+      <annotation>
+         <documentation>
+            Helper type for restrictions on TrueAirspeedType 
+         </documentation>
+      </annotation>
+      <restriction base="fb:SpeedType">
+         <minInclusive value="0"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="VerticalDistanceType">
+      <annotation>
+         <documentation>
+            A vertical distance value. [AIXM 5.1] 
+         </documentation>
+      </annotation>
+      <restriction base="fb:MeasureType"/>
+   </simpleType>
+   <element name="VerticalDistance" type="fb:VerticalDistanceType" substitutionGroup="fb:Measure" /> 
+
+   <complexType name="VerticalRateType">
+      <annotation>
+         <documentation>
+            An expression of an aircraft's vertical rate of change. [FIXM] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:SpeedType">
+            <attribute name="uom" type="fb:UomVerticalRateType" use="required" > 
+               <annotation>
+                  <documentation>
+                     Unit of measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <simpleType name="VerticalReferenceType">
+      <annotation>
+         <documentation>
+            A code indicating the reference for a vertical distance. [AIXM 5.1] 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="MSL">
+            <annotation>
+               <documentation>
+                  The distance measured from mean sea level (equivalent to altitude). [AIXM 5.1] 
+                  <deprecated> 
+                     <deletionVersion>5.0.0</deletionVersion>
+                     <deprecationVersion>4.1.0</deprecationVersion>
+                     <rationale>CR #13. Simplify Vertical Distance Modeling</rationale>
+                     <replacement>N/A</replacement>
+                  </deprecated>
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="SFC">
+            <annotation>
+               <documentation>
+                  The distance measured from the surface of the Earth (equivalent to AGL - Above Ground 
+                  Level). [AIXM 5.1] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="STD">
+            <annotation>
+               <documentation>
+                  The vertical distance is measured with an altimeter set to the standard atmosphere. 
+                  [AIXM 5.1] 
+                  <deprecated> 
+                     <deletionVersion>5.0.0</deletionVersion>
+                     <deprecationVersion>4.1.0</deprecationVersion>
+                     <rationale>CR #13. Simplify Vertical Distance Modeling</rationale>
+                     <replacement>N/A</replacement>
+                  </deprecated>
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="W84">
+            <annotation>
+               <documentation>
+                  The distance measured from the WGS84 ellipsoid. [AIXM 5.1] 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <complexType name="VolumeType">
+      <annotation>
+         <documentation>
+            The measure of the physical space of any 3-D geometric object. [ISO 19103, chapter 
+            6.5.7.15] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:RestrictedVolumeType">
+            <attribute name="uom" type="fb:UomVolumeType" use="required" > 
+               <annotation>
+                  <documentation>
+                     Unit of measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <simpleType name="RestrictedVolumeType">
+      <annotation>
+         <documentation>
+            Helper type for restrictions on VolumeType 
+         </documentation>
+      </annotation>
+      <restriction base="fb:MeasureType">
+         <minInclusive value="0"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="WeightType">
+      <annotation>
+         <documentation>
+            The value of a weight. [AIXM 5.1] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:RestrictedWeightType">
+            <attribute name="uom" type="fb:UomWeightType" use="required" > 
+               <annotation>
+                  <documentation>
+                     Unit of measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <simpleType name="RestrictedWeightType">
+      <annotation>
+         <documentation>
+            Helper type for restrictions on WeightType 
+         </documentation>
+      </annotation>
+      <restriction base="fb:MeasureType">
+         <minInclusive value="0"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="WindDirectionType">
+      <annotation>
+         <documentation>
+            Direction from which the wind blows. [International Meteorological Vocabulary, WMO] 
+            
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:AngleType"/>
+      </simpleContent>
+   </complexType>
+
+   <complexType name="WindSpeedType">
+      <annotation>
+         <documentation>
+            The speed of wind. [FIXM] 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:RestrictedWindSpeedType">
+            <attribute name="uom" type="fb:UomWindSpeedType" use="required" > 
+               <annotation>
+                  <documentation>
+                     Unit of measure 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <simpleType name="RestrictedWindSpeedType">
+      <annotation>
+         <documentation>
+            Helper type for restrictions on WindSpeedType 
+         </documentation>
+      </annotation>
+      <restriction base="fb:SpeedType">
+         <minInclusive value="0"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="ZeroBearingTypeType">
+      <annotation>
+         <documentation>
+            A code indicating the direction of the zero bearing. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="TRUE_NORTH">
+            <annotation>
+               <documentation>
+                  This value indicates that the direction is relative to True North. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="MAGNETIC_NORTH">
+            <annotation>
+               <documentation>
+                  This value indicates that the direction is relative to Magnetic North. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+</schema>

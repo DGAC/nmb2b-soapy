@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0"
+           targetNamespace="eurocontrol/cfmu/b2b/CommonServices"
+           xmlns:common="eurocontrol/cfmu/b2b/CommonServices"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="AirNavigationUnitId">
+    <xs:restriction base="xs:string">
+      <xs:pattern value=".{1,12}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Bearing">
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="0"/><xs:maxInclusive value="360"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DateTimeMinute">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(((((((([0-9]{4}(\-))[0-9]{2})(\-))[0-9]{2})( ))[0-9]{2})(:))[0-9]{2})"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DateTimeSecond">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(((((((((([0-9]{4}(\-))[0-9]{2})(\-))[0-9]{2})( ))[0-9]{2})(:))[0-9]{2})(:))[0-9]{2})"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DateYearMonthDay">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(((([0-9]{4}(\-))[0-9]{2})(\-))[0-9]{2})"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DistanceM">
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="0"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DistanceNM">
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="0"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DurationHourMinute">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]{4}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DurationHourMinuteSecond">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]{6}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DurationMinute">
+    <xs:restriction base="xs:long">
+      <xs:minInclusive value="0"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="FileId">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(((([a-zA-Z]|[0-9])|(\.))|(_))|(/)){1,200}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="FileType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-zA-Z]{1,50}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="LongDurationHourMinute">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]{4,10}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="NMB2BProviderVersion">
+    <xs:restriction base="xs:string">
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="NMB2BVersion">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(((([0-9]{2}(\.))[0-9])(\.))[0-9])"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="NMRelease">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(((([0-9]{2}(\.))[0-9])(\.))[0-9])"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PlanDataId">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(((((O)|(F))|(S))[0-9]{14})([A-Z]|[0-9]){0,40})"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SimulationId">
+    <xs:restriction base="xs:string">
+      <xs:pattern value=".{1,200}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="TimeHourMinute">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(([0-9]{2}(:))[0-9]{2})"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Timestamp">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(((((((((((([0-9]{4}(\-))[0-9]{2})(\-))[0-9]{2})( ))[0-9]{2})(:))[0-9]{2})(:))[0-9]{2})( ))[0-9]{3})"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="UserId">
+    <xs:restriction base="xs:string">
+      <xs:pattern value=".{1,11}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="UUID">
+    <xs:restriction base="xs:string">
+      <xs:pattern value=".{36}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="WeightKg">
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="0"/><xs:maxInclusive value="999999"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="DatasetType">
+    <xs:restriction base="xs:string">
+            <xs:enumeration value="FORECAST"/>
+            <xs:enumeration value="OPERATIONAL"/>
+            <xs:enumeration value="SIMULATION"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ErrorCategory">
+    <xs:restriction base="xs:string">
+            <xs:enumeration value="GEN"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ErrorType">
+    <xs:restriction base="xs:string">
+            <xs:enumeration value="UNSUPPORTED_VERSION"/>
+            <xs:enumeration value="ATTRIBUTE_CANNOT_BE_NULL"/>
+            <xs:enumeration value="ATTRIBUTE_MUST_BE_NULL"/>
+            <xs:enumeration value="INVALID_COLLECTION_SIZE"/>
+            <xs:enumeration value="INVALID_ATTRIBUTE_VALUE"/>
+            <xs:enumeration value="MISSING_CHOICE_VALUE"/>
+            <xs:enumeration value="CHOICE_OVERFLOW"/>
+            <xs:enumeration value="REQUESTED_ATTRIBUTE_NOT_ALLOWED"/>
+            <xs:enumeration value="UNKNOWN"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EstimateQualifier">
+    <xs:restriction base="xs:string">
+            <xs:enumeration value="ESTIMATED"/>
+            <xs:enumeration value="ACTUAL"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ExecutionEnvironment">
+    <xs:restriction base="xs:string">
+            <xs:enumeration value="OPS"/>
+            <xs:enumeration value="OPT"/>
+            <xs:enumeration value="PRE_RELEASE"/>
+            <xs:enumeration value="DEV"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="LatitudeSide">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+                <xs:enumeration value="NORTH"/>
+                <xs:enumeration value="SOUTH"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="OTHER:[a-zA-Z_][a-zA-Z0-9_]*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="LogicalOperator">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+                <xs:enumeration value="AND"/>
+                <xs:enumeration value="OR"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="OTHER:[a-zA-Z_][a-zA-Z0-9_]*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="LongitudeSide">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+                <xs:enumeration value="EAST"/>
+                <xs:enumeration value="WEST"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="OTHER:[a-zA-Z_][a-zA-Z0-9_]*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="ReceivedOrSent">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+                <xs:enumeration value="RECEIVED"/>
+                <xs:enumeration value="SENT"/>
+                <xs:enumeration value="UNKNOWN"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="OTHER:[a-zA-Z_][a-zA-Z0-9_]*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="ReplyStatus">
+    <xs:restriction base="xs:string">
+            <xs:enumeration value="OK"/>
+            <xs:enumeration value="INVALID_INPUT"/>
+            <xs:enumeration value="INVALID_OUTPUT"/>
+            <xs:enumeration value="INTERNAL_ERROR"/>
+            <xs:enumeration value="SERVICE_UNAVAILABLE"/>
+            <xs:enumeration value="OVERLOAD"/>
+            <xs:enumeration value="NOT_AUTHORISED"/>
+            <xs:enumeration value="OBJECT_NOT_FOUND"/>
+            <xs:enumeration value="TOO_MANY_RESULTS"/>
+            <xs:enumeration value="OBJECT_EXISTS"/>
+            <xs:enumeration value="OBJECT_OUTDATED"/>
+            <xs:enumeration value="CONFLICTING_UPDATE"/>
+            <xs:enumeration value="INVALID_DATASET"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ServiceGroup">
+    <xs:restriction base="xs:string">
+            <xs:enumeration value="COMMON"/>
+            <xs:enumeration value="GENERAL_INFORMATION"/>
+            <xs:enumeration value="AIRSPACE"/>
+            <xs:enumeration value="FLOW"/>
+            <xs:enumeration value="FLIGHT"/>
+            <xs:enumeration value="PUBLISH_SUBSCRIBE"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Sign">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+                <xs:enumeration value="PLUS"/>
+                <xs:enumeration value="MINUS"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="OTHER:[a-zA-Z_][a-zA-Z0-9_]*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="SimulationType">
+    <xs:restriction base="xs:string">
+            <xs:enumeration value="STANDALONE_SIMEX"/>
+            <xs:enumeration value="NMOC_MANAGED_SIMULATION"/>
+            <xs:enumeration value="USER_MANAGED_SIMULATION"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="WeekDay">
+    <xs:restriction base="xs:string">
+            <xs:enumeration value="SUNDAY"/>
+            <xs:enumeration value="MONDAY"/>
+            <xs:enumeration value="TUESDAY"/>
+            <xs:enumeration value="WEDNESDAY"/>
+            <xs:enumeration value="THURSDAY"/>
+            <xs:enumeration value="FRIDAY"/>
+            <xs:enumeration value="SATURDAY"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="Dataset" abstract="false">
+    <xs:sequence>
+      <xs:element name="type" type="common:DatasetType" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="simulationIdentifier" type="common:SimulationIdentifier" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DateTimeMinutePeriod" abstract="false">
+    <xs:sequence>
+      <xs:element name="wef" type="common:DateTimeMinute" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="unt" type="common:DateTimeMinute" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DateTimeMinutePeriodWithUFN" abstract="false">
+    <xs:sequence>
+      <xs:element name="wef" type="common:DateTimeMinute" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="unt" type="common:DateTimeMinute" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DateYearMonthDayPeriod" abstract="false">
+    <xs:sequence>
+      <xs:element name="wef" type="common:DateYearMonthDay" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="unt" type="common:DateYearMonthDay" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Error" abstract="false">
+    <xs:sequence>
+      <xs:element name="attributes" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" minOccurs="0" maxOccurs="unbounded"><xs:simpleType><xs:restriction base="xs:string"></xs:restriction></xs:simpleType></xs:element></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="group" type="common:ServiceGroup" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="category" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="([a-zA-Z]|(_)){1,100}"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="type" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="(([a-zA-Z]|[0-9])|(_)){1,100}"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="parameters" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" minOccurs="0" maxOccurs="unbounded"><xs:complexType><xs:sequence><xs:element name="key" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:maxLength value="1000"/></xs:restriction></xs:simpleType></xs:element><xs:element name="value" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:maxLength value="1000"/></xs:restriction></xs:simpleType></xs:element></xs:sequence></xs:complexType></xs:element></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="message" minOccurs="0" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:maxLength value="1000"/></xs:restriction></xs:simpleType></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="File" abstract="false">
+    <xs:sequence>
+      <xs:element name="id" type="common:FileId" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="type" type="common:FileType" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="releaseTime" type="common:DateTimeSecond" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="fileLength" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:int"><xs:minInclusive value="0"/></xs:restriction></xs:simpleType></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="LastUpdate" abstract="false">
+    <xs:sequence>
+      <xs:element name="timestamp" type="common:DateTimeSecond" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="userId" type="common:UserId" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="airNavigationUnitId" type="common:AirNavigationUnitId" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Latitude" abstract="false">
+    <xs:sequence>
+      <xs:element name="angle" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[0-9]{6}"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="side" type="common:LatitudeSide" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Longitude" abstract="false">
+    <xs:sequence>
+      <xs:element name="angle" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[0-9]{6,7}"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="side" type="common:LongitudeSide" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NMPlatform" abstract="false">
+    <xs:sequence>
+      <xs:element name="executionEnvironment" type="common:ExecutionEnvironment" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="applicationInstance" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="((([A-Z]{3}(_))[A-Z]{2})([A-Z]|[0-9]))"/></xs:restriction></xs:simpleType></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Position" abstract="false">
+    <xs:sequence>
+      <xs:element name="latitude" type="common:Latitude" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="longitude" type="common:Longitude" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Reply" abstract="true">
+    <xs:sequence>
+      <xs:element name="requestReceptionTime" type="common:DateTimeSecond" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="requestId" minOccurs="0" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="sendTime" type="common:DateTimeSecond" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="status" type="common:ReplyStatus" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="inputValidationErrors" type="common:Error" minOccurs="0" maxOccurs="100"/>
+      <xs:element name="outputValidationErrors" type="common:Error" minOccurs="0" maxOccurs="100"/>
+      <xs:element name="warnings" type="common:Error" minOccurs="0" maxOccurs="100"/>
+      <xs:element name="slaError" type="common:Error" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="reason" minOccurs="0" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"></xs:restriction></xs:simpleType></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Request" abstract="true">
+    <xs:sequence>
+      <xs:element name="endUserId" minOccurs="0" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="(([a-zA-Z]|[0-9])|(_)){0,30}"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="sendTime" type="common:DateTimeSecond" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ShiftHourMinute" abstract="false">
+    <xs:sequence>
+      <xs:element name="sign" type="common:Sign" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="value" type="common:DurationHourMinute" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SimulationIdentifier" abstract="false">
+    <xs:sequence>
+      <xs:element name="simulationType" type="common:SimulationType" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="simulationId" type="common:SimulationId" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TimeHourMinutePeriod" abstract="false">
+    <xs:sequence>
+      <xs:element name="wef" type="common:TimeHourMinute" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="unt" type="common:TimeHourMinute" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="WeeklySchedule" abstract="false">
+    <xs:sequence>
+      <xs:element name="weeklyScheduleItems" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="common:WeeklyScheduleItem" minOccurs="0" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="WeeklyScheduleItem" abstract="false">
+    <xs:sequence>
+      <xs:element name="globalPeriod" type="common:DateTimeMinutePeriodWithUFN" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="weekDaySet" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="common:WeekDay" minOccurs="0" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="dailyPeriod" type="common:TimeHourMinutePeriod" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

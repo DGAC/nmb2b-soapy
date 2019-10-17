@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/base/4.1"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2017 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, 
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS 
+         Limited, 
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the 
+         following conditions are met: 
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating 
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp; 
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on Airservices Australia: http://www.airservicesaustralia.com/ 
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html 
+         
+         Details on EUROCONTROL: http://www.eurocontrol.int/ 
+         Details on IATA: http://www.iata.org/Pages/default.aspx 
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html 
+         Details on NATS Limited: http://www.nats.co.uk/ 
+         Details on NAV CANADA: http://www.navcanada.ca/ 
+         Details on the UAE GCAA: https://www.gcaa.gov.ae 
+         Details on the ICCAIA: www.iccaia.org 
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members 
+         
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <include schemaLocation="./Address.xsd"/>
+   <include schemaLocation="./Airspace.xsd"/>
+   <include schemaLocation="./Extension.xsd"/>
+   <include schemaLocation="./Types.xsd"/>
+   <annotation>
+      <documentation>
+         This package contains classes that model information about organizations and units, 
+         including contact information. [FIXM] 
+      </documentation>
+   </annotation>
+
+   <complexType name="AircraftOperatorType">
+      <annotation>
+         <documentation>
+            A person, organization or enterprise engaged in or offering to engage in an aircraft 
+            operation. [ICAO Annex 9] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="operatingOrganization" type="fb:PersonOrOrganizationType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        .Aircraft Operator Identity: Identity of a person, organization or enterprise engaged 
+                        in or offering to engage in aircraft operation. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="designatorIcao" type="fb:AircraftOperatorDesignatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The identifier of the Aircraft Operator as assigned by ICAO. [FIXM] 
+                     This is the ICAO Operator Code as standardised by ICAO Doc 8585 Manual on Designators 
+                     for Aircraft Operating Agencies, Aeronautical Authorities and Services. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="AircraftOperator" type="fb:AircraftOperatorType" substitutionGroup="fb:Extensible" /> 
+
+   <simpleType name="AircraftOperatorDesignatorType">
+      <annotation>
+         <documentation>
+            The identifier of the Aircraft Operator as assigned by ICAO. [FIXM] 
+            This is the ICAO Operator Code as standardised by ICAO Doc 8585 Manual on Designators 
+            for Aircraft Operating Agencies, Aeronautical Authorities and Services. 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="[A-Z]{3}"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="AtcUnitNameType">
+      <annotation>
+         <documentation>
+            The name of the ATC center with authority over the corresponding Flight Information 
+            Region (FIR). [FIXM] 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="[A-Za-z0-9]{1,}"/>
+      </restriction>
+   </simpleType>
+
+   <complexType abstract="true" name="AtcUnitReferenceType">
+      <annotation>
+         <documentation>
+            A reference to an area control centre, approach control unit or aerodrome control 
+            tower being either: 
+            - the ICAO location indicator of the atc unit, as listed in ICAO Doc 7910 
+            - if no ICAO location indicator is available, the ATC unit name and optionally its 
+            geographical position. [FIXM] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <attribute name="controlSectorDesignator" type="fb:AirspaceDesignatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A published sequence of characters allowing the identification of a subdivision of 
+                     a designated control area within which responsibility is assigned to one controller 
+                     or to a small group of controllers. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="AtcUnitReference" type="fb:AtcUnitReferenceType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="IcaoUnitReferenceType">
+      <annotation>
+         <documentation>
+            A reference to an area control centre, approach control unit or aerodrome control 
+            tower using the ICAO location indicator of the atc unit, as listed in ICAO DOC 7910. 
+            [FIXM] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:AtcUnitReferenceType">
+            <attribute name="locationIndicator" type="fb:LocationIndicatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A four-letter code group formulated in accordance with rules prescribed by ICAO and 
+                     assigned to the atc unit. [Specialised from ICAO Annex 10] The list of ICAO location 
+                     indicators is provided by ICAO Doc 7910. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="IcaoUnitReference" type="fb:IcaoUnitReferenceType" substitutionGroup="fb:Extensible" /> 
+
+   <simpleType name="LocationIndicatorType">
+      <annotation>
+         <documentation>
+            A four-letter code group formulated in accordance with rules prescribed by ICAO and 
+            assigned to the location of an aeronautical fixed station. [ICAO Doc 4444] 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="[A-Z]{4}"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="OtherUnitReferenceType">
+      <annotation>
+         <documentation>
+            A reference to an area control centre, approach control unit or aerodrome control 
+            tower using the ATC unit name and optionally its geographical position, if no ICAO 
+            location indicator is available. [FIXM] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:AtcUnitReferenceType">
+            <sequence>
+               <element name="position" type="fb:GeographicalPositionType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The geographical point of the Unit. [AIXM 5.1] 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="atcUnitNameOrAlternate" type="fb:TextNameType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The full textual name of the ATC unit [adapted from AIXM 5.1] or an alternate identifier 
+                     for the unit. [FIXM] 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="OtherUnitReference" type="fb:OtherUnitReferenceType" substitutionGroup="fb:Extensible" /> 
+
+   <simpleType name="ParticipantTypeType">
+      <annotation>
+         <documentation>
+            Type of participant, FF-ICE or NON_FF-ICE [FIXM] 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="FFICE_PARTICIPANT"/>
+         <enumeration value="NON_FFICE_PARTICIPANT"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="PersonOrOrganizationType">
+      <annotation>
+         <documentation>
+            An identifiable, responsible entity that can be either a natural person or an organization. 
+            
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="contact" type="fb:ContactInformationType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Optional ContactInformation reference.[FIXM] 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="name" type="fb:TextNameType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The full official name of the Person, State, Organisation, Authority, aircraft operating 
+                     agency, handling agency etc. [FIXM] 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="participantType" type="fb:ParticipantTypeType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Type of participant, FF-ICE or NON_FF-ICE [FIXM] 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="PersonOrOrganization" type="fb:PersonOrOrganizationType" substitutionGroup="fb:Extensible" /> 
+</schema>

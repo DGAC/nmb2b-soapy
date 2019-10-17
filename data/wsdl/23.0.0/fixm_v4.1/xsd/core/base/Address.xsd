@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/base/4.1"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2017 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, 
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS 
+
+         Limited, 
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+
+         are permitted provided that the 
+         following conditions are met: 
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating 
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp; 
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on Airservices Australia: http://www.airservicesaustralia.com/ 
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html 
+
+         
+         Details on EUROCONTROL: http://www.eurocontrol.int/ 
+         Details on IATA: http://www.iata.org/Pages/default.aspx 
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html 
+         Details on NATS Limited: http://www.nats.co.uk/ 
+         Details on NAV CANADA: http://www.navcanada.ca/ 
+         Details on the UAE GCAA: https://www.gcaa.gov.ae 
+         Details on the ICCAIA: www.iccaia.org 
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members 
+
+         
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <include schemaLocation="./Extension.xsd"/>
+   <include schemaLocation="./Types.xsd"/>
+   <annotation>
+      <documentation>
+         This package contains classes that model addresses and other contact information. 
+
+         [FIXM] 
+      </documentation>
+   </annotation>
+
+   <complexType name="ContactInformationType">
+      <annotation>
+         <documentation>
+            Information required to enable contact with the responsible person and/or organisation. 
+
+             This model is derived from ISO19115-2003:Geographic Information- Metadata. [AIXM 
+
+            5.1] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="address" type="fb:PostalAddressType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Optional postal address of the contact. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="onlineContact" type="fb:OnlineContactType" minOccurs="0" maxOccurs="2000" > 
+                  <annotation>
+                     <documentation>
+                        Optional e-mail address of the contact.[FIXM] 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="phoneFax" type="fb:TelephoneContactType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Optional phone or facsimile number of the contact. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="name" type="fb:TextNameType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The official name of the contact. In case of the organization use, it is the name 
+
+                     of the person within the organization who is the contact point. 
+                      
+                     If the usage of  ContactInformation is associated with a person, this field should 
+
+                     not be used, insead, the Person class' name should be used instead. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="title" type="fb:TextNameType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The official title of the contact. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="ContactInformation" type="fb:ContactInformationType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="OnlineContactType">
+      <annotation>
+         <documentation>
+            On-line or Network information that can be used to contact the individual or organisation, 
+
+            including eMail address. The contact information can include an email address and 
+
+            either an AFTN address or URL, but usually not both. The network attribute specifies 
+
+            whether the address specified by the linkage attribute is an AFTN or an internet 
+
+            address. [specialised from AIXM 5.1] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <attribute name="email" type="fb:TextAddressType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The address of the electronic mailbox of the responsible organisation or individual. 
+
+                     [FIXM] 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="linkage" type="fb:TextAddressType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Location (address) for on-line access using a Uniform Resource Locator address or 
+
+                     AFTN address. [adapted from AIXM] 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="network" type="fb:TelecomNetworkTypeType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The Telecom Networks that can be used to address an organisation. [adapted from AIXM] 
+
+                     
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="OnlineContact" type="fb:OnlineContactType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="PostalAddressType">
+      <annotation>
+         <documentation>
+            Physical address at which the organization or individual may be contacted. Derived 
+
+            from ISO19115-2003 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <attribute name="administrativeArea" type="fb:TextNameType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The state or province of the location or organisation. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="city" type="fb:TextCityType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The city of the location or organisation. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="countryCode" type="fb:TextCountryCodeType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The country of the physical address for the location or organisation.  ISO 3166 abbreviations. 
+
+                     
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="countryName" type="fb:TextCountryNameType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The country of the physical address for the location or organisation.  Full name, 
+
+                     not ISO 3166 abbreviations. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="deliveryPoint" type="fb:TextAddressType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The street address line for the location.  More than one address line may be used. 
+
+                     [FIXM] 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="postalCode" type="fb:TextNameType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The ZIP or other postal code for the location or organisation. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="PostalAddress" type="fb:PostalAddressType" substitutionGroup="fb:Extensible" /> 
+
+   <simpleType name="TelecomNetworkTypeType">
+      <annotation>
+         <documentation>
+            The Telecom Networks that can be used to address an organisation. [adapted from AIXM] 
+
+            
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="AFTN">
+            <annotation>
+               <documentation>
+                  The data interchange in the AFS is performed by the Aeronautical Fixed Telecommunications 
+
+                  Network, AFTN. This is a message handling network running according to ICAO Standards 
+
+                  documented in Annex 10 to the ICAO Convention.[AIXM] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="INTERNET">
+            <annotation>
+               <documentation>
+                  The Internet is a worldwide, publicly accessible series of interconnected computer 
+
+                  networks that transmit data by packet switching using the standard Internet Protocol 
+
+                  (IP). 
+                  The usage of this value indicates that a URL will be provided for the linkage property 
+
+                  in OnlineContact. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <complexType name="TelephoneContactType">
+      <annotation>
+         <documentation>
+            Telephone numbers at which the organisation or individual may be contacted.  From 
+
+            ISO19115-2003. [AIXM 5.1] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <attribute name="facsimile" type="fb:TextPhoneType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The telephone number of a facsimile machine for the responsible organisation or individual. 
+
+                     
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="voice" type="fb:TextPhoneType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The telephone number by which individuals can speak to the responsible organisation 
+
+                     or individual. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="TelephoneContact" type="fb:TelephoneContactType" substitutionGroup="fb:Extensible" /> 
+
+   <simpleType name="TextAddressType">
+      <annotation>
+         <documentation>
+            Basis for e-mail and street addresses. [FIXM] 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <minLength value="1"/>
+         <maxLength value="500"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="TextCityType">
+      <annotation>
+         <documentation>
+            Address city. [FIXM] 
+         </documentation>
+      </annotation>
+      <restriction base="fb:TextNameType"/>
+   </simpleType>
+
+   <simpleType name="TextCountryCodeType">
+      <annotation>
+         <documentation>
+            The country code as specified by ISO 3166. [FIXM] 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="[A-Z]{2}"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="TextCountryNameType">
+      <annotation>
+         <documentation>
+            The country of the physical address for the location or organisation.  Full name, 
+
+            not ISO 3166 abbreviations. [AIXM 5.1] 
+         </documentation>
+      </annotation>
+      <restriction base="fb:TextNameType"/>
+   </simpleType>
+
+   <simpleType name="TextPhoneType">
+      <annotation>
+         <documentation>
+            A phone or facsimile number. [AIXM 5.1] 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <minLength value="1"/>
+         <maxLength value="500"/>
+         <pattern value="(\+)?[0-9\s\-\(\)]+"/>
+      </restriction>
+   </simpleType>
+</schema>

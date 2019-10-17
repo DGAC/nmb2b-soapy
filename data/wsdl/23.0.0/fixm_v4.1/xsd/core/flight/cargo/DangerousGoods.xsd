@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/flight/4.1"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:fx="http://www.fixm.aero/flight/4.1"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2017 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, 
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS 
+         Limited, 
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the 
+         following conditions are met: 
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating 
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp; 
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on Airservices Australia: http://www.airservicesaustralia.com/ 
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html 
+         
+         Details on EUROCONTROL: http://www.eurocontrol.int/ 
+         Details on IATA: http://www.iata.org/Pages/default.aspx 
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html 
+         Details on NATS Limited: http://www.nats.co.uk/ 
+         Details on NAV CANADA: http://www.navcanada.ca/ 
+         Details on the UAE GCAA: https://www.gcaa.gov.ae 
+         Details on the ICCAIA: www.iccaia.org 
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members 
+         
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <include schemaLocation="./Packaging.xsd"/>
+   <import namespace="http://www.fixm.aero/base/4.1" schemaLocation="./../../base/Base.xsd"/>
+   <annotation>
+      <documentation>
+         The Dangerous Goods schema contains the information required for the shipment of 
+         dangerous goods. 
+      </documentation>
+   </annotation>
+
+   <complexType name="AdditionalHandlingInformationType">
+      <annotation>
+         <documentation>
+            Additional information related to the handling of dangerous goods, as identified 
+            on the Shipper's Declaration for Dangerous Goods. 
+            <deprecated> 
+               <deletionVersion>5.0.0</deletionVersion>
+               <deprecationVersion>4.1.0</deprecationVersion>
+               <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+               <replacement>N/A</replacement>
+            </deprecated>
+         </documentation>
+      </annotation>
+      <sequence>
+         <element name="responsibleAgent" type="fb:PersonOrOrganizationType" minOccurs="0" maxOccurs="1" > 
+            <annotation>
+               <documentation>
+                  Person or organization responsible for infectious substances. 
+               </documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <element name="AdditionalHandlingInformation" type="fx:AdditionalHandlingInformationType" /> 
+
+   <complexType name="AirWaybillType">
+      <annotation>
+         <documentation>
+            The number referencing the air waybill. 
+         </documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="fb:CharacterStringType">
+            <attribute name="airWaybillNumber" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The number referencing the air waybill. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+
+   <complexType name="DangerousGoodsType">
+      <annotation>
+         <documentation>
+            Articles or substances which are capable of posing a risk to health, safety, property 
+            or the environment and which are shown in the list of dangerous goods in the Technical 
+            Instructions or which are classified according to those Instructions. [ICAO Annex 
+            18] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="airWayBill" type="fx:AirWaybillType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The number referencing the air waybill. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="handlingInformation" type="fx:AdditionalHandlingInformationType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Additional information related to the handling of dangerous goods, as identified 
+                        on the Shipper's Declaration for Dangerous Goods. 
+                        <deprecated> 
+                           <deletionVersion>5.0.0</deletionVersion>
+                           <deprecationVersion>4.1.0</deprecationVersion>
+                           <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                           <replacement>N/A</replacement>
+                        </deprecated>
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="packageGroup" type="fx:DangerousGoodsPackageGroupType" minOccurs="0" maxOccurs="2000" > 
+                  <annotation>
+                     <documentation>
+                        A code that indicates the relative degree of danger presented by various articles 
+                        and substances within a Class or Division. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="shippingInformation" type="fx:ShippingInformationType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        IATA Shipper's Declaration for Dangerous Goods. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="aircraftLimitation" type="fx:AircraftDangerousGoodsLimitationType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Describes whether the shipment is packed to comply with the limitations prescribed 
+                     for passenger and cargo aircraft or the limitations for cargo aircraft only. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="guidebookNumber" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A reference to a set of instructions to handle a specific dangerous goods situation. 
+                     
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0.0</deprecationVersion>
+                        <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                        <replacement>N/A</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+               <simpleType>
+                  <restriction base="fb:CharacterStringType">
+                     <pattern value="[#\d+|\d+]"/>
+                  </restriction>
+               </simpleType>
+            </attribute>
+            <attribute name="onboardLocation" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The location of a dangerous goods shipment inside the airframe. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="shipment" type="fx:ShipmentTypeType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     An indicator used for dangerous cargo of whether the package is radioactive or not. 
+                     
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                        <replacement>N/A</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="DangerousGoods" type="fx:DangerousGoodsType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="DeclarationTextType">
+      <annotation>
+         <documentation>
+            The consignor's statement indicating the dangerous goods have been packaged and handled 
+            according to regulations. 
+            This shipper's statement indicating the dangerous goods have been packaged and handled 
+            according to regulations. 
+            The warning message for not complying with the regulations. 
+            <deprecated> 
+               <deletionVersion>5.0.0</deletionVersion>
+               <deprecationVersion>4.1.0</deprecationVersion>
+               <rationale>Change Request #25. Trim down Dangerous Goods Data Elements.
+            Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required 
+            in FIXM Core.</rationale> 
+               <replacement>N/A</replacement>
+            </deprecated>
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <attribute name="compliance" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The warning message for not complying with the regulations. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="consignor" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The consignor's statement indicating the dangerous goods have been packaged and handled 
+                     according to regulations. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="shipper" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     This shipper's statement indicating the dangerous goods have been packaged and handled 
+                     according to regulations. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="DeclarationText" type="fx:DeclarationTextType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="ShippingInformationType">
+      <annotation>
+         <documentation>
+            IATA Shipper's Declaration for Dangerous Goods. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="aerodromeOfLoading" type="fb:AerodromeReferenceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The aerodrome where dangerous goods were loaded onto the flight. 
+                        <deprecated> 
+                           <deletionVersion>5.0.0</deletionVersion>
+                           <deprecationVersion>4.1.0</deprecationVersion>
+                           <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                           <replacement>N/A</replacement>
+                        </deprecated>
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="aerodromeOfUnloading" type="fb:AerodromeReferenceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The aerodrome where dangerous goods were unloaded from the flight. 
+                        <deprecated> 
+                           <deletionVersion>5.0.0</deletionVersion>
+                           <deprecationVersion>4.1.0</deprecationVersion>
+                           <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                           <replacement>N/A</replacement>
+                        </deprecated>
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="consignee" type="fx:StructuredPostalAddressType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The phone number of the consignee contact department or person to call, in the event 
+                        of an emergency, security event, or when further information about the shipment is 
+                        needed. 
+                        The name of the consignee contact department or person responsible in the event of 
+                        an emergency, security event, or when further information about the shipment is needed. 
+                        
+                        Specifies the consignee's mailing address. 
+                        Contains the name or legal identity of the organization or person receiving the package. 
+                        
+                        The XML Grouping Element unites the Consignee Name with the Postal Structure Address 
+                        (detailed breakout of address components). 
+                         
+                        WARNING 
+                        This element is deprecated as of FIXM 4.1.0 per ATMRPP/2 and FIXM CCB decision. The 
+                        element will be removed starting FIXM 5.0.0. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="declarationText" type="fx:DeclarationTextType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        WARNING 
+                        This element is deprecated as of FIXM 4.1.0 per ATMRPP/2 and FIXM CCB decision. The 
+                        element will be removed starting FIXM 5.0.0. 
+                        <deprecated> 
+                           <deletionVersion>5.0.0</deletionVersion>
+                           <deprecationVersion>4.1.0</deprecationVersion>
+                           <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                           <replacement>N/A</replacement>
+                        </deprecated>
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="shipper" type="fx:StructuredPostalAddressType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The  Grouping Element unites the Shipper (Consignor) Name with the Postal Structure 
+                        Address (detailed breakout of address components). 
+                        The Shipper's name, legal identity, and/or organization. 
+                        Phone number of the shipper or someone who is not on board the aircraft and who can 
+                        be reached in an emergency involving the dangerous good. 
+                        The shipper's mailing address. 
+                         
+                        WARNING 
+                        This element is deprecated as of FIXM 4.1.0 per ATMRPP/2 and FIXM CCB decision. The 
+                        element will be removed starting FIXM 5.0.0. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="transferAerodromes" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        A list of the aerodromes through which the package has travelled en route to its 
+                        final destination. 
+                        <deprecated> 
+                           <deletionVersion>5.0.0</deletionVersion>
+                           <deprecationVersion>4.1.0</deprecationVersion>
+                           <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                           <replacement>N/A</replacement>
+                        </deprecated>
+                     </documentation>
+                  </annotation>
+                  <simpleType>
+                     <list itemType="fb:LocationIndicatorType"/>
+                  </simpleType>
+               </element>
+            </sequence>
+            <attribute name="dangerousGoodsScreeningLocation" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The name of the Certified Cargo Screening Facility, as approved by the Transportation 
+                     Security Administration (TSA), or the location/name of any screening performed. 
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                        <replacement>N/A</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="departureCountry" type="fb:TextCountryNameType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The Code and Name of the departure country where the package originated. 
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                        <replacement>N/A</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="destinationCountry" type="fb:TextCountryNameType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The Name and Code of the dangerous good's country of destination. 
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                        <replacement>N/A</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="originCountry" type="fb:TextCountryNameType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The Code and Name of the departure country where the package originated. 
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                        <replacement>N/A</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="shipmentAuthorizations" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Additional information related to an approval, permission, or other specific detail 
+                     regarding the shipment of dangerous goods. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="subsidiaryHazardClassAndDivision" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     An identifier of any subsidiary hazard class(es)/division(s) in addition to the primary 
+                     hazard class and division. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="supplementaryInformation" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Additional information that may be added to the proper shipping name to more fully 
+                     describe the goods or to identify a particular condition. 
+                     <deprecated> 
+                        <deletionVersion>5.0.0</deletionVersion>
+                        <deprecationVersion>4.1.0</deprecationVersion>
+                        <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+                        <replacement>N/A</replacement>
+                     </deprecated>
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="ShippingInformation" type="fx:ShippingInformationType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="StructuredPostalAddressType">
+      <annotation>
+         <documentation>
+            The building number and Street Name portion of the Address. 
+            The XML Grouping Element that contains the parts of a Postal Address broken into 
+            its component parts (Structured). 
+            he Post Office (PO) Box number portion of a structured postal address. 
+            The ZIP/Postal Code corresponding to the street address. 
+            The name of the city the package is being shipped to. 
+            Contains the Department Name portion of the Address. 
+            The name of the region within a country specific to this address. 
+            A code that indicates a country. 
+            The name of a country. 
+            <deprecated> 
+               <deletionVersion>5.0.0</deletionVersion>
+               <deprecationVersion>4.1.0</deprecationVersion>
+               <rationale>Change Request #25. Outcomes of ATMRPP/2 shows DG data element other than NOTOC items are not required in FIXM Core.</rationale>
+               <replacement>N/A</replacement>
+            </deprecated>
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ContactInformationType"/>
+      </complexContent>
+   </complexType>
+   <element name="StructuredPostalAddress" type="fx:StructuredPostalAddressType" substitutionGroup="fb:Extensible" /> 
+
+   <simpleType name="AircraftDangerousGoodsLimitationType">
+      <annotation>
+         <documentation>
+            Describes whether the shipment is packed to comply with the limitations prescribed 
+            for passenger and cargo aircraft or the limitations for cargo aircraft only. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="PASSENGER_AND_CARGO_AIRCRAFT">
+            <annotation>
+               <documentation>
+                  Specified that the shipment is packed to comply with the limitations prescribed for 
+                  passenger and cargo aircraft. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="CARGO_AIRCRAFT_ONLY">
+            <annotation>
+               <documentation>
+                  Specified that the shipment is packed to comply with the limitations prescribed for 
+                  the limitations for cargo aircraft only. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="ShipmentTypeType">
+      <annotation>
+         <documentation>
+            An indicator used for dangerous cargo of whether the package is radioactive or not. 
+            
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="RADIOACTIVE">
+            <annotation>
+               <documentation>
+                  When present, indicates cargo is radioactive. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+</schema>

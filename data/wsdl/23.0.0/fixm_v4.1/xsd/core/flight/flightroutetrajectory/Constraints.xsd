@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/flight/4.1"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:fx="http://www.fixm.aero/flight/4.1"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2017 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, 
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS 
+         Limited, 
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the 
+         following conditions are met: 
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating 
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp; 
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on Airservices Australia: http://www.airservicesaustralia.com/ 
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html 
+         
+         Details on EUROCONTROL: http://www.eurocontrol.int/ 
+         Details on IATA: http://www.iata.org/Pages/default.aspx 
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html 
+         Details on NATS Limited: http://www.nats.co.uk/ 
+         Details on NAV CANADA: http://www.navcanada.ca/ 
+         Details on the UAE GCAA: https://www.gcaa.gov.ae 
+         Details on the ICCAIA: www.iccaia.org 
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members 
+         
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <import namespace="http://www.fixm.aero/base/4.1" schemaLocation="./../../base/Base.xsd"/>
+   <annotation>
+      <documentation>
+         Constraints package contains details about any constraints that are associated with 
+         the route points. 
+      </documentation>
+   </annotation>
+
+   <complexType abstract="true" name="AbstractConstraintType">
+      <annotation>
+         <documentation>
+            An Abstract class that defines a constraint to an route point or trajectory. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <attribute name="constraintReference" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Reference to a named constraint, if applicable. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="departureOrArrivalIndicator" type="fx:DepartureOrArrivalIndicatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Identifies whether the constraint is applicable on climb or descent.  This provides 
+                     an indication of which constraints take priority in the event of conflict when establishing 
+                     
+                     a profile. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="seqNum" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Incrementing identifier used to ensure the sequence of ordered lists is retained. 
+                     [FIXM]. The identifier should begin at zero. 
+                  </documentation>
+               </annotation>
+               <simpleType>
+                  <restriction base="xs:int">
+                     <minInclusive value="0"/>
+                  </restriction>
+               </simpleType>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="AbstractConstraint" type="fx:AbstractConstraintType" substitutionGroup="fb:Extensible" /> 
+
+   <simpleType name="ActivationType">
+      <annotation>
+         <documentation>
+            Provides an indication of whether the profile constraint is met or initiated at the 
+            Location 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="PLAN_TO_COMMENCE"/>
+         <enumeration value="PLAN_TO_ATTAIN"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="DepartureOrArrivalIndicatorType">
+      <annotation>
+         <documentation>
+            Identifies whether the constraint is applicable on climb or descent.  This provides 
+            an indication of which constraints take priority in the event of conflict when establishing 
+            
+            a profile. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="DEPARTURE"/>
+         <enumeration value="ARRIVAL"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="LevelConditionType">
+      <annotation>
+         <documentation>
+            Specifies that the flight level or altitude be achieved based on the condition relative 
+            to the point. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="AT"/>
+         <enumeration value="AT_OR_ABOVE"/>
+         <enumeration value="AT_OR_BELOW"/>
+         <enumeration value="BETWEEN"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="LevelConstraintType">
+      <annotation>
+         <documentation>
+            The altitude constraint applicable to a specific point or segment on the route. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fx:AbstractConstraintType">
+            <sequence>
+               <element name="level" type="fb:FlightLevelOrAltitudeChoiceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Level or altitude specification of the constraint. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="activation" type="fx:ActivationType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Provides an indication of whether the profile constraint is met or initiated at the 
+                     Location 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="condition" type="fx:LevelConditionType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Specifies that the flight level or altitude be achieved based on the condition relative 
+                     to the point. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="LevelConstraint" type="fx:LevelConstraintType" substitutionGroup="fb:Extensible" /> 
+
+   <simpleType name="SpeedConditionType">
+      <annotation>
+         <documentation>
+            Specifies that the speed  be achieved based on the condition relative to the point. 
+            
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="AT"/>
+         <enumeration value="AT_OR_GREATER"/>
+         <enumeration value="AT_OR_LESS"/>
+         <enumeration value="BETWEEN"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="SpeedConstraintType">
+      <annotation>
+         <documentation>
+            The speed constraint applicable to a specific point or segment on the route. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fx:AbstractConstraintType">
+            <sequence>
+               <element name="speed" type="fb:TrueAirspeedChoiceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Speed specification of the speed constraint. Can be either an absolute speed or a 
+                        speed range. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="activation" type="fx:ActivationType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Provides an indication of whether the profile constraint is met or initiated at the 
+                     Location 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="condition" type="fx:SpeedConditionType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Specifies that the speed be achieved based on the condition relative to the point. 
+                     
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="SpeedConstraint" type="fx:SpeedConstraintType" substitutionGroup="fb:Extensible" /> 
+
+   <simpleType name="TimeConditionType">
+      <annotation>
+         <documentation>
+            Describes the type of time constraint. The associated which specifies how the time 
+            relates to the point. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="AT"/>
+         <enumeration value="AT_OR_BEFORE"/>
+         <enumeration value="AT_OR_AFTER"/>
+         <enumeration value="BETWEEN"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="TimeConstraintType">
+      <annotation>
+         <documentation>
+            The time constraint applicable to a specific point on the route. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fx:AbstractConstraintType">
+            <sequence>
+               <element name="temporalSpecification" type="fb:TemporalChoiceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Date and time associated with the constraint. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="condition" type="fx:TimeConditionType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Type of time constraint that describes the condition relative to the time constraint. 
+                     
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="TimeConstraint" type="fx:TimeConstraintType" substitutionGroup="fb:Extensible" /> 
+</schema>

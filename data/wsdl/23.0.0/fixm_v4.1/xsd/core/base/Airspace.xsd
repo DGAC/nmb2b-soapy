@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/base/4.1"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+   <annotation>
+      <documentation>
+         Copyright (c) 2017 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA,
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS
+
+         Limited,
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA
+         ===========================================
+         All rights reserved.
+
+         Redistribution and use in source and binary forms, with or without modification,
+
+         are permitted provided that the
+         following conditions are met:
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp;
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+
+         DISCLAIMER
+
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+
+         DAMAGE.
+
+         ==========================================
+         Editorial note: this license is an instance of the BSD license template as provided
+
+         by the Open Source Initiative:
+         http://www.opensource.org/licenses/bsd-license.php
+
+         The authoritative reference for FIXM is www.FIXM.aero.
+
+         Details on Airservices Australia: http://www.airservicesaustralia.com/
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html
+
+
+         Details on EUROCONTROL: http://www.eurocontrol.int/
+         Details on IATA: http://www.iata.org/Pages/default.aspx
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html
+         Details on NATS Limited: http://www.nats.co.uk/
+         Details on NAV CANADA: http://www.navcanada.ca/
+         Details on the UAE GCAA: https://www.gcaa.gov.ae
+         Details on the ICCAIA: www.iccaia.org
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members
+
+
+         Details on the US FAA: http://www.faa.gov/
+      </documentation>
+   </annotation>
+   <include schemaLocation="./Extension.xsd"/>
+   <include schemaLocation="./Measures.xsd"/>
+   <include schemaLocation="./Navaid.xsd"/>
+   <include schemaLocation="./Types.xsd"/>
+   <import namespace="http://www.w3.org/1999/xlink" schemaLocation="./../../../../xlink/xlink.xsd"/>
+
+   <annotation>
+      <documentation>
+         This package contains classes that model information about the airspace infrastructure
+
+         (Airspace, ATS routes and Significant Points) needed by flight data. [FIXM]
+      </documentation>
+   </annotation>
+
+   <simpleType name="AirspaceDesignatorType">
+      <annotation>
+         <documentation>
+            A published sequence of characters allowing the identification of the airspace. [AIXM
+
+            5.1]
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="([A-Z]|[0-9]|[, !&quot;&amp;amp;#$%'\(\)\*\+\-\./:;&amp;lt;=&amp;gt;\?@\[\\\]\^_\|\{\}])*"/>
+         <minLength value="1"/>
+         <maxLength value="10"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="DesignatedPointOrNavaidType">
+      <annotation>
+         <documentation>
+            A named significant point, being either the site of a radio navigation aid or another
+
+            named geographical location, used in defining an ATS route, the flight path of an
+
+            aircraft or for other navigation or ATS purposes. [FIXM]
+
+            The coded designator of a navaid or designated point is not always sufficient for
+
+            unambiguously referring to that feature:
+            - The 5-letter coded designator of a waypoint is supposed to be unique world-wide
+
+            (according to ICAO Annex 11), but in reality it is not. There are at least 5% duplicates/triplicates/even
+
+            more…
+            - The en-route navaids (VOR, DME, NDB) designator is supposed to be unique (according
+
+            to ICAO Annex 11) within 600 NM. This means that these designators are not unique
+
+            world-wide. For airport navaids, there is no limitation.
+            The combinations of fields that would make the references unique are:
+            - For designated points: designator + position
+            - For navaids: designator + position + navaid service type
+            This FIXM class adds two optional properties 'position' and 'navaidServiceType' which
+
+            may be used as a complement to the 'designator' information in order to remove any
+
+            ambiguity on the coded designator.
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:SignificantPointType">
+            <sequence>
+               <element name="position" type="fb:GeographicalPositionType" minOccurs="0" maxOccurs="1" >
+                  <annotation>
+                     <documentation>
+                        The values of latitude and longitude that define the position of the Designated Point
+
+                        or Navaid on the surface of the Earth with respect to a reference datum. [specialised
+
+                        from ICAO Doc 9881]
+                        This optional field may be used as a complement of the designator in order to achieve
+
+                        unambiguous reference to the designated point or navaid.
+                        The combinations of fields that would make the reference unique are:
+                        - For designated points: designator + position
+                        - For navaids: designator + position + navaid service type
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="designator" type="fb:SignificantPointDesignatorType" use="optional" >
+               <annotation>
+                  <documentation>
+                     A named significant point.
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="navaidServiceType" type="fb:NavaidServiceTypeType" use="optional" >
+               <annotation>
+                  <documentation>
+                     Type of the navaid service. [AIXM 5.1]
+                     This optional field may be used as a complement of the designator in order to achieve
+
+                     unambiguous reference to the navaid.
+                     The combinations of fields that would make the reference unique are:
+                     - For navaids: designator + position + navaid service type
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="DesignatedPointOrNavaid" type="fb:DesignatedPointOrNavaidType" substitutionGroup="fb:Extensible" />
+
+    <complexType name="GeographicalPositionType">
+      <annotation>
+         <documentation>
+            Set of coordinates (latitude and longitude) referenced to the mathematical reference
+            ellipsoid which define the position of a  point on the surface of the Earth. [ICAO
+            Annex 15]
+
+            The "srsName" attribute names the coordinate reference system (CRS) that defines
+            the semantics of the
+            lat/long pair according to the ISO6709 standard. FIXM uses only "urn:ogc:def:crs:EPSG::4326".
+
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="pos" minOccurs="0" maxOccurs="1">
+                                <simpleType>
+                                        <restriction>
+                                                <simpleType>
+                                                        <list itemType="double"/>
+                                                </simpleType>
+                                                <length value="2"/>
+                                        </restriction>
+                                </simpleType>
+                        </element>
+            </sequence>
+            <attribute name="srsName" type="xs:string" fixed="urn:ogc:def:crs:EPSG::4326" use="required" >
+               <annotation>
+                  <documentation>
+                     Names the coordinate reference system (CRS) that defines the semantics of the
+                     lat/long pair according to the ISO6709 standard. FIXM uses only "urn:ogc:def:crs:EPSG::4326".
+
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="GeographicalPosition" type="fb:GeographicalPositionType" substitutionGroup="fb:Extensible" />
+
+   <simpleType name="LongitudeType">
+      <annotation>
+         <documentation>
+            Longitude value expressed to a decimal precision.
+         </documentation>
+      </annotation>
+      <restriction base="fb:MeasureType">
+         <maxInclusive value="180"/>
+         <minInclusive value="-180"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="PositionPointType">
+      <annotation>
+         <documentation>
+            An unnamed point designated only with a latitude/longitude. [FIXM]
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:SignificantPointType">
+            <sequence>
+               <element name="position" type="fb:GeographicalPositionType" minOccurs="0" maxOccurs="1" >
+                  <annotation>
+                     <documentation>
+                        The values of latitude and longitude that define the position of a point on the surface
+
+                        of the Earth with respect to a reference datum. [specialised from ICAO Doc 9881]
+
+
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="PositionPoint" type="fb:PositionPointType" substitutionGroup="fb:Extensible" />
+
+   <complexType name="RelativePointType">
+      <annotation>
+         <documentation>
+            Bearing and distance from a reference point. [ICAO Doc 4444, Appendix 2, ITEM 15]
+
+
+            This FIXM class adds one optional property 'position' which may be used as a complement
+
+            to the bearing, distance and reference point information in order to provide the
+
+            computed position of the relative point, if available.
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:SignificantPointType">
+            <sequence>
+               <element name="bearing" type="fb:BearingType" minOccurs="0" maxOccurs="1" >
+                  <annotation>
+                     <documentation>
+                        The radius from a chosen Significant Point
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="distance" type="fb:DistanceType" minOccurs="0" maxOccurs="1" >
+                  <annotation>
+                     <documentation>
+                        Distance from the chosen Significant Point to the Intersection.
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="position" type="fb:GeographicalPositionType" minOccurs="0" maxOccurs="1" >
+                  <annotation>
+                     <documentation>
+                        The values of latitude and longitude that define the position of the Relative Point
+
+                        on the surface of the Earth with respect to a reference datum. [specialised from
+
+                        ICAO Doc 9881]
+
+                        This optional field may be used to provide the actual position of the relative point
+
+                        if already known / computed.
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="referencePoint" type="fb:DesignatedPointOrNavaidType" minOccurs="0" maxOccurs="1" >
+                  <annotation>
+                     <documentation>
+                        The designated point or navaid used as reference for building an intersection
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="RelativePoint" type="fb:RelativePointType" substitutionGroup="fb:Extensible" />
+
+   <simpleType name="RouteDesignatorType">
+      <annotation>
+         <documentation>
+            The coded designator for a published ATS route or route segment.
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="[A-Z][A-Z0-9]{1,7}"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="SidStarAbbreviatedDesignatorType">
+      <annotation>
+         <documentation>
+            A shortened designator of the SID or STAR. [FIXM] This abbreviated designator is
+
+            based on ARINC 424 chapter 7.4 rules.
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <minLength value="1"/>
+         <maxLength value="6"/>
+         <pattern value="([A-Z]|[0-9])+([ \+\-/]*([A-Z]|[0-9])+)*"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="SidStarDesignatorType">
+      <annotation>
+         <documentation>
+            The textual designator of a SID or STAR. [Specialised from AIXM 5.1]
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <minLength value="1"/>
+         <maxLength value="7"/>
+         <pattern value="([A-Z]|[0-9])+([ \+\-/]*([A-Z]|[0-9])+)*"/>
+      </restriction>
+   </simpleType>
+
+   <complexType abstract="true" name="SignificantPointType">
+      <annotation>
+         <documentation>
+            A location type restricted to lat/long location, fix (waypoint) location, or FRD
+
+            (radial distance offset).
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <attributeGroup ref="xlink:simpleAttrs" />
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="SignificantPoint" type="fb:SignificantPointType" substitutionGroup="fb:Extensible" />
+
+   <simpleType name="SignificantPointDesignatorType">
+      <annotation>
+         <documentation>
+            A named designator for a significant point (fix).
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="[A-Z0-9]{2,5}"/>
+      </restriction>
+   </simpleType>
+</schema>

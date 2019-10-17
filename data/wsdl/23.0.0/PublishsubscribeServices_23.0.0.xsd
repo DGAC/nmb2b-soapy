@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0"
+           targetNamespace="eurocontrol/cfmu/b2b/PublishsubscribeServices"
+           xmlns:publishsubscribe="eurocontrol/cfmu/b2b/PublishsubscribeServices"
+           xmlns:common="eurocontrol/cfmu/b2b/CommonServices"
+           xmlns:adrmsg="http://www.eurocontrol.int/cfmu/b2b/ADRMessage"
+           xmlns:airspace="eurocontrol/cfmu/b2b/AirspaceServices"
+           xmlns:flow="eurocontrol/cfmu/b2b/FlowServices"
+           xmlns:flight="eurocontrol/cfmu/b2b/FlightServices"
+           xmlns:generalinformation="eurocontrol/cfmu/b2b/GeneralinformationServices"
+           xmlns:fixm="http://www.fixm.aero/flight/4.1"
+           xmlns:nm="http://www.fixm.aero/nm/1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="eurocontrol/cfmu/b2b/CommonServices" schemaLocation="CommonServices_23.0.0.xsd"/>
+  <xs:import namespace="http://www.eurocontrol.int/cfmu/b2b/ADRMessage" schemaLocation="aixm-5.1.1/message/ADR_Message.xsd"/>
+  <xs:import namespace="eurocontrol/cfmu/b2b/AirspaceServices" schemaLocation="AirspaceServices_23.0.0.xsd"/>
+  <xs:import namespace="eurocontrol/cfmu/b2b/FlowServices" schemaLocation="FlowServices_23.0.0.xsd"/>
+  <xs:import namespace="eurocontrol/cfmu/b2b/FlightServices" schemaLocation="FlightServices_23.0.0.xsd"/>
+  <xs:import namespace="eurocontrol/cfmu/b2b/GeneralinformationServices" schemaLocation="GeneralinformationServices_23.0.0.xsd"/>
+  <xs:import namespace="http://www.fixm.aero/flight/4.1" schemaLocation="fixm_v4.1/xsd/core/flight/Flight.xsd"/>
+  <xs:import namespace="http://www.fixm.aero/nm/1.0" schemaLocation="fixm_v4.1_nm_v1.0/xsd/extensions/Nm.xsd"/>
+  <xs:element name="MessagePullRequest" type="publishsubscribe:MessagePullRequest"/>
+  <xs:element name="SubscriptionCreationRequest" type="publishsubscribe:SubscriptionCreationRequest"/>
+  <xs:element name="SubscriptionDeletionRequest" type="publishsubscribe:SubscriptionDeletionRequest"/>
+  <xs:element name="SubscriptionHistoryRequest" type="publishsubscribe:SubscriptionHistoryRequest"/>
+  <xs:element name="SubscriptionListRequest" type="publishsubscribe:SubscriptionListRequest"/>
+  <xs:element name="SubscriptionPauseRequest" type="publishsubscribe:SubscriptionPauseRequest"/>
+  <xs:element name="SubscriptionResumeRequest" type="publishsubscribe:SubscriptionResumeRequest"/>
+  <xs:element name="SubscriptionRetrievalRequest" type="publishsubscribe:SubscriptionRetrievalRequest"/>
+  <xs:element name="MessagePullReply" type="publishsubscribe:MessagePullReply"/>
+  <xs:element name="SubscriptionCreationReply" type="publishsubscribe:SubscriptionCreationReply"/>
+  <xs:element name="SubscriptionDeletionReply" type="publishsubscribe:SubscriptionDeletionReply"/>
+  <xs:element name="SubscriptionHistoryReply" type="publishsubscribe:SubscriptionHistoryReply"/>
+  <xs:element name="SubscriptionListReply" type="publishsubscribe:SubscriptionListReply"/>
+  <xs:element name="SubscriptionPauseReply" type="publishsubscribe:SubscriptionPauseReply"/>
+  <xs:element name="SubscriptionResumeReply" type="publishsubscribe:SubscriptionResumeReply"/>
+  <xs:element name="SubscriptionRetrievalReply" type="publishsubscribe:SubscriptionRetrievalReply"/>
+  <xs:element name="AIMMessage" type="publishsubscribe:AIMMessage"/>
+  <xs:element name="AIXMDatasetMessage" type="publishsubscribe:AIXMDatasetMessage"/>
+  <xs:element name="EAUPMessage" type="publishsubscribe:EAUPMessage"/>
+  <xs:element name="FlightDataMessage" type="publishsubscribe:FlightDataMessage"/>
+  <xs:element name="FlightFilingResultMessage" type="publishsubscribe:FlightFilingResultMessage"/>
+  <xs:element name="FlightPlanMessage" type="publishsubscribe:FlightPlanMessage"/>
+  <xs:element name="RegulationMessage" type="publishsubscribe:RegulationMessage"/>
+  <xs:element name="SubscriptionTechnicalMessage" type="publishsubscribe:SubscriptionTechnicalMessage"/>
+  <xs:simpleType name="PSMessageElement">
+    <xs:restriction base="xs:string">
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="QueueName">
+    <xs:restriction base="xs:string">
+      <xs:pattern value=".{1,200}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="FlightPlanEventType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+                <xs:enumeration value="AFP"/>
+                <xs:enumeration value="ARR"/>
+                <xs:enumeration value="CHG"/>
+                <xs:enumeration value="CNL"/>
+                <xs:enumeration value="DEP"/>
+                <xs:enumeration value="DLA"/>
+                <xs:enumeration value="FNM"/>
+                <xs:enumeration value="FPL"/>
+                <xs:enumeration value="MFS"/>
+                <xs:enumeration value="REVAL"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="OTHER:[a-zA-Z_][a-zA-Z0-9_]*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="ManualProcessingFilingStatus">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+                <xs:enumeration value="ACCEPTED"/>
+                <xs:enumeration value="INVALID_REJECTED"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="OTHER:[a-zA-Z_][a-zA-Z0-9_]*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="ManualProcessingResultType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+                <xs:enumeration value="validFiling"/>
+                <xs:enumeration value="rejectedFiling"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="OTHER:[a-zA-Z_][a-zA-Z0-9_]*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="PSFlightField">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+                <xs:enumeration value="aircraftType"/>
+                <xs:enumeration value="aircraftOperator"/>
+                <xs:enumeration value="operatingAircraftOperator"/>
+                <xs:enumeration value="icaoRoute"/>
+                <xs:enumeration value="filedRegistrationMark"/>
+                <xs:enumeration value="lateFiler"/>
+                <xs:enumeration value="lateUpdater"/>
+                <xs:enumeration value="estimatedTakeOffTime"/>
+                <xs:enumeration value="calculatedTakeOffTime"/>
+                <xs:enumeration value="actualTakeOffTime"/>
+                <xs:enumeration value="ctotLimitReason"/>
+                <xs:enumeration value="currentlyUsedTaxiTime"/>
+                <xs:enumeration value="suspensionStatus"/>
+                <xs:enumeration value="readyStatus"/>
+                <xs:enumeration value="cdm"/>
+                <xs:enumeration value="exemptedFromRegulations"/>
+                <xs:enumeration value="delay"/>
+                <xs:enumeration value="mostPenalisingRegulation"/>
+                <xs:enumeration value="mostPenalisingRegulationCause"/>
+                <xs:enumeration value="hasOtherRegulations"/>
+                <xs:enumeration value="regulationLocations"/>
+                <xs:enumeration value="targetTimeOverFix"/>
+                <xs:enumeration value="excludedRegulations"/>
+                <xs:enumeration value="divertedAerodromeOfDestination"/>
+                <xs:enumeration value="estimatedTimeOfArrival"/>
+                <xs:enumeration value="calculatedTimeOfArrival"/>
+                <xs:enumeration value="actualTimeOfArrival"/>
+                <xs:enumeration value="arrivalInformation"/>
+                <xs:enumeration value="flightState"/>
+                <xs:enumeration value="confirmedCTFM"/>
+                <xs:enumeration value="lastKnownPosition"/>
+                <xs:enumeration value="highestModelPointProfile"/>
+                <xs:enumeration value="highestModelAirspaceProfile"/>
+                <xs:enumeration value="aircraftAddress"/>
+                <xs:enumeration value="flightDataVersionNr"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="OTHER:[a-zA-Z_][a-zA-Z0-9_]*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="PSMessageType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+                <xs:enumeration value="TECHNICAL_MESSAGE"/>
+                <xs:enumeration value="BUSINESS_MESSAGE"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="OTHER:[a-zA-Z_][a-zA-Z0-9_]*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="RevalidationStatus">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+                <xs:enumeration value="COMPLIANT"/>
+                <xs:enumeration value="ADVISORY"/>
+                <xs:enumeration value="SUSPENDED"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="OTHER:[a-zA-Z_][a-zA-Z0-9_]*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="SubscriptionState">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+                <xs:enumeration value="ACTIVE"/>
+                <xs:enumeration value="PAUSED"/>
+                <xs:enumeration value="SUSPENDED_ACTIVE"/>
+                <xs:enumeration value="SUSPENDED_PAUSED"/>
+                <xs:enumeration value="DELETED"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="OTHER:[a-zA-Z_][a-zA-Z0-9_]*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="SubscriptionTopic">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+                <xs:enumeration value="ATM_INFORMATION"/>
+                <xs:enumeration value="AIXM_DATASETS"/>
+                <xs:enumeration value="REGULATIONS"/>
+                <xs:enumeration value="EAUP"/>
+                <xs:enumeration value="FLIGHT_PLANS"/>
+                <xs:enumeration value="FLIGHT_DATA"/>
+                <xs:enumeration value="FLIGHT_FILING_RESULT"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="OTHER:[a-zA-Z_][a-zA-Z0-9_]*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="SubscriptionUpdateReason">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+                <xs:enumeration value="USER_REQUEST"/>
+                <xs:enumeration value="MSG_EXPIRED"/>
+                <xs:enumeration value="MAINTENANCE"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="OTHER:[a-zA-Z_][a-zA-Z0-9_]*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="TechnicalTopic">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+                <xs:enumeration value="SUBSCRIPTION"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="OTHER:[a-zA-Z_][a-zA-Z0-9_]*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:complexType name="AIMMessage" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:BusinessPSMessage">
+    <xs:sequence>
+      <xs:element name="payload" type="generalinformation:AIM" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AIXMDatasetMessage" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:BusinessPSMessage">
+    <xs:sequence>
+      <xs:element name="payload" type="publishsubscribe:AIXMDatasetMessagePayload" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AIXMDatasetMessageFilter" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:SubscriptionMessageFilter">
+    <xs:sequence>
+      <xs:element name="datasetTypes" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="airspace:AIXMDatasetType" minOccurs="0" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="BusinessPSMessage" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:PSMessage">
+    <xs:sequence>
+      <xs:element name="topic" type="publishsubscribe:SubscriptionTopic" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="subscriptionUuid" type="common:UUID" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="parentMessageId" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"></xs:restriction></xs:simpleType></xs:element>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="EAUPMessage" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:BusinessPSMessage">
+    <xs:sequence>
+      <xs:element name="summary" type="airspace:EAUPSummary" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="cdrOpeningsClosures" type="adrmsg:ADRMessageType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="rsaAllocations" type="adrmsg:ADRMessageType" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="EAUPPayloadConfiguration" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:SubscriptionPayloadConfiguration">
+    <xs:sequence>
+      <xs:element name="includeCDROpeningsClosures" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:boolean"></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="includeRSAAllocations" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:boolean"></xs:restriction></xs:simpleType></xs:element>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="FlightDataMessage" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:BusinessPSMessage">
+    <xs:sequence>
+      <xs:element name="flightData" type="flight:Flight" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="eventType" type="flight:FlightEventType" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="concernedUnits" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="common:AirNavigationUnitId" minOccurs="0" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="FlightDataMessageFilter" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:SubscriptionMessageFilter">
+    <xs:sequence>
+      <xs:element name="flightSet" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="publishsubscribe:FlightSetDefinitionElement" minOccurs="1" maxOccurs="50"/></xs:sequence></xs:complexType></xs:element>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="FlightDataPayloadConfiguration" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:SubscriptionPayloadConfiguration">
+    <xs:sequence>
+      <xs:element name="flightFields" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="publishsubscribe:PSFlightField" minOccurs="0" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="FlightFilingResultMessage" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:BusinessPSMessage">
+    <xs:sequence>
+      <xs:element name="filingId" type="flight:FilingId" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="manualProcessingStatus" type="publishsubscribe:ManualProcessingFilingStatus" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="manualProcessingResult" type="publishsubscribe:ManualProcessingResult" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="FlightFilingResultMessageFilter" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:SubscriptionMessageFilter">
+    <xs:sequence>
+      <xs:element name="originatorAnuId" type="common:AirNavigationUnitId" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="FlightPlanEvent" abstract="false">
+    <xs:sequence>
+      <xs:element name="eventType" type="publishsubscribe:FlightPlanEventType" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="timestamp" type="common:DateTimeSecond" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="FlightPlanEventHistoryItem" abstract="false">
+    <xs:sequence>
+      <xs:element name="sequenceNumber" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:int"></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="event" type="publishsubscribe:FlightPlanEvent" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="FlightPlanMessage" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:BusinessPSMessage">
+    <xs:sequence>
+      <xs:element name="flightPlanData" type="publishsubscribe:FlightPlanData" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="eventHistory" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="publishsubscribe:FlightPlanEventHistoryItem" minOccurs="1" maxOccurs="1000"/></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="concernedUnits" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="common:AirNavigationUnitId" minOccurs="0" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="revalidationInformation" type="publishsubscribe:RevalidationInformation" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="FlightPlanMessageFilter" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:SubscriptionMessageFilter">
+    <xs:sequence>
+      <xs:element name="events" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="publishsubscribe:FlightPlanEventType" minOccurs="0" maxOccurs="20"/></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="flightSet" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="publishsubscribe:FlightSetDefinitionElement" minOccurs="1" maxOccurs="50"/></xs:sequence></xs:complexType></xs:element>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="FlightPlanPayloadConfiguration" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:SubscriptionPayloadConfiguration">
+    <xs:sequence>
+      <xs:element name="flightPlanFormat" type="flight:FlightExchangeModel" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="FlightSetDefinitionElement" abstract="false">
+    <xs:sequence>
+      <xs:element name="aircraftOperators" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="flight:AircraftOperatorIATAId" minOccurs="0" maxOccurs="20"/></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="aircraftRegistrations" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="flight:AircraftRegistrationMark" minOccurs="0" maxOccurs="20"/></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="aerodromesOfDeparture" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="airspace:AerodromeIATAOrICAOId" minOccurs="0" maxOccurs="20"/></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="aerodromesOfArrival" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="airspace:AerodromeIATAOrICAOId" minOccurs="0" maxOccurs="20"/></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="anuIds" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="common:AirNavigationUnitId" minOccurs="0" maxOccurs="20"/></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="flightPlanOriginators" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="common:AirNavigationUnitId" minOccurs="0" maxOccurs="20"/></xs:sequence></xs:complexType></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MessagePullReply" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Reply">
+    <xs:sequence>
+      <xs:element name="data" type="publishsubscribe:MessagePullReplyData" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MessagePullReplyData" abstract="false">
+    <xs:sequence>
+      <xs:element name="marshalledMessages" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="publishsubscribe:PSMessageElement" minOccurs="0" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="hasMoreMessages" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:boolean"></xs:restriction></xs:simpleType></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MessagePullRequest" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Request">
+    <xs:sequence>
+      <xs:element name="queueName" type="publishsubscribe:QueueName" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="maxSize" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:int"><xs:minInclusive value="1"/><xs:maxInclusive value="1000"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="destructive" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:boolean"></xs:restriction></xs:simpleType></xs:element>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="PSMessage" abstract="true">
+    <xs:sequence>
+      <xs:element name="uuid" type="common:UUID" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="timestamp" type="common:Timestamp" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="type" type="publishsubscribe:PSMessageType" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RegulationMessage" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:BusinessPSMessage">
+    <xs:sequence>
+      <xs:element name="payload" type="flow:Regulation" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RegulationMessageFilter" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:SubscriptionMessageFilter">
+    <xs:sequence>
+      <xs:element name="tvs" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="airspace:TrafficVolumeIdWildcard" minOccurs="0" maxOccurs="20"/></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="tvSets" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="airspace:TrafficVolumeSetIdWildcard" minOccurs="0" maxOccurs="20"/></xs:sequence></xs:complexType></xs:element>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RegulationPayloadConfiguration" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:SubscriptionPayloadConfiguration">
+    <xs:sequence>
+      <xs:element name="regulationFields" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="flow:RegulationField" minOccurs="0" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RevalidationInformation" abstract="false">
+    <xs:sequence>
+      <xs:element name="revalidationStatus" type="publishsubscribe:RevalidationStatus" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="revalidationErrors" minOccurs="0" maxOccurs="unbounded"><xs:simpleType><xs:restriction base="xs:string"></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="proposedRoute" minOccurs="0" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"></xs:restriction></xs:simpleType></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StructuredFlightPlanData" abstract="false">
+    <xs:sequence>
+      <xs:element name="flightPlan" type="flight:FlightPlan" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="originatorAddress" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="knownErrorIndicators" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="flight:IFPIndicator" minOccurs="0" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+      <xs:element name="aircraftOperator" type="flight:AircraftOperatorICAOId" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="operatingAircraftOperator" type="flight:AircraftOperatorICAOId" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Subscription" abstract="false">
+    <xs:sequence>
+      <xs:element name="uuid" type="common:UUID" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="release" type="common:NMRelease" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="anuId" type="common:AirNavigationUnitId" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="queueName" type="publishsubscribe:QueueName" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="topic" type="publishsubscribe:SubscriptionTopic" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="state" type="publishsubscribe:SubscriptionState" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="description" minOccurs="0" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value=".{1,500}"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="creationDate" type="common:DateTimeSecond" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="lastUpdatedBy" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value=".{1,100}"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="lastUpdatedOn" type="common:Timestamp" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="lastUpdateReason" type="publishsubscribe:SubscriptionUpdateReason" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="lastUpdateComment" minOccurs="0" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:maxLength value="256"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:choice minOccurs="0" maxOccurs="1"><xs:element name="messageFilter-AIXMDatasetMessageFilter" type="publishsubscribe:AIXMDatasetMessageFilter"/><xs:element name="messageFilter-FlightPlanMessageFilter" type="publishsubscribe:FlightPlanMessageFilter"/><xs:element name="messageFilter-FlightDataMessageFilter" type="publishsubscribe:FlightDataMessageFilter"/><xs:element name="messageFilter-FlightFilingResultMessageFilter" type="publishsubscribe:FlightFilingResultMessageFilter"/><xs:element name="messageFilter-RegulationMessageFilter" type="publishsubscribe:RegulationMessageFilter"/></xs:choice>
+      <xs:choice minOccurs="0" maxOccurs="1"><xs:element name="payloadConfiguration-FlightPlanPayloadConfiguration" type="publishsubscribe:FlightPlanPayloadConfiguration"/><xs:element name="payloadConfiguration-EAUPPayloadConfiguration" type="publishsubscribe:EAUPPayloadConfiguration"/><xs:element name="payloadConfiguration-FlightDataPayloadConfiguration" type="publishsubscribe:FlightDataPayloadConfiguration"/><xs:element name="payloadConfiguration-RegulationPayloadConfiguration" type="publishsubscribe:RegulationPayloadConfiguration"/></xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionCreationReply" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Reply">
+    <xs:sequence>
+      <xs:element name="data" type="publishsubscribe:SubscriptionCreationReplyData" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionCreationReplyData" abstract="false">
+    <xs:sequence>
+      <xs:element name="subscription" type="publishsubscribe:Subscription" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionCreationRequest" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Request">
+    <xs:sequence>
+      <xs:element name="topic" type="publishsubscribe:SubscriptionTopic" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="description" minOccurs="0" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value=".{1,500}"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:choice minOccurs="0" maxOccurs="1"><xs:element name="messageFilter-AIXMDatasetMessageFilter" type="publishsubscribe:AIXMDatasetMessageFilter"/><xs:element name="messageFilter-FlightPlanMessageFilter" type="publishsubscribe:FlightPlanMessageFilter"/><xs:element name="messageFilter-FlightDataMessageFilter" type="publishsubscribe:FlightDataMessageFilter"/><xs:element name="messageFilter-FlightFilingResultMessageFilter" type="publishsubscribe:FlightFilingResultMessageFilter"/><xs:element name="messageFilter-RegulationMessageFilter" type="publishsubscribe:RegulationMessageFilter"/></xs:choice>
+      <xs:choice minOccurs="0" maxOccurs="1"><xs:element name="payloadConfiguration-FlightPlanPayloadConfiguration" type="publishsubscribe:FlightPlanPayloadConfiguration"/><xs:element name="payloadConfiguration-EAUPPayloadConfiguration" type="publishsubscribe:EAUPPayloadConfiguration"/><xs:element name="payloadConfiguration-FlightDataPayloadConfiguration" type="publishsubscribe:FlightDataPayloadConfiguration"/><xs:element name="payloadConfiguration-RegulationPayloadConfiguration" type="publishsubscribe:RegulationPayloadConfiguration"/></xs:choice>
+      <xs:element name="queueName" type="publishsubscribe:QueueName" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionDeletionReply" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Reply">
+    <xs:sequence>
+      <xs:element name="data" type="publishsubscribe:SubscriptionDeletionReplyData" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionDeletionReplyData" abstract="false">
+    <xs:sequence>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionDeletionRequest" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Request">
+    <xs:sequence>
+      <xs:element name="uuid" type="common:UUID" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionHistoryItem" abstract="false">
+    <xs:sequence>
+      <xs:element name="uuid" type="common:UUID" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="state" type="publishsubscribe:SubscriptionState" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="updatedBy" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value=".{1,100}"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="updatedOn" type="common:Timestamp" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="updatedReason" type="publishsubscribe:SubscriptionUpdateReason" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="updatedComment" minOccurs="0" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:maxLength value="256"/></xs:restriction></xs:simpleType></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionHistoryReply" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Reply">
+    <xs:sequence>
+      <xs:element name="data" type="publishsubscribe:SubscriptionHistoryReplyData" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionHistoryReplyData" abstract="false">
+    <xs:sequence>
+      <xs:element name="history" type="publishsubscribe:SubscriptionHistoryItem" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionHistoryRequest" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Request">
+    <xs:sequence>
+      <xs:element name="uuid" type="common:UUID" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionListReply" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Reply">
+    <xs:sequence>
+      <xs:element name="data" type="publishsubscribe:SubscriptionListReplyData" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionListReplyData" abstract="false">
+    <xs:sequence>
+      <xs:element name="subscriptions" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="publishsubscribe:Subscription" minOccurs="0" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionListRequest" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Request">
+    <xs:sequence>
+      <xs:element name="states" minOccurs="0" maxOccurs="1"><xs:complexType><xs:sequence><xs:element name="item" type="publishsubscribe:SubscriptionState" minOccurs="0" maxOccurs="unbounded"/></xs:sequence></xs:complexType></xs:element>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionMessageFilter" abstract="true">
+    <xs:sequence>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionPauseReply" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Reply">
+    <xs:sequence>
+      <xs:element name="data" type="publishsubscribe:SubscriptionPauseReplyData" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionPauseReplyData" abstract="false">
+    <xs:sequence>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionPauseRequest" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Request">
+    <xs:sequence>
+      <xs:element name="uuid" type="common:UUID" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionPayloadConfiguration" abstract="true">
+    <xs:sequence>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionResumeReply" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Reply">
+    <xs:sequence>
+      <xs:element name="data" type="publishsubscribe:SubscriptionResumeReplyData" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionResumeReplyData" abstract="false">
+    <xs:sequence>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionResumeRequest" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Request">
+    <xs:sequence>
+      <xs:element name="uuid" type="common:UUID" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionRetrievalReply" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Reply">
+    <xs:sequence>
+      <xs:element name="data" type="publishsubscribe:SubscriptionRetrievalReplyData" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionRetrievalReplyData" abstract="false">
+    <xs:sequence>
+      <xs:element name="subscription" type="publishsubscribe:Subscription" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionRetrievalRequest" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Request">
+    <xs:sequence>
+      <xs:element name="uuid" type="common:UUID" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubscriptionTechnicalMessage" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:TechnicalPSMessage">
+    <xs:sequence>
+      <xs:element name="subscriptionUuid" type="common:UUID" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="subscriptionTopic" type="publishsubscribe:SubscriptionTopic" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="subscriptionDescription" minOccurs="0" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value=".{1,500}"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="subscriptionState" type="publishsubscribe:SubscriptionState" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="lastUpdatedBy" minOccurs="1" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value=".{1,100}"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="lastUpdatedOn" type="common:Timestamp" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="lastUpdateReason" type="publishsubscribe:SubscriptionUpdateReason" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="lastUpdateComment" minOccurs="0" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"><xs:maxLength value="256"/></xs:restriction></xs:simpleType></xs:element>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TechnicalPSMessage" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="publishsubscribe:PSMessage">
+    <xs:sequence>
+      <xs:element name="topic" type="publishsubscribe:TechnicalTopic" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AIXMDatasetMessagePayload">
+    <xs:choice>
+      <xs:element name="COMPLETE" type="airspace:CompleteDatasetSummary" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="INCREMENTAL" type="airspace:IncrementalDatasetSummary" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="FlightPlanData">
+    <xs:choice>
+      <xs:element name="structured" type="publishsubscribe:StructuredFlightPlanData" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="FIXM_V4_1" type="fixm:FlightType" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="ManualProcessingResult">
+    <xs:choice>
+      <xs:element name="validFiling" type="flight:FilingResultValid" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="rejectedFiling" type="flight:FilingResultRejected" minOccurs="1" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+</xs:schema>

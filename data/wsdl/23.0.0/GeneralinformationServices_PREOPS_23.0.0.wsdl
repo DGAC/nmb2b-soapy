@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions
+    targetNamespace="eurocontrol/cfmu/b2b/GeneralinformationServices"
+    name="GeneralinformationServices"
+    xmlns:generalinformation="eurocontrol/cfmu/b2b/GeneralinformationServices"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+  <types>
+    <xs:schema>
+      <xs:import namespace="eurocontrol/cfmu/b2b/GeneralinformationServices" schemaLocation="GeneralinformationServices_23.0.0.xsd"/>
+    </xs:schema>
+  </types>
+
+  <message name="AIMListRequest">
+    <part name="parameters" element="generalinformation:AIMListRequest"/>
+  </message>
+  <message name="AIMListReply">
+    <part name="parameters" element="generalinformation:AIMListReply"/>
+  </message>
+  <message name="AIMRetrievalRequest">
+    <part name="parameters" element="generalinformation:AIMRetrievalRequest"/>
+  </message>
+  <message name="AIMRetrievalReply">
+    <part name="parameters" element="generalinformation:AIMRetrievalReply"/>
+  </message>
+
+  <portType name="AIMsService">
+    <operation name="queryAIMs">
+      <input message="generalinformation:AIMListRequest"/>
+      <output message="generalinformation:AIMListReply"/>
+    </operation>
+    <operation name="retrieveAIMs">
+      <input message="generalinformation:AIMRetrievalRequest"/>
+      <output message="generalinformation:AIMRetrievalReply"/>
+    </operation>
+  </portType>
+
+  <binding name="AIMsPortBinding" type="generalinformation:AIMsService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="queryAIMs">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="retrieveAIMs">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="AIMsService">
+    <port name="AIMsPort" binding="generalinformation:AIMsPortBinding">
+      <soap:address location="https://www.b2b.preops.nm.eurocontrol.int/B2B_PREOPS/gateway/spec/23.0.0"/>
+    </port>
+  </service>
+  <message name="NMB2BReferenceManualsRequest">
+    <part name="parameters" element="generalinformation:NMB2BReferenceManualsRequest"/>
+  </message>
+  <message name="NMB2BReferenceManualsReply">
+    <part name="parameters" element="generalinformation:NMB2BReferenceManualsReply"/>
+  </message>
+  <message name="NMB2BWSDLsRequest">
+    <part name="parameters" element="generalinformation:NMB2BWSDLsRequest"/>
+  </message>
+  <message name="NMB2BWSDLsReply">
+    <part name="parameters" element="generalinformation:NMB2BWSDLsReply"/>
+  </message>
+  <message name="NMB2BScenariosRequest">
+    <part name="parameters" element="generalinformation:NMB2BScenariosRequest"/>
+  </message>
+  <message name="NMB2BScenariosReply">
+    <part name="parameters" element="generalinformation:NMB2BScenariosReply"/>
+  </message>
+  <message name="NMB2BAddendaErrataRequest">
+    <part name="parameters" element="generalinformation:NMB2BAddendaErrataRequest"/>
+  </message>
+  <message name="NMB2BAddendaErrataReply">
+    <part name="parameters" element="generalinformation:NMB2BAddendaErrataReply"/>
+  </message>
+  <message name="NMReleaseInformationRequest">
+    <part name="parameters" element="generalinformation:NMReleaseInformationRequest"/>
+  </message>
+  <message name="NMReleaseInformationReply">
+    <part name="parameters" element="generalinformation:NMReleaseInformationReply"/>
+  </message>
+
+  <portType name="NMB2BInfoService">
+    <operation name="queryNMB2BReferenceManuals">
+      <input message="generalinformation:NMB2BReferenceManualsRequest"/>
+      <output message="generalinformation:NMB2BReferenceManualsReply"/>
+    </operation>
+    <operation name="queryNMB2BWSDLs">
+      <input message="generalinformation:NMB2BWSDLsRequest"/>
+      <output message="generalinformation:NMB2BWSDLsReply"/>
+    </operation>
+    <operation name="queryNMB2BScenarios">
+      <input message="generalinformation:NMB2BScenariosRequest"/>
+      <output message="generalinformation:NMB2BScenariosReply"/>
+    </operation>
+    <operation name="queryNMB2BAddendaErrata">
+      <input message="generalinformation:NMB2BAddendaErrataRequest"/>
+      <output message="generalinformation:NMB2BAddendaErrataReply"/>
+    </operation>
+    <operation name="retrieveNMReleaseInformation">
+      <input message="generalinformation:NMReleaseInformationRequest"/>
+      <output message="generalinformation:NMReleaseInformationReply"/>
+    </operation>
+  </portType>
+
+  <binding name="NMB2BInfoPortBinding" type="generalinformation:NMB2BInfoService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="queryNMB2BReferenceManuals">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="queryNMB2BWSDLs">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="queryNMB2BScenarios">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="queryNMB2BAddendaErrata">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="retrieveNMReleaseInformation">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="NMB2BInfoService">
+    <port name="NMB2BInfoPort" binding="generalinformation:NMB2BInfoPortBinding">
+      <soap:address location="https://www.b2b.preops.nm.eurocontrol.int/B2B_PREOPS/gateway/spec/23.0.0"/>
+    </port>
+  </service>
+
+</definitions>

@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/flight/4.1"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:fx="http://www.fixm.aero/flight/4.1"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2017 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, 
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS 
+         Limited, 
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the 
+         following conditions are met: 
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating 
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp; 
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on Airservices Australia: http://www.airservicesaustralia.com/ 
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html 
+         
+         Details on EUROCONTROL: http://www.eurocontrol.int/ 
+         Details on IATA: http://www.iata.org/Pages/default.aspx 
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html 
+         Details on NATS Limited: http://www.nats.co.uk/ 
+         Details on NAV CANADA: http://www.navcanada.ca/ 
+         Details on the UAE GCAA: https://www.gcaa.gov.ae 
+         Details on the ICCAIA: www.iccaia.org 
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members 
+         
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <import namespace="http://www.fixm.aero/base/4.1" schemaLocation="./../../base/Base.xsd"/>
+   <annotation>
+      <documentation>
+         The Emergency Package describes any emergency filed during the flight. 
+      </documentation>
+   </annotation>
+
+   <simpleType name="EmergencyPhaseType">
+      <annotation>
+         <documentation>
+            A generic term meaning, as the case may be, uncertainty phase, alert phase or distress 
+            phase. [ICAO Annex 11] 
+            This is the stage of emergency the flight is currently under, as designated by an 
+            ATS unit. [FIXM] 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="INCERFA">
+            <annotation>
+               <documentation>
+                  The code word used to designate an uncertainty phase. [ICAO Annex 11] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="ALERFA">
+            <annotation>
+               <documentation>
+                  The code word used to designate an alert phase. [ICAO Annex 11] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="DETRESFA">
+            <annotation>
+               <documentation>
+                  The code word used to designate a distress phase. [ICAO Annex 11] 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <complexType name="FlightEmergencyType">
+      <annotation>
+         <documentation>
+            Groups emergency information (description, phase, position, etc) for the flight. 
+            
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="lastContact" type="fx:LastContactType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The last two-way contact between an ATS unit and the aircraft. [FIXM] 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="originator" type="fb:IcaoUnitReferenceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The ICAO identifier of the ATS unit originating the emergency message. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="actionTaken" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A description of the actions taken by the reporting Air Traffic Service (ATS) unit, 
+                     in the event of search and rescue. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="emergencyDescription" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A short, plain-language description of the nature of the emergency. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="otherInformation" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Other pertinent information not captured elsewhere needed to notify appropriate organizations 
+                     regarding aircraft in need of search and rescue. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="phase" type="fx:EmergencyPhaseType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A generic term meaning, as the case may be, uncertainty phase, alert phase or distress 
+                     phase. [ICAO Annex 11] 
+                      
+                     This is the stage of emergency the flight is currently under or an indication the 
+                     emergency has been cancelled, as designated by an ATS unit. [FIXM] 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="FlightEmergency" type="fx:FlightEmergencyType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="LastContactType">
+      <annotation>
+         <documentation>
+            The last two-way contact between an ATS unit and the aircraft. [FIXM] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="lastContactFrequency" type="fb:FrequencyType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The transmitting/receiving frequency of the last two-way contact between the aircraft 
+                        and an ATS unit. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="position" type="fx:LastPositionReportType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The position of the aircraft last known to ATS and a corresponding timestamp. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="lastContactTime" type="fb:TimeType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The time of the last two-way contact between the aircraft and an ATS unit. The time 
+                     is given in UTC. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="lastContactUnit" type="fb:AtcUnitNameType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The last ATS unit which had two-way contact with the aircraft. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="LastContact" type="fx:LastContactType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="LastPositionReportType">
+      <annotation>
+         <documentation>
+            The position of the aircraft last known to ATS and a corresponding timestamp. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="position" type="fb:SignificantPointType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The position of the aircraft last known to ATS. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="determinationMethod" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A plain-language description of the method used to determine the last known position 
+                     of an aircraft. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="timeAtPosition" type="fb:TimeType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Timestamp corresponding to the last known position. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="LastPositionReport" type="fx:LastPositionReportType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="RadioCommunicationFailureType">
+      <annotation>
+         <documentation>
+            Groups information regarding loss of radio communication capabilities. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="contact" type="fx:LastContactType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The last ATS unit which had two-way contact with the aircraft. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="radioFailureRemarks" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Pertinent information needed to notify appropriate organizations regarding loss of 
+                     radio communication capabilities. 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="remainingComCapability" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The remaining communication capability of the aircraft following radio failure. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="RadioCommunicationFailure" type="fx:RadioCommunicationFailureType" substitutionGroup="fb:Extensible" /> 
+</schema>

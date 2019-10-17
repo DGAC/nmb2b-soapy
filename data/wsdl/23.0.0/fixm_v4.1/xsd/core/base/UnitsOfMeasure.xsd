@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/base/4.1"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2017 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, 
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS 
+         Limited, 
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the 
+         following conditions are met: 
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating 
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp; 
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on Airservices Australia: http://www.airservicesaustralia.com/ 
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html 
+         
+         Details on EUROCONTROL: http://www.eurocontrol.int/ 
+         Details on IATA: http://www.iata.org/Pages/default.aspx 
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html 
+         Details on NATS Limited: http://www.nats.co.uk/ 
+         Details on NAV CANADA: http://www.navcanada.ca/ 
+         Details on the UAE GCAA: https://www.gcaa.gov.ae 
+         Details on the ICCAIA: www.iccaia.org 
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members 
+         
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <annotation>
+      <documentation>
+         Units for measurement types. 
+      </documentation>
+   </annotation>
+
+   <simpleType name="UomAirspeedType">
+      <annotation>
+         <documentation>
+            The reference quantities used to express the value of airspeed. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="KM_H">
+            <annotation>
+               <documentation>
+                  Kilometres per hour. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="KT">
+            <annotation>
+               <documentation>
+                  Knots. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="MACH">
+            <annotation>
+               <documentation>
+                  Mach number. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="UomAltitudeType">
+      <annotation>
+         <documentation>
+            The reference quantities used to express the value of altitude. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="FT">
+            <annotation>
+               <documentation>
+                  Foot. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="M">
+            <annotation>
+               <documentation>
+                  Metre. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="UomAngleType">
+      <annotation>
+         <documentation>
+            The reference quantities used to express the value of angles. [ISO 19103, chapter 
+            6.5.7.10] 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="DEG">
+            <annotation>
+               <documentation>
+                  Degree. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="UomFlightLevelType">
+      <annotation>
+         <documentation>
+            The reference quantities used to express the value of flight level. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="FL">
+            <annotation>
+               <documentation>
+                  Flight level in hundreds of feet. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="SM">
+            <annotation>
+               <documentation>
+                  Flight level in tens of metres. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="UomFrequencyType">
+      <annotation>
+         <documentation>
+            Radio frequency unit of measure. Either kHz OR MHz. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="KHZ">
+            <annotation>
+               <documentation>
+                  Indicates this radio frequency is measured in kHz. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="MHZ">
+            <annotation>
+               <documentation>
+                  Indicates this radio frequency is measured in MHz. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="UomGroundSpeedType">
+      <annotation>
+         <documentation>
+            The reference quantities used to express the value of  ground speed. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="KM_H">
+            <annotation>
+               <documentation>
+                  Kilometres per hour. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="KT">
+            <annotation>
+               <documentation>
+                  Knots. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="UomHeightType">
+      <annotation>
+         <documentation>
+            The reference quantities used to express the value of height. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="FT">
+            <annotation>
+               <documentation>
+                  Foot. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="M">
+            <annotation>
+               <documentation>
+                  Metre. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="UomLengthType">
+      <annotation>
+         <documentation>
+            The reference quantities used to express the value of the length, or distance between 
+            two entities. [ISO 19103, chapter 6.5.7.8] 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="CM">
+            <annotation>
+               <documentation>
+                  Centimetre 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="FT">
+            <annotation>
+               <documentation>
+                  Foot 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="IN">
+            <annotation>
+               <documentation>
+                  Inch 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="KM">
+            <annotation>
+               <documentation>
+                  Kilometre 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="M">
+            <annotation>
+               <documentation>
+                  Metre 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="MI">
+            <annotation>
+               <documentation>
+                  Statute mile 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="MM">
+            <annotation>
+               <documentation>
+                  Millimeter 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="NM">
+            <annotation>
+               <documentation>
+                  Nautical mile 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="UomPressureType">
+      <annotation>
+         <documentation>
+            The reference quantities used to express the value of pressure. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="ATM">
+            <annotation>
+               <documentation>
+                  Standard Atmosphere. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="BAR">
+            <annotation>
+               <documentation>
+                  Bar. (=100000 Pascals (Pa)) 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="HPA">
+            <annotation>
+               <documentation>
+                  Hectopascal. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="INHG">
+            <annotation>
+               <documentation>
+                  Inches of mercury 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="MBAR">
+            <annotation>
+               <documentation>
+                  Millibar. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="PA">
+            <annotation>
+               <documentation>
+                  Pascal. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="PSI">
+            <annotation>
+               <documentation>
+                  Pounds per square inch. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="TORR">
+            <annotation>
+               <documentation>
+                  Torr. (= mm of mercury (mmHg).) 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="UomRadioactivityType">
+      <annotation>
+         <documentation>
+            The reference quantities used to express the value of radioactivity. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="BQ">
+            <annotation>
+               <documentation>
+                  Becquerel. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="G">
+            <annotation>
+               <documentation>
+                  Gram. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="UomTemperatureType">
+      <annotation>
+         <documentation>
+            The reference quantities used to express the value of temperature. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="C">
+            <annotation>
+               <documentation>
+                  Degrees Celsius. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="F">
+            <annotation>
+               <documentation>
+                  Degrees Fahrenheit. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="K">
+            <annotation>
+               <documentation>
+                  Degrees Kelvin. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="R">
+            <annotation>
+               <documentation>
+                  Degrees Rankine. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="UomVerticalRateType">
+      <annotation>
+         <documentation>
+            The reference quantities used to express the value of vertical rate. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="FT_MIN">
+            <annotation>
+               <documentation>
+                  Feet per minute. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="M_SEC">
+            <annotation>
+               <documentation>
+                  Metres per second. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="UomVolumeType">
+      <annotation>
+         <documentation>
+            The reference quantities used to express the value of volume. [ISO 19103, chapter 
+            6.5.7.16] 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="US_GAL">
+            <annotation>
+               <documentation>
+                  US Gallon. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="L">
+            <annotation>
+               <documentation>
+                  Litre. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="UomWeightType">
+      <annotation>
+         <documentation>
+            The reference quantities used to express the value of weight. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="KG">
+            <annotation>
+               <documentation>
+                  Kilogram. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="LB">
+            <annotation>
+               <documentation>
+                  Pound. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="UomWindSpeedType">
+      <annotation>
+         <documentation>
+            The reference quantities used to express the value of wind speed. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="KM_H">
+            <annotation>
+               <documentation>
+                  Kilometres per hour. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="KT">
+            <annotation>
+               <documentation>
+                  Knots. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="M_SEC">
+            <annotation>
+               <documentation>
+                  Metres per second 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="MPH">
+            <annotation>
+               <documentation>
+                  Miles per hour. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+</schema>

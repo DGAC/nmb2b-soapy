@@ -12,8 +12,8 @@ requestedFlightFields = ['flightState', 'cfmuFlightType']
 # démo queryFlightsByAirspace
 flight_list = test_manager.queryFlightsByAirspace(
     airspace="LFFFTH",
-   	startTime="2019-10-16 17:00",
-	endTime="2019-10-16 18:30",
+   	startTime="2019-10-17 18:00",
+	endTime="2019-10-17 19:30",
 	requestedFlightFields=requestedFlightFields)
 print(flight_list.data)
 
@@ -33,4 +33,3 @@ flight_list = test_manager.queryFlightsByTrafficVolume(
 	endTime="2019-10-16 18:30",
 	requestedFlightFields=requestedFlightFields)
 print(flight_list.data)
-

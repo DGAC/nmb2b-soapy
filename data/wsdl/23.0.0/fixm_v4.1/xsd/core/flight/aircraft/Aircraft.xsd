@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/flight/4.1"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:fx="http://www.fixm.aero/flight/4.1"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2017 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, 
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS 
+         Limited, 
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the 
+         following conditions are met: 
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating 
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp; 
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on Airservices Australia: http://www.airservicesaustralia.com/ 
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html 
+         
+         Details on EUROCONTROL: http://www.eurocontrol.int/ 
+         Details on IATA: http://www.iata.org/Pages/default.aspx 
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html 
+         Details on NATS Limited: http://www.nats.co.uk/ 
+         Details on NAV CANADA: http://www.navcanada.ca/ 
+         Details on the UAE GCAA: https://www.gcaa.gov.ae 
+         Details on the ICCAIA: www.iccaia.org 
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members 
+         
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <include schemaLocation="./../capability/Capability.xsd"/>
+   <import namespace="http://www.fixm.aero/base/4.1" schemaLocation="./../../base/Base.xsd"/>
+   <annotation>
+      <documentation>
+         The aircraft package describes the details about the aircraft that is servicing the 
+         flight. [FIXM] 
+      </documentation>
+   </annotation>
+
+   <complexType name="AircraftType">
+      <annotation>
+         <documentation>
+            Aircraft enabling the flight. [FIXM] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="aircraftColours" type="fb:ColourChoiceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The colour of the aircraft. [ICAO Doc 4444, Appendix 3] 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="aircraftType" type="fx:AircraftTypeType" minOccurs="0" maxOccurs="2000" > 
+                  <annotation>
+                     <documentation>
+                        The type of aircraft enabling the flight. [FIXM] 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="capabilities" type="fx:FlightCapabilitiesType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The capabilities of the flight comprising of the: 
+                        a) presence of relevant serviceable equipment on board the aircraft; 
+                        b) equipment and capabilities commensurate with flight crew qualifications; and 
+                        c) where applicable, authorization from the appropriate authority. 
+                        [FIXM] 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="aircraftAddress" type="fx:AircraftAddressType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A unique combination of twenty-four bits available for assignment to an aircraft 
+                     for the purpose of air-ground communications, navigation and surveillance. [ICAO 
+                     Doc 4444] 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="aircraftApproachCategory" type="fx:AircraftApproachCategoryType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Classification of aircraft based on 1.3 times stall speed in landing configuration 
+                     at maximum certified landing mass. [AIXM 5.1] 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="numberOfAircraft" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The number of aircraft, if more than one. The number equals the sum of counts of 
+                     all aircraft types.  [ICAO Doc 4444, Appendix 2, ITEM 9] 
+                  </documentation>
+               </annotation>
+               <simpleType>
+                  <restriction base="fb:CountType">
+                     <minInclusive value="2"/>
+                  </restriction>
+               </simpleType>
+            </attribute>
+            <attribute name="registration" type="fx:AircraftRegistrationType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A unique, alphanumeric string that identifies a civil aircraft and consists of the 
+                     Aircraft Nationality or Common Mark and an additional alphanumeric string, the registration 
+                     mark, assigned by the state of registry or common mark registering authority. [FIXM] 
+                     
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="significantMarkings" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A description of the aircraft's significant markings. [FIXM] 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="wakeTurbulence" type="fx:WakeTurbulenceCategoryType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     ICAO classification of the aircraft wake turbulence, based on the maximum certified 
+                     take off mass. [FIXM} 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="Aircraft" type="fx:AircraftType" substitutionGroup="fb:Extensible" /> 
+
+   <simpleType name="AircraftAddressType">
+      <annotation>
+         <documentation>
+            A unique combination of twenty-four bits available for assignment to an aircraft 
+            for the purpose of air-ground communications, navigation and surveillance. [ICAO 
+            Doc 4444] 
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="[0-9A-F]{6}"/>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="AircraftApproachCategoryType">
+      <annotation>
+         <documentation>
+            Classification of aircraft based on 1.3 times stall speed in landing configuration 
+            at maximum certified landing mass. [AIXM 5.1] 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="A">
+            <annotation>
+               <documentation>
+                  less than 169 km/h (91 kt) indicated airspeed (IAS) [ICAO Doc 8168, Vol. I, chapter 
+                  1.3.5] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="B">
+            <annotation>
+               <documentation>
+                  169 km/h (91 kt) or more but less than 224 km/h (121 kt) IAS [ICAO Doc 8168, Vol. 
+                  I, chapter 1.3.5] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="C">
+            <annotation>
+               <documentation>
+                  224 km/h (121 kt) or more but less than 261 km/h (141 kt) IAS [ICAO Doc 8168, Vol. 
+                  I, chapter 1.3.5] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="D">
+            <annotation>
+               <documentation>
+                  261 km/h (141 kt) or more but less than 307 km/h (166 kt) IAS [ICAO Doc 8168, Vol. 
+                  I, chapter 1.3.5] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="E">
+            <annotation>
+               <documentation>
+                  307 km/h (166 kt) or more but less than 391 km/h (211 kt) IAS [ICAO Doc 8168, Vol. 
+                  I, chapter 1.3.5] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="H">
+            <annotation>
+               <documentation>
+                  Helicopters [ICAO Doc 8168, Vol. I, chapter 1.3.5] 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <simpleType name="AircraftRegistrationType">
+      <annotation>
+         <documentation>
+            A unique, alphanumeric string that identifies a civil aircraft and consists of the 
+            Aircraft Nationality or Common Mark and an additional alphanumeric string, the registration 
+            mark, assigned by the state of registry or common mark registering authority. [FIXM] 
+            
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="[A-Z0-9]{1,7}"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="AircraftTypeType">
+      <annotation>
+         <documentation>
+            The type of aircraft enabling the flight. [FIXM] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="type" type="fx:AircraftTypeReferenceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The type of aircraft enabling the flight. [FIXM] 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="numberOfAircraft" type="fb:CountType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     In case of a formation flight comprising more than one aircraft type, number of aircraft 
+                     of the same aircraft type within the formation. [FIXM] 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="AircraftType" type="fx:AircraftTypeType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType abstract="true" name="AircraftTypeReferenceType">
+      <annotation>
+         <documentation>
+            An aircraft type reference being either: 
+            - the ICAO designator of the aircraft type, as specified in ICAO Doc 8643, Aircraft 
+            Type Designators. 
+            - if no such designator has been assigned, any other identification of the aircraft 
+            type. 
+            [FIXM] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType"/>
+      </complexContent>
+   </complexType>
+   <element name="AircraftTypeReference" type="fx:AircraftTypeReferenceType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="IcaoAircraftTypeReferenceType">
+      <annotation>
+         <documentation>
+            A reference to an aircraft type designator as specified in ICAO Doc 8643, Aircraft 
+            Type Designators. [FIXM] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fx:AircraftTypeReferenceType">
+            <attribute name="icaoAircraftTypeDesignator" type="fb:AircraftTypeDesignatorType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The aircraft type designator of the aircraft as specified in ICAO Doc 8643. [FIXM] 
+                     
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="IcaoAircraftTypeReference" type="fx:IcaoAircraftTypeReferenceType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="OtherAircraftTypeReferenceType">
+      <annotation>
+         <documentation>
+            A reference to an aircraft type using an alternate, non-ICAO identification of the 
+            aircraft type, if no designator is assigned in ICAO Doc 8643. [FIXM] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fx:AircraftTypeReferenceType">
+            <attribute name="otherAircraftType" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Other, non-ICAO identification of the aircraft type. [FIXM] 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="OtherAircraftTypeReference" type="fx:OtherAircraftTypeReferenceType" substitutionGroup="fb:Extensible" /> 
+
+   <simpleType name="WakeTurbulenceCategoryType">
+      <annotation>
+         <documentation>
+            ICAO classification of the aircraft wake turbulence, based on the maximum certified 
+            take off mass. [FIXM} 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="L">
+            <annotation>
+               <documentation>
+                  An aircraft type with a maximum certified take-off mass of 7000 kg or less. [ICAO 
+                  Doc 4444, Appendix 2, ITEM M] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="M">
+            <annotation>
+               <documentation>
+                  An aircraft type with a maximum certified take-off mass of less than 136000 kg. but 
+                  more than 7000 kg. [ICAO Doc 4444, Appendix 2, ITEM M] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="H">
+            <annotation>
+               <documentation>
+                  An aircraft type with a maximum certified take-off mass of 136000 kg or more. [ICAO 
+                  Doc 4444, Appendix 2, ITEM M] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="J">
+            <annotation>
+               <documentation>
+                  A super heavy aircraft type e.g. the Airbus A380-800. (In the order of 560,000kg). 
+                  [FIXM] 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+</schema>

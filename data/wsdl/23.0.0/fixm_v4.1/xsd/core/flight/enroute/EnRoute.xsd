@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/flight/4.1"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:fx="http://www.fixm.aero/flight/4.1"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2017 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, 
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS 
+         Limited, 
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the 
+         following conditions are met: 
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating 
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp; 
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on Airservices Australia: http://www.airservicesaustralia.com/ 
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html 
+         
+         Details on EUROCONTROL: http://www.eurocontrol.int/ 
+         Details on IATA: http://www.iata.org/Pages/default.aspx 
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html 
+         Details on NATS Limited: http://www.nats.co.uk/ 
+         Details on NAV CANADA: http://www.navcanada.ca/ 
+         Details on the UAE GCAA: https://www.gcaa.gov.ae 
+         Details on the ICCAIA: www.iccaia.org 
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members 
+         
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <import namespace="http://www.fixm.aero/base/4.1" schemaLocation="./../../base/Base.xsd"/>
+   <annotation>
+      <documentation>
+         The EnRoute package consists of flight information while the flight is en route including 
+         coordination between the air traffic control unit as the flight transitions between 
+         the unit boundaries along the route. 
+      </documentation>
+   </annotation>
+
+   <complexType name="AltitudeInTransitionType">
+      <annotation>
+         <documentation>
+            An altitude (flight level) at or above/below which (specified in Boundary Crossing 
+            Condition) an aircraft will cross the associated boundary point. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:FlightLevelOrAltitudeType">
+            <attribute name="crossingCondition" type="fx:BoundaryCrossingConditionType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Specifies whether the boundary crossing occurs at or above or at or below the specified 
+                     level. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="AltitudeInTransition" type="fx:AltitudeInTransitionType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="BoundaryCrossingType">
+      <annotation>
+         <documentation>
+            Boundary Crossing contains estimate data conveyed between ATS Units during the process 
+            of Controller Coordination. [FIXM] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="altitudeInTransition" type="fx:AltitudeInTransitionType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Negotiated boundary crossing transition altitude. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="clearedLevel" type="fb:FlightLevelOrAltitudeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The cleared altitude (flight level) at which the aircraft will cross the boundary 
+                        crossing point if in level cruising flight or, if the aircraft is climbing or descending 
+                        at the boundary crossing point, the cleared flight level to which it is proceeding. 
+                        
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="crossingPoint" type="fb:SignificantPointType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The point where the flight will cross an ATS facility boundary. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="crossingTime" type="fb:TimeType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The estimated time at which a flight will cross the associated boundary crossing 
+                     point. 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="BoundaryCrossing" type="fx:BoundaryCrossingType" substitutionGroup="fb:Extensible" /> 
+
+   <simpleType name="BoundaryCrossingConditionType">
+      <annotation>
+         <documentation>
+            Specifies whether the boundary crossing occurs at or above or at or below the specified 
+            level. 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="AT_OR_ABOVE">
+            <annotation>
+               <documentation>
+                  Indicates that the transition altitude is at or above the specified. 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="AT_OR_BELOW">
+            <annotation>
+               <documentation>
+                  Indicates that the transition altitude is at or below the specified. 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <complexType name="EnRouteType">
+      <annotation>
+         <documentation>
+            Groups the en route information about the flight. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="alternateAerodrome" type="fb:AerodromeReferenceType" minOccurs="0" maxOccurs="2000" > 
+                  <annotation>
+                     <documentation>
+                        An ICAO designator of the aerodrome to which a flight could be diverted while en 
+                        route, if needed. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="boundaryCrossingCoordination" type="fx:BoundaryCrossingType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        A proposed boundary crossing information with associated details including altitude, 
+                        crossing point and crossing time. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="currentSsrCode" type="fb:SsrCodeType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Current assigned SSR code. [FIXM] 
+                        <deprecated> 
+                           <deletionVersion>5.0.0</deletionVersion>
+                           <deprecationVersion>4.1.0</deprecationVersion>
+                           <rationale>CR #14 Remove SSR Mode</rationale>
+                           <replacement>Fixm.Flight.EnRoute.EnRoute.currentModeACode</replacement>
+                        </deprecated>
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="currentModeACode" type="fb:ModeACodeType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Current assigned Mode A code. [FIXM] 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="EnRoute" type="fx:EnRouteType" substitutionGroup="fb:Extensible" /> 
+</schema>

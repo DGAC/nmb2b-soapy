@@ -12,7 +12,7 @@ from zeep.transports import Transport
 
 import utils
 from shared_vars import (DEFAULT_B2B_VERSION, DEFAULT_DATASET, WSDL_PROXY,
-						 WSLD_PREOPS_MAIN, get_dataset)
+						 WSDL_PREOPS_MAIN, get_dataset)
 
 # NOTE : plutôt envoyer un **kwargs en param des méthodes. Puis, itérer sur les kwargs.
 # si présence de clé dans _default_params_for_queries et pas de val...
@@ -28,8 +28,10 @@ class Manager():
 		*args, **kwargs
 		):
 		
-		self.base_url = ''
+		self.wsdl = ''
 		self.service_group = service_group
+		self.version = version
+		self.session = Session()
 		self.available_services = []
 		self.available_operations = {}		
 		self._default_params_for_queries = {
@@ -39,13 +41,13 @@ class Manager():
 			'includeForecastFlights':   True,
 			'sendTime':                 utils.sendTime(),
 		}
-		self.session = Session()
 
 		# ------------- certificat ou proxy ? ------------- #
 		if how_to_auth == 'cert': 
-			# Si authentification par certificat			
+			# Si authentification par certificat
+			self.wsdl = f"data/wsdl/{self.version}/{self.service_group}_PREOPS_{self.version}.wsdl"
 			self.session.cert = (glob.glob("cert/crt.pem")[0], glob.glob("cert/key.pem")[0])
-			self.base_url = WSLD_PREOPS_MAIN
+		
 		elif how_to_auth == 'proxy': 
 			# Si authentification via proxy (défaut)
 			NM_B2B_API_KEY_ID = os.environ.get('NM_B2B_API_KEY_ID')  # default is None
@@ -54,13 +56,14 @@ class Manager():
 				print(f"Impossible de définir un couple clé/pass pour le proxy b2b.\
 					Vérifiez que NM_B2B_API_KEY_ID et NM_B2B_API_SECRET sont bien définis dans votre environnement.")
 				exit(1)
-			self.base_url = WSDL_PROXY
+			self.wsdl = WSDL_PROXY + self.service_group + "_PREOPS_" + version + ".wsdl"
 			self.session.auth = HTTPBasicAuth(NM_B2B_API_KEY_ID, NM_B2B_API_SECRET)
+		
 		else:
 			print("Le mode d'authentification que vous avez spécifié n'existe pas (pour l'instant : 'cert' ou 'proxy').")
 			exit(1)
-		
-		self.wsdl = self.base_url + service_group + "_PREOPS_" + version + ".wsdl"
+
+		# -------------	
 		self.cache = SqliteCache(path='./data/sqlite.db')
 		self.transport = Transport(session=self.session, cache=self.cache)        
 		self.conf = {
@@ -72,7 +75,7 @@ class Manager():
 
 	# -----------------------------------------------------------------------------------------
 	def get_wsdl_file(self):
-		
+		pass
 	
 	# -----------------------------------------------------------------------------------------
 	def set_available_services(self):

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0"
+           targetNamespace="eurocontrol/cfmu/b2b/GeneralinformationServices"
+           xmlns:generalinformation="eurocontrol/cfmu/b2b/GeneralinformationServices"
+           xmlns:common="eurocontrol/cfmu/b2b/CommonServices"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="eurocontrol/cfmu/b2b/CommonServices" schemaLocation="structural_CommonServices_23.0.0.xsd"/>
+  <xs:element name="AIMListRequest" type="generalinformation:AIMListRequest"/>
+  <xs:element name="AIMRetrievalRequest" type="generalinformation:AIMRetrievalRequest"/>
+  <xs:element name="NMB2BAddendaErrataRequest" type="generalinformation:NMB2BAddendaErrataRequest"/>
+  <xs:element name="NMB2BReferenceManualsRequest" type="generalinformation:NMB2BReferenceManualsRequest"/>
+  <xs:element name="NMB2BScenariosRequest" type="generalinformation:NMB2BScenariosRequest"/>
+  <xs:element name="NMB2BWSDLsRequest" type="generalinformation:NMB2BWSDLsRequest"/>
+  <xs:element name="NMReleaseInformationRequest" type="generalinformation:NMReleaseInformationRequest"/>
+  <xs:element name="AIMListReply" type="generalinformation:AIMListReply"/>
+  <xs:element name="AIMRetrievalReply" type="generalinformation:AIMRetrievalReply"/>
+  <xs:element name="NMB2BAddendaErrataReply" type="generalinformation:NMB2BAddendaErrataReply"/>
+  <xs:element name="NMB2BReferenceManualsReply" type="generalinformation:NMB2BReferenceManualsReply"/>
+  <xs:element name="NMB2BScenariosReply" type="generalinformation:NMB2BScenariosReply"/>
+  <xs:element name="NMB2BWSDLsReply" type="generalinformation:NMB2BWSDLsReply"/>
+  <xs:element name="NMReleaseInformationReply" type="generalinformation:NMReleaseInformationReply"/>
+  <xs:simpleType name="AimId_DataType">
+    <xs:restriction base="xs:string">
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="AIM" abstract="false">
+    <xs:sequence>
+      <xs:element name="summary" type="generalinformation:AIMSummary" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="message" minOccurs="0" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"></xs:restriction></xs:simpleType></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AIMListReply" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Reply">
+    <xs:sequence>
+      <xs:element name="data" type="generalinformation:AIMListReplyData" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AIMListReplyData" abstract="false">
+    <xs:sequence>
+      <xs:element name="summaries" type="generalinformation:AIMSummary" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AIMListRequest" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Request">
+    <xs:sequence>
+      <xs:element name="dayOfOperation" type="common:DateYearMonthDay" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AIMRetrievalReply" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Reply">
+    <xs:sequence>
+      <xs:element name="data" type="generalinformation:AIMRetrievalReplyData" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AIMRetrievalReplyData" abstract="false">
+    <xs:sequence>
+      <xs:element name="aim" type="generalinformation:AIM" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AIMRetrievalRequest" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Request">
+    <xs:sequence>
+      <xs:element name="aimId" type="generalinformation:AimId_DataType" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AIMSummary" abstract="false">
+    <xs:sequence>
+      <xs:element name="id" minOccurs="0" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="validityPeriod" type="common:DateYearMonthDayPeriod" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="releaseTime" type="common:DateTimeMinute" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="description" minOccurs="0" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:string"></xs:restriction></xs:simpleType></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="B2BInfoFile" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:File">
+    <xs:sequence>
+      <xs:element name="hasAddendaErrata" minOccurs="0" maxOccurs="1"><xs:simpleType><xs:restriction base="xs:boolean"></xs:restriction></xs:simpleType></xs:element>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NMB2BAddendaErrataReply" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Reply">
+    <xs:sequence>
+      <xs:element name="data" type="generalinformation:NMB2BAddendaErrataReplyData" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NMB2BAddendaErrataReplyData" abstract="false">
+    <xs:sequence>
+      <xs:element name="file" type="generalinformation:B2BInfoFile" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NMB2BAddendaErrataRequest" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Request">
+    <xs:sequence>
+      <xs:element name="version" type="common:NMB2BVersion" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NMB2BReferenceManualsReply" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Reply">
+    <xs:sequence>
+      <xs:element name="data" type="generalinformation:NMB2BReferenceManualsReplyData" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NMB2BReferenceManualsReplyData" abstract="false">
+    <xs:sequence>
+      <xs:element name="file" type="generalinformation:B2BInfoFile" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NMB2BReferenceManualsRequest" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Request">
+    <xs:sequence>
+      <xs:element name="version" type="common:NMB2BVersion" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NMB2BScenariosReply" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Reply">
+    <xs:sequence>
+      <xs:element name="data" type="generalinformation:NMB2BScenariosReplyData" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NMB2BScenariosReplyData" abstract="false">
+    <xs:sequence>
+      <xs:element name="file" type="generalinformation:B2BInfoFile" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NMB2BScenariosRequest" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Request">
+    <xs:sequence>
+      <xs:element name="version" type="common:NMB2BVersion" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NMB2BWSDLsReply" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Reply">
+    <xs:sequence>
+      <xs:element name="data" type="generalinformation:NMB2BWSDLsReplyData" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NMB2BWSDLsReplyData" abstract="false">
+    <xs:sequence>
+      <xs:element name="file" type="generalinformation:B2BInfoFile" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NMB2BWSDLsRequest" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Request">
+    <xs:sequence>
+      <xs:element name="version" type="common:NMB2BVersion" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NMReleaseInformationReply" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Reply">
+    <xs:sequence>
+      <xs:element name="data" type="generalinformation:NMReleaseInformationReplyData" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NMReleaseInformationReplyData" abstract="false">
+    <xs:sequence>
+      <xs:element name="release" type="common:NMRelease" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="baseline" type="common:NMB2BProviderVersion" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="supportedB2BVersions" type="common:NMB2BVersion" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="platform" type="common:NMPlatform" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NMReleaseInformationRequest" abstract="false">
+    <xs:complexContent>
+      <xs:extension base="common:Request">
+    <xs:sequence>
+    </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions
+    targetNamespace="eurocontrol/cfmu/b2b/PublishsubscribeServices"
+    name="PublishsubscribeServices"
+    xmlns:publishsubscribe="eurocontrol/cfmu/b2b/PublishsubscribeServices"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+  <types>
+    <xs:schema>
+      <xs:import namespace="eurocontrol/cfmu/b2b/PublishsubscribeServices" schemaLocation="PublishsubscribeServices_23.0.0.xsd"/>
+    </xs:schema>
+  </types>
+
+  <message name="SubscriptionCreationRequest">
+    <part name="parameters" element="publishsubscribe:SubscriptionCreationRequest"/>
+  </message>
+  <message name="SubscriptionCreationReply">
+    <part name="parameters" element="publishsubscribe:SubscriptionCreationReply"/>
+  </message>
+  <message name="SubscriptionPauseRequest">
+    <part name="parameters" element="publishsubscribe:SubscriptionPauseRequest"/>
+  </message>
+  <message name="SubscriptionPauseReply">
+    <part name="parameters" element="publishsubscribe:SubscriptionPauseReply"/>
+  </message>
+  <message name="SubscriptionResumeRequest">
+    <part name="parameters" element="publishsubscribe:SubscriptionResumeRequest"/>
+  </message>
+  <message name="SubscriptionResumeReply">
+    <part name="parameters" element="publishsubscribe:SubscriptionResumeReply"/>
+  </message>
+  <message name="SubscriptionDeletionRequest">
+    <part name="parameters" element="publishsubscribe:SubscriptionDeletionRequest"/>
+  </message>
+  <message name="SubscriptionDeletionReply">
+    <part name="parameters" element="publishsubscribe:SubscriptionDeletionReply"/>
+  </message>
+  <message name="SubscriptionListRequest">
+    <part name="parameters" element="publishsubscribe:SubscriptionListRequest"/>
+  </message>
+  <message name="SubscriptionListReply">
+    <part name="parameters" element="publishsubscribe:SubscriptionListReply"/>
+  </message>
+  <message name="SubscriptionRetrievalRequest">
+    <part name="parameters" element="publishsubscribe:SubscriptionRetrievalRequest"/>
+  </message>
+  <message name="SubscriptionRetrievalReply">
+    <part name="parameters" element="publishsubscribe:SubscriptionRetrievalReply"/>
+  </message>
+  <message name="SubscriptionHistoryRequest">
+    <part name="parameters" element="publishsubscribe:SubscriptionHistoryRequest"/>
+  </message>
+  <message name="SubscriptionHistoryReply">
+    <part name="parameters" element="publishsubscribe:SubscriptionHistoryReply"/>
+  </message>
+
+  <portType name="SubscriptionManagementService">
+    <operation name="createSubscription">
+      <input message="publishsubscribe:SubscriptionCreationRequest"/>
+      <output message="publishsubscribe:SubscriptionCreationReply"/>
+    </operation>
+    <operation name="pauseSubscription">
+      <input message="publishsubscribe:SubscriptionPauseRequest"/>
+      <output message="publishsubscribe:SubscriptionPauseReply"/>
+    </operation>
+    <operation name="resumeSubscription">
+      <input message="publishsubscribe:SubscriptionResumeRequest"/>
+      <output message="publishsubscribe:SubscriptionResumeReply"/>
+    </operation>
+    <operation name="deleteSubscription">
+      <input message="publishsubscribe:SubscriptionDeletionRequest"/>
+      <output message="publishsubscribe:SubscriptionDeletionReply"/>
+    </operation>
+    <operation name="listSubscriptions">
+      <input message="publishsubscribe:SubscriptionListRequest"/>
+      <output message="publishsubscribe:SubscriptionListReply"/>
+    </operation>
+    <operation name="retrieveSubscription">
+      <input message="publishsubscribe:SubscriptionRetrievalRequest"/>
+      <output message="publishsubscribe:SubscriptionRetrievalReply"/>
+    </operation>
+    <operation name="subscriptionHistory">
+      <input message="publishsubscribe:SubscriptionHistoryRequest"/>
+      <output message="publishsubscribe:SubscriptionHistoryReply"/>
+    </operation>
+  </portType>
+
+  <binding name="SubscriptionManagementPortBinding" type="publishsubscribe:SubscriptionManagementService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="createSubscription">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="pauseSubscription">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="resumeSubscription">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="deleteSubscription">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="listSubscriptions">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="retrieveSubscription">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="subscriptionHistory">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="SubscriptionManagementService">
+    <port name="SubscriptionManagementPort" binding="publishsubscribe:SubscriptionManagementPortBinding">
+      <soap:address location="https://www.b2b.preops.nm.eurocontrol.int/B2B_PREOPS/gateway/spec/23.0.0"/>
+    </port>
+  </service>
+  <message name="MessagePullRequest">
+    <part name="parameters" element="publishsubscribe:MessagePullRequest"/>
+  </message>
+  <message name="MessagePullReply">
+    <part name="parameters" element="publishsubscribe:MessagePullReply"/>
+  </message>
+
+  <portType name="MessagingService">
+    <operation name="pullMessages">
+      <input message="publishsubscribe:MessagePullRequest"/>
+      <output message="publishsubscribe:MessagePullReply"/>
+    </operation>
+  </portType>
+
+  <binding name="MessagingPortBinding" type="publishsubscribe:MessagingService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="pullMessages">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="MessagingService">
+    <port name="MessagingPort" binding="publishsubscribe:MessagingPortBinding">
+      <soap:address location="https://www.b2b.preops.nm.eurocontrol.int/B2B_PREOPS/gateway/spec/23.0.0"/>
+    </port>
+  </service>
+
+</definitions>

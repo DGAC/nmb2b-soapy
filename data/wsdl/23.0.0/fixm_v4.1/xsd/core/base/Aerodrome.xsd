@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/base/4.1"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <annotation>
+      <documentation>
+         Copyright (c) 2017 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA,
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS
+
+         Limited,
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA
+         ===========================================
+         All rights reserved.
+
+         Redistribution and use in source and binary forms, with or without modification,
+
+         are permitted provided that the
+         following conditions are met:
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp;
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+
+         DISCLAIMER
+
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+
+         DAMAGE.
+
+         ==========================================
+         Editorial note: this license is an instance of the BSD license template as provided
+
+         by the Open Source Initiative:
+         http://www.opensource.org/licenses/bsd-license.php
+
+         The authoritative reference for FIXM is www.FIXM.aero.
+
+         Details on Airservices Australia: http://www.airservicesaustralia.com/
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html
+
+
+         Details on EUROCONTROL: http://www.eurocontrol.int/
+         Details on IATA: http://www.iata.org/Pages/default.aspx
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html
+         Details on NATS Limited: http://www.nats.co.uk/
+         Details on NAV CANADA: http://www.navcanada.ca/
+         Details on the UAE GCAA: https://www.gcaa.gov.ae
+         Details on the ICCAIA: www.iccaia.org
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members
+
+
+         Details on the US FAA: http://www.faa.gov/
+      </documentation>
+   </annotation>
+   <include schemaLocation="./Airspace.xsd"/>
+   <include schemaLocation="./Extension.xsd"/>
+   <include schemaLocation="./Organization.xsd"/>
+   <include schemaLocation="./Types.xsd"/>
+   <import namespace="http://www.w3.org/1999/xlink" schemaLocation="./../../../../xlink/xlink.xsd"/>
+
+   <annotation>
+      <documentation>
+         This package contains classes that model information about the aerodrome infrastructure
+
+         (aerodrome, runway, aircraft stand) needed by flight data. [FIXM]
+      </documentation>
+   </annotation>
+
+   <simpleType name="AerodromeNameType">
+      <annotation>
+         <documentation>
+            The primary official name of an aerodrome as designated by an appropriate authority.
+
+            [AIXM 5.1]
+         </documentation>
+      </annotation>
+      <restriction base="fb:TextNameType"/>
+   </simpleType>
+
+   <complexType abstract="true" name="AerodromeReferenceType">
+      <annotation>
+         <documentation>
+            An aerodrome reference being either:
+            - the ICAO location indicator of the aerodrome, as listed in ICAO Doc 7910 (E.g.
+
+            "KDFW")
+            - if no location indicator is available, the aerodrome name (E.g. "Dallas Fort Worth")
+
+            or the identifier assigned to the aerodrome location in accordance with rules (resolution
+
+            767) governed by the International Air Transport Association. (E.g. "DFW")
+            [FIXM]
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="referencePoint" type="fb:SignificantPointType" minOccurs="0" maxOccurs="1" >
+                  <annotation>
+                     <documentation>
+                        The designated geographical location of an aerodrome. [ICAO]
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="name" type="fb:AerodromeNameType" use="optional" >
+               <annotation>
+                  <documentation>
+                     The primary official name of an aerodrome as designated by an appropriate authority.
+
+                     [AIXM 5.1]
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attributeGroup ref="xlink:simpleAttrs" />
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="AerodromeReference" type="fb:AerodromeReferenceType" substitutionGroup="fb:Extensible" />
+
+   <simpleType name="IataAerodromeDesignatorType">
+      <annotation>
+         <documentation>
+            The three letter coded location identifier of an aerodrome according to the IATA
+
+            Resolution 763. [adapted from AIXM 5.1]
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="[A-Z]{3}"/>
+      </restriction>
+   </simpleType>
+
+   <complexType name="IcaoAerodromeReferenceType">
+      <annotation>
+         <documentation>
+            An aerodrome reference relying on the aerodrome's ICAO Location Indicator. [FIXM]
+
+
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:AerodromeReferenceType">
+            <attribute name="locationIndicator" type="fb:LocationIndicatorType" use="optional" >
+               <annotation>
+                  <documentation>
+                     A four-letter code group formulated in accordance with rules prescribed by ICAO and
+
+                     assigned to the aerodrome. [Specialised from ICAO Annex 10]
+                     The list of ICAO location indicators is provided by ICAO Doc 7910. [FIXM]
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="IcaoAerodromeReference" type="fb:IcaoAerodromeReferenceType" substitutionGroup="fb:Extensible" />
+
+   <complexType name="OtherReferenceType">
+      <annotation>
+         <documentation>
+            An aerodrome reference relying on the aerodrome name ("Dallas Fort Worth") or the
+
+            identifier assigned to the aerodrome location in accordance with rules (resolution
+
+            767) governed by the International Air Transport Association.
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:AerodromeReferenceType">
+            <attribute name="iataDesignator" type="fb:IataAerodromeDesignatorType" use="optional" >
+               <annotation>
+                  <documentation>
+                     The three letter coded location identifier of an aerodrome according to the IATA
+
+                     Resolution 763. [adapted from AIXM 5.1]
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="OtherReference" type="fb:OtherReferenceType" substitutionGroup="fb:Extensible" />
+
+   <simpleType name="RunwayDirectionDesignatorType">
+      <annotation>
+         <documentation>
+            - A number between 01 and 36
+            - Optionally  Left (L), Center (C), or Right (R)
+         </documentation>
+      </annotation>
+      <restriction base="fb:CharacterStringType">
+         <pattern value="(0[1-9]|[12][0-9]|3[0-6])[LRC]{0,1}"/>
+      </restriction>
+   </simpleType>
+</schema>

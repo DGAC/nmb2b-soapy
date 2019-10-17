@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/nm/1.0"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:nm="http://www.fixm.aero/nm/1.0"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <xs:annotation>
+      <xs:documentation>
+         Copyright (c) 2018 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, 
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS 
+
+         Limited, 
+         NAV CANADA, SESAR Joint Undertaking &amp;amp; US FAA 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+
+         are permitted provided that the 
+         following conditions are met: 
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating 
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp;amp; 
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on Airservices Australia: http://www.airservicesaustralia.com/ 
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html 
+
+         
+         Details on EUROCONTROL: http://www.eurocontrol.int/ 
+         Details on IATA: http://www.iata.org/Pages/default.aspx 
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html 
+         Details on NATS Limited: http://www.nats.co.uk/ 
+         Details on NAV CANADA: http://www.navcanada.ca/ 
+         Details on the UAE GCAA: https://www.gcaa.gov.ae 
+         Details on the ICCAIA: www.iccaia.org 
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members 
+
+         
+         Details on the US FAA: http://www.faa.gov/ 
+      </xs:documentation>
+   </xs:annotation>
+   <xs:import namespace="http://www.fixm.aero/base/4.1" schemaLocation="./../../../fixm_v4.1/xsd/core/base/Base.xsd"/>
+   <xs:annotation>
+      <xs:documentation>
+         Extensions required to Fixm::Flight::FlightData to support Flight Planning Europe. 
+
+         Documentation can be found in; 
+         - ICAO European (EUR) Regional Supplementary Procedure doc 7030 (ICAO 7030 Eur) 
+         - IFPS Users Manual (see www.eurocontrol.int) 
+         - NM B2B Reference Manuals (see www.eurocontrol.int) 
+      </xs:documentation>
+   </xs:annotation>
+
+   <xs:simpleType name="EuropeanIndicatorType">
+      <xs:annotation>
+         <xs:documentation>
+            Flight has security concerns or is of a sensitive nature [IFPS User manual] 
+         </xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="PROTECTED">
+            <xs:annotation>
+               <xs:documentation>
+                  Sensitive Flight, access is protected 
+               </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="IfpIndicatorType">
+      <xs:annotation>
+         <xs:documentation>
+            IFP (IFPS Flight plan Processing) Indicator as output by IFPS [IFPS User manual] 
+
+            
+         </xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="ERRTYPE">
+            <xs:annotation>
+               <xs:documentation>
+                  An error that cannot be corrected has been found in the aircraft type 
+               </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="ERREOBT">
+            <xs:annotation>
+               <xs:documentation>
+                  An earlier estimated off-block time exists. 
+               </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="ERREQPT">
+            <xs:annotation>
+               <xs:documentation>
+                  Flight compliance with equipment. 
+               </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="ERRLEVEL">
+            <xs:annotation>
+               <xs:documentation>
+                  An error that cannot be corrected has been found in the requested 
+                  flight level. 
+               </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="IFPSROUTEMOD">
+            <xs:annotation>
+               <xs:documentation>
+                  Route updated by IFPS. 
+               </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="MODEASP">
+            <xs:annotation>
+               <xs:documentation>
+                  Flight compliance with mode S surveillance. 
+               </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="NON833">
+            <xs:annotation>
+               <xs:documentation>
+                  Flight does not comply with 8.33 KHz requirements. 
+               </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="NONRVSM">
+            <xs:annotation>
+               <xs:documentation>
+                  State flight is non-RVSM approved. 
+               </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="ERRROUTE">
+            <xs:annotation>
+               <xs:documentation>
+                  An error that cannot be corrected has been found in the route. 
+               </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="ERROUTRAD">
+            <xs:annotation>
+               <xs:documentation>
+                  The route does not conform with the RAD rules. 
+               </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="ERROUTEWE">
+            <xs:annotation>
+               <xs:documentation>
+                  The route does not conform with the weekend routings. 
+               </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="RVSMVIOLATION">
+            <xs:annotation>
+               <xs:documentation>
+                  Flight violates RVSM rules, flight plan originator cannot be contacted. 
+               </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="833UNKNOWN">
+            <xs:annotation>
+               <xs:documentation>
+                  Flight compliance with 8.33 KHz requirements is unknown. 
+               </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="RVSMUNKNOWN">
+            <xs:annotation>
+               <xs:documentation>
+                  RVSM approval status of the flight is unknown. 
+               </xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:complexType name="NmFlightIdentificationType">
+      <xs:annotation>
+         <xs:documentation>
+            Extension of Flight Data::Flight Identification to include the IFPS FPL iD (IFPLId). 
+
+            The IFPS identifier is required to query flights using web services or updating flight 
+
+            plans. [NM B2B reference manuals] 
+         </xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="fb:ExtensionType">
+            <xs:attribute name="ifpsIdentifier" type="fb:CharacterStringType" use="optional" > 
+               <xs:annotation>
+                  <xs:documentation>
+                     IFPS User Manual and NM B2B FlightService: Unique key to use when updating flight 
+
+                     plans in IFPS 
+                  </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:element name="NmFlightIdentification" type="nm:NmFlightIdentificationType" substitutionGroup="fb:Extension" /> 
+
+   <xs:complexType name="NmSupplementaryDataType">
+      <xs:annotation>
+         <xs:documentation>
+            A collection of data used in Flight Planning NM operations. [ICAO 7030 Eur, IFPS 
+
+            User Manual] 
+         </xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="fb:ExtensionType">
+            <xs:sequence>
+               <xs:element name="ifpsFlightPlanIndicator" minOccurs="0" maxOccurs="1" > 
+                  <xs:annotation>
+                     <xs:documentation>
+                        IFPS User Manual IFP Indicator output by IFPS 
+                     </xs:documentation>
+                  </xs:annotation>
+                  <xs:simpleType>
+                     <xs:list itemType="nm:IfpIndicatorType"/>
+                  </xs:simpleType>
+               </xs:element>
+               <xs:element name="runwayVisibilityRange" type="fb:DistanceType" minOccurs="0" maxOccurs="1" > 
+                  <xs:annotation>
+                     <xs:documentation>
+                        Item 18 RVR [ICAO 7030 Eur , IFPS User Manual] 
+                     </xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element name="stayInformation" minOccurs="0" maxOccurs="1" > 
+                  <xs:annotation>
+                     <xs:documentation>
+                        Information on the STAY in item 15 (route) [IFPS User manual] 
+                     </xs:documentation>
+                  </xs:annotation>
+                  <xs:simpleType>
+                     <xs:list itemType="fb:CharacterStringType"/>
+                  </xs:simpleType>
+               </xs:element>
+            </xs:sequence>
+            <xs:attribute name="aoWhatIfReRouteIndicator" type="fb:CountType" use="optional" > 
+               <xs:annotation>
+                  <xs:documentation>
+                     Item 18 AWR indicator as output by IFPS [IFPS User Manual] 
+                  </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="europeanSpecialHandling" type="nm:EuropeanIndicatorType" use="optional" > 
+               <xs:annotation>
+                  <xs:documentation>
+                     IFPS User manual: Flight has security concerns or is of a sensitive nature 
+                  </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="replacementFlightPlanIndicator" type="fb:CountType" use="optional" > 
+               <xs:annotation>
+                  <xs:documentation>
+                     Item 18 RFP indicator [ICAO 7030 Eur] 
+                  </xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:element name="NmSupplementaryData" type="nm:NmSupplementaryDataType" substitutionGroup="fb:Extension" /> 
+</schema>

@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+   attributeFormDefault="unqualified"
+   elementFormDefault="qualified"
+   targetNamespace="http://www.fixm.aero/flight/4.1"
+   version="4.1.0"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:fb="http://www.fixm.aero/base/4.1"
+   xmlns:fx="http://www.fixm.aero/flight/4.1"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   
+   <annotation>
+      <documentation>
+         Copyright (c) 2017 Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, 
+         International Coordinating Council of Aerospace Industries Associations, JCAB, NATS 
+         Limited, 
+         NAV CANADA, SESAR Joint Undertaking &amp; US FAA 
+         =========================================== 
+         All rights reserved. 
+          
+         Redistribution and use in source and binary forms, with or without modification, 
+         are permitted provided that the 
+         following conditions are met: 
+  * Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+    and the disclaimer in the documentation and/or other materials provided with the distribution.
+  * Neither the names of Airservices Australia, DSNA, EUROCONTROL, GCAA UAE, IATA, International Coordinating 
+    Council of Aerospace Industries Associations, JCAB, NATS Limited, NAV CANADA, SESAR Joint Undertaking &amp; 
+    US FAA nor the names of their contributors may be used to endorse or promote products derived from this
+    specification without specific prior written permission.
+          
+         DISCLAIMER 
+          
+         THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+         AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+         IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+         INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+         TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+         BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+         CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+         ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
+         DAMAGE. 
+          
+         ========================================== 
+         Editorial note: this license is an instance of the BSD license template as provided 
+         by the Open Source Initiative: 
+         http://www.opensource.org/licenses/bsd-license.php 
+          
+         The authoritative reference for FIXM is www.FIXM.aero. 
+          
+         Details on Airservices Australia: http://www.airservicesaustralia.com/ 
+         Details on DSNA: http://www.developpement-durable.gouv.fr/-Navigation-aerienne-.html 
+         
+         Details on EUROCONTROL: http://www.eurocontrol.int/ 
+         Details on IATA: http://www.iata.org/Pages/default.aspx 
+         Details on JCAB: http://www.mlit.go.jp/en/koku/index.html 
+         Details on NATS Limited: http://www.nats.co.uk/ 
+         Details on NAV CANADA: http://www.navcanada.ca/ 
+         Details on the UAE GCAA: https://www.gcaa.gov.ae 
+         Details on the ICCAIA: www.iccaia.org 
+         Details on the SESAR JU and its members: http://www.sesarju.eu/discover-sesar/partnering-smarter-aviation/members 
+         
+         Details on the US FAA: http://www.faa.gov/ 
+      </documentation>
+   </annotation>
+   <include schemaLocation="./../aircraft/Aircraft.xsd"/>
+   <include schemaLocation="./../arrival/Arrival.xsd"/>
+   <include schemaLocation="./../cargo/DangerousGoods.xsd"/>
+   <include schemaLocation="./../departure/Departure.xsd"/>
+   <include schemaLocation="./../emergency/Emergency.xsd"/>
+   <include schemaLocation="./../enroute/EnRoute.xsd"/>
+   <include schemaLocation="./../flightroutetrajectory/RouteTrajectory.xsd"/>
+   <include schemaLocation="./../rankedtrajectory/RankedTrajectory.xsd"/>
+   <import namespace="http://www.fixm.aero/base/4.1" schemaLocation="./../../base/Base.xsd"/>
+   <annotation>
+      <documentation>
+         The flight data package contains information describing all details associated with 
+         the flight. It is a central package of the FIXM logical model. 
+      </documentation>
+   </annotation>
+
+   <complexType name="FlightType">
+      <annotation>
+         <documentation>
+            This is the central object of the FIXM Logical Model. It groups all information about 
+            the flight. [FIXM] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="agreed" type="fx:RouteTrajectoryType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The 4D Trajectory agreed to by a FF-ICE enabled Air Traffic Management Service Providers 
+                        (eASP) after collaboration between the FF-ICE enabled airspace user (eAU) and the 
+                        eASP. 
+                        The route of flight agreed to by a FF-ICE enabled Air Traffic Management Service 
+                        Providers (eASP) after collaboration between the FF-ICE enabled airspace user (eAU) 
+                        and the eASP. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="aircraft" type="fx:AircraftType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Aircraft enabling the flight. [FIXM] 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="arrival" type="fx:ArrivalType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The actual arrival of the flight. [FIXM] 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="current" type="fx:RouteTrajectoryType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Represents the current flight plan concept described by EICAO PANS-ATM Doc 4444. 
+                        
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="dangerousGoods" type="fx:DangerousGoodsType" minOccurs="0" maxOccurs="2000" > 
+                  <annotation>
+                     <documentation>
+                        Contains information about any board dangerous goods 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="departure" type="fx:DepartureType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Contains flight departure information 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="desired" type="fx:RankedTrajectoryType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The preferred route of flight submitted by the FF-ICE enabled airspace user (eAU) 
+                        to the FF-ICE enabled Air Traffic Management Service Providers (eASP) subject to 
+                        required constraints. 
+                        This trajectory indicates the preferred 4D trajectory submitted by the FF-ICE enabled 
+                        airspace user (eAU) to the FF-ICE enabled Air Traffic Management Service Providers 
+                        (eASP) subject to required constraints. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="destination" type="fx:DestinationType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The planned destination of the flight. [FIXM] 
+                        <deprecated> 
+                           <deletionVersion>5.0.0</deletionVersion>
+                           <deprecationVersion>4.1.0</deprecationVersion>
+                           <rationale>CR #11. Simplify Arrival and Destination modeling.</rationale>
+                           <replacement>Fixm.Flight.FlightData.Flight.arrival</replacement>
+                        </deprecated>
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="emergency" type="fx:FlightEmergencyType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Groups emergency information (description, phase, position, etc) for the flight. 
+                        
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="enRoute" type="fx:EnRouteType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Groups the en route information about the flight. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="extensions" type="fb:ExtensionType" minOccurs="0" maxOccurs="2000" > 
+                  <annotation>
+                     <documentation>
+                        Allow to add or redefine the core FIXM elements and create regional scope extensions 
+                        such as NAS extension or Eurocontrol extension. This approach is not recommended, 
+                        however as the preferred method is to extend individual classes and replace the core 
+                        classes where appropriate as described in the FIXM Modeling Best Practices Guide. 
+                        
+                        <deprecated> 
+                           <deletionVersion>5.0.0</deletionVersion>
+                           <deprecationVersion>4.1.0</deprecationVersion>
+                           <rationale>CR #8</rationale>
+                           <replacement>The Extension Mechanism has been revised according the CR #8</replacement>
+                        </deprecated>
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="filed" type="fx:RouteTrajectoryType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The route of flight filed by the FF-ICE enabled airspace user (eAU) with the FF-ICE 
+                        enabled Air Traffic Management Service Providers (eASP). 
+                        This trajectory expresses the 4D trajectory filed by the FF-ICE enabled airspace 
+                        user (eAU) with the FF-ICE enabled Air Traffic Management Service Providers (eASP). 
+                        
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="flightIdentification" type="fx:FlightIdentificationType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        A container of flight identifying data. [FIXM] 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="flightPlanOriginator" type="fb:PersonOrOrganizationType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Originator of the Flight Plan, can be FF-ICE Participant or a non-upgraded ASP. [adapted 
+                        from ICAO Draft FF-ICE Implementation Guidance] Equivalent to ATS 18 ORGN/. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="flightPlanSubmitter" type="fb:PersonOrOrganizationType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The FF-ICE Participant that submitted the flight plan. [ICAO Draft FF-ICE Implementation 
+                        Guidance] 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="gufi" type="fb:GloballyUniqueFlightIdentifierType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        A single reference for FF-ICE information pertinent to a flight that is unique globally. 
+                        [ICAO Doc 9965] 
+                        This is a reference that uniquely identifies a specific flight and is independent 
+                        of any particular system. [FIXM] 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="gufiOriginator" type="fb:PersonOrOrganizationType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Originator of the GUFI, can be FF-ICE Participant or an ASP. [adapted from ICAO Draft 
+                        FF-ICE Implementation Guidance] 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="negotiating" type="fx:RouteTrajectoryType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The 4D Trajectory used during the collaboration between the FF-ICE enabled airspace 
+                        user (eAU) and the FF-ICE enabled Air Traffic Management Service Providers (eASP) 
+                        in order to agree on a 4D trajectory. This trajectory is intended to be transitory. 
+                        
+                        This Route is used during collaboration between the FF-ICE enabled airspace user 
+                        (eAU) and the FF-ICE enabled Air Traffic Management Service Providers (eASP) in order 
+                        to agree on a route. This route field is intended to be transitory. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="operator" type="fb:AircraftOperatorType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        A person, organization or enterprise engaged in or offering to engage in an aircraft 
+                        operation. [ICAO Annex 9] 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="radioCommunicationFailure" type="fx:RadioCommunicationFailureType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Contains information about radio communication failure 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="rankedTrajectories" type="fx:RankedTrajectoryType" minOccurs="0" maxOccurs="2000" > 
+                  <annotation>
+                     <documentation>
+                        Ranked Trajectories associated with the flight. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="specialHandling" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The reason for special handling of a flight by ATS. [adapted from ICAO Doc 4444, 
+                        Appendix 2, ITEM 18 STS/] 
+                     </documentation>
+                  </annotation>
+                  <simpleType>
+                     <list itemType="fx:SpecialHandlingReasonCodeType"/>
+                  </simpleType>
+               </element>
+               <element name="supplementaryData" type="fx:SupplementaryDataType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        A container for supplementary data about the flight. This container does not capture 
+                        the complete set of elements described in ICAO Doc 4444 ITEM 19 "Supplementary Information"; 
+                        it only contains those elements that could not be modeled more logically in other 
+                        FIXM structures. [FIXM] 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="flightType" type="fx:TypeOfFlightType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Indication of the rule under which an air traffic controller provides categorical 
+                     handling of a flight. [FIXM] 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="remarks" type="fb:CharacterStringType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     Any other plain-language remarks when required by the appropriate ATS authority or 
+                     deemed necessary, by the pilot-in-command for the provision of air traffic services. 
+                     
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="Flight" type="fx:FlightType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="FlightIdentificationType">
+      <annotation>
+         <documentation>
+            A container of flight identifying data. [FIXM] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <attribute name="aircraftIdentification" type="fb:AircraftIdentificationType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     A group of letters, figures or a combination thereof which is either identical to, 
+                     or the coded equivalent of, the aircraft call sign to be used in air-ground communications, 
+                     and which is used to identify the aircraft in ground-ground air traffic services 
+                     communications. [ICAO Doc 4444] 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="FlightIdentification" type="fx:FlightIdentificationType" substitutionGroup="fb:Extensible" /> 
+
+   <simpleType name="SpecialHandlingReasonCodeType">
+      <annotation>
+         <documentation>
+            The reason for special handling of a flight by ATS. [adapted from ICAO Doc 4444, 
+            Appendix 2, ITEM 18 STS/] 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="ALTRV">
+            <annotation>
+               <documentation>
+                  for a flight operated in accordance with an altitude reservation [ICAO Doc 4444, 
+                  Appendix 2, ITEM 18 STS/] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="ATFMX">
+            <annotation>
+               <documentation>
+                  for a flight approved for exemption from ATFM measures by the appropriate ATS authority; 
+                  [ICAO Doc 4444, Appendix 2, ITEM 18 STS/] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="FFR">
+            <annotation>
+               <documentation>
+                  fire-fighting; [ICAO Doc 4444, Appendix 2, ITEM 18 STS/] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="FLTCK">
+            <annotation>
+               <documentation>
+                  flight check for calibration of navaids; [ICAO Doc 4444, Appendix 2, ITEM 18 STS/] 
+                  
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="HAZMAT">
+            <annotation>
+               <documentation>
+                  for a flight carrying hazardous material; [ICAO Doc 4444, Appendix 2, ITEM 18 STS/] 
+                  
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="HEAD">
+            <annotation>
+               <documentation>
+                  a flight with Head of State status; [ICAO Doc 4444, Appendix 2, ITEM 18 STS/] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="HOSP">
+            <annotation>
+               <documentation>
+                  for a medical flight declared by medical authorities; [ICAO Doc 4444, Appendix 2, 
+                  ITEM 18 STS/] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="HUM">
+            <annotation>
+               <documentation>
+                  for a flight operating on a humanitarian mission; [ICAO Doc 4444, Appendix 2, ITEM 
+                  18 STS/] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="MARSA">
+            <annotation>
+               <documentation>
+                  for a flight for which a military entity assumes responsibility for separation of 
+                  military aircraft; [ICAO Doc 4444, Appendix 2, ITEM 18 STS/] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="MEDEVAC">
+            <annotation>
+               <documentation>
+                  for a life critical medical emergency evacuation; [ICAO Doc 4444, Appendix 2, ITEM 
+                  18 STS/] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="NONRVSM">
+            <annotation>
+               <documentation>
+                  for a non-RVSM capable flight intending to operate in RVSM airspace; [ICAO Doc 4444, 
+                  Appendix 2, ITEM 18 STS/] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="SAR">
+            <annotation>
+               <documentation>
+                  for a flight engaged in a search and rescue mission; [ICAO Doc 4444, Appendix 2, 
+                  ITEM 18 STS/] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="STATE">
+            <annotation>
+               <documentation>
+                  for a flight engaged in military, customs or police services. [ICAO Doc 4444, Appendix 
+                  2, ITEM 18 STS/] 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+
+   <complexType name="SupplementaryDataType">
+      <annotation>
+         <documentation>
+            A container for supplementary data about the flight. This container does not capture 
+            the complete set of elements described in ICAO Doc 4444 ITEM 19 "Supplementary Information"; 
+            it only contains those elements that could not be modeled more logically in other 
+            FIXM structures. [FIXM] 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <sequence>
+               <element name="pilotInCommand" type="fb:PersonOrOrganizationType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        The pilot designated by the operator, or in the case of general aviation, the owner, 
+                        as being in command and charged with the safe conduct of a flight. [ICAO Doc 4444] 
+                        
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="supplementaryDataSource" type="fx:SupplementaryDataSourceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        Describes the source of the supplementary data. Can be either a Person/Organization 
+                        or ATC Unit. 
+                         
+                        A Supplementary Information Source can be identified using a location identifier 
+                        (from Doc. 7910) for an ATS unit; an AFTN address; FF-ICE Participant identification 
+                        per B-2.28; or appropriate contact information per B-2.12. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </sequence>
+            <attribute name="fuelEndurance" type="fb:DurationType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The estimated maximum length of time the aircraft can spend in the cruise phase of 
+                     flight, determined by the amount of fuel at takeoff. [FIXM] 
+                  </documentation>
+               </annotation>
+            </attribute>
+            <attribute name="personsOnBoard" type="fb:CountType" use="optional" > 
+               <annotation>
+                  <documentation>
+                     The total number of persons (passengers and crew) on board the aircraft. [ICAO Doc 
+                     4444, Appendix 2, Item 19] 
+                  </documentation>
+               </annotation>
+            </attribute>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="SupplementaryData" type="fx:SupplementaryDataType" substitutionGroup="fb:Extensible" /> 
+
+   <complexType name="SupplementaryDataSourceType">
+      <annotation>
+         <documentation>
+            Describes the source of the supplementary data. Can be either a Person/Organization 
+            or ATC Unit. 
+             
+            A Supplementary Information Source can be identified using a location identifier 
+            (from Doc. 7910) for an ATS unit; an AFTN address; FF-ICE Participant identification 
+            per B-2.28; or appropriate contact information per B-2.12. 
+         </documentation>
+      </annotation>
+      <complexContent>
+         <extension base="fb:ExtensibleType">
+            <choice>
+               <element name="personOrOrganization" type="fb:PersonOrOrganizationType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        A Person/Organization source of the supplementary data. 
+                     </documentation>
+                  </annotation>
+               </element>
+               <element name="unit" type="fb:AtcUnitReferenceType" minOccurs="0" maxOccurs="1" > 
+                  <annotation>
+                     <documentation>
+                        An ATC unit source of the supplementary data. 
+                     </documentation>
+                  </annotation>
+               </element>
+            </choice>
+         </extension>
+      </complexContent>
+   </complexType>
+   <element name="SupplementaryDataSource" type="fx:SupplementaryDataSourceType" substitutionGroup="fb:Extensible" /> 
+
+   <simpleType name="TypeOfFlightType">
+      <annotation>
+         <documentation>
+            Indication of the rule under which an air traffic controller provides categorical 
+            handling of a flight. [FIXM] 
+         </documentation>
+      </annotation>
+      <restriction base="xs:string">
+         <enumeration value="M">
+            <annotation>
+               <documentation>
+                  Military [ICAO Doc 4444, Item 8] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="G">
+            <annotation>
+               <documentation>
+                  General aviation [ICAO Doc 4444, Item 8] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="N">
+            <annotation>
+               <documentation>
+                  Non-scheduled air transport operation [ICAO Doc 4444, Item 8] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="S">
+            <annotation>
+               <documentation>
+                  Scheduled air service [ICAO Doc 4444, Item 8] 
+               </documentation>
+            </annotation>
+         </enumeration>
+         <enumeration value="X">
+            <annotation>
+               <documentation>
+                  Other than any of the defined categories above. [ICAO Doc 4444, Item 8] 
+               </documentation>
+            </annotation>
+         </enumeration>
+      </restriction>
+   </simpleType>
+</schema>
