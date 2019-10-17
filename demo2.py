@@ -6,7 +6,6 @@ import json
 import utils
 import datetime
 
-test_manager = Manager() # avec proxy
 test_manager = Manager(how_to_auth='cert')
 requestedFlightFields = ['flightState', 'cfmuFlightType']
 

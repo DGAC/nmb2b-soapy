@@ -2,21 +2,15 @@
 import os
 
 # -------------------------------------------------------------------
-B2B_PROXY = None
-NM_B2B_API_KEY_ID = os.environ.get('NM_B2B_API_KEY_ID')  # default is None
-NM_B2B_API_SECRET = os.environ.get('NM_B2B_API_SECRET')  # default is None
-if NM_B2B_API_KEY_ID and NM_B2B_API_SECRET:
-	B2B_PROXY = {
-		'key': 		NM_B2B_API_KEY_ID,
-		'secret': 	NM_B2B_API_SECRET
-	}
-	
-
 DEFAULT_B2B_VERSION = '23.0.0'
+def get_available_b2b_version_for_soapy():
+	return ['23.0.0']
 
+# -------------------------------------------------------------------
 WSDL_PROXY = "https://wsdl.b2b-proxy.4me.im/23.0.0/"
-
-
+#WSLD_PREOPS_MAIN = "https://www.b2b.preops.nm.eurocontrol.int/"
+WSDL_PREOPS_MAIN="https://www.b2b.preops.nm.eurocontrol.int/FILE_PREOPS/gateway/spec/b2b_publications/23.0.0/B2B_WSDL_XSD.23.0.0.5.81.tar.gz"
+#WSLD_PREOPS_MAIN = "https://www.b2b.nm.eurocontrol.int/"
 
 # -------------------------------------------------------------------
 ALLOWED_DATASET = ["OPERATIONAL"]
