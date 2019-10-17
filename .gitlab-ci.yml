@@ -1,9 +1,9 @@
-image: python:latest
+image: 
+  name: docker:latest
+  entrypoint: [""]
+
 
 before_script:
-  - python -V
-  - python -m venv venv
-  - source venv/bin/activate
   - pip install --upgrade pip
   - pip install -r requirements.txt
  
