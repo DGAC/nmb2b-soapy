@@ -1,0 +1,13 @@
+image python:latest
+
+before_script:
+  - python -V
+  - python -m venv venv
+  - source venv/bin/activate
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
+ 
+ install:
+  only: master
+  script:
+    - sh install.sh
