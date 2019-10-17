@@ -1,8 +1,9 @@
 venv
 .vscode
+.DS_Store
 __pycache__
 *.pyc
 data/sqlite.db
 algo.py
-cert/*.pem
-cert/*.p12
+*.pem
+*.p12

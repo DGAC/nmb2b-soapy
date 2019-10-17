@@ -1,13 +1,9 @@
 #-*- coding: utf-8 -*-
 # NOTE : à exécuter dans un shell Python plutôt que comme un script !
-
 from manager import Manager
-import json
-import utils
-import datetime
 
-test_manager = Manager() # avec proxy
-test_manager = Manager(how_to_auth='cert')
+test_manager = Manager() 					# avec proxy
+test_manager = Manager(how_to_auth='cert') 	# avec cert
 requestedFlightFields = ['flightState', 'cfmuFlightType']
 
 # démo queryFlightsByAirspace
