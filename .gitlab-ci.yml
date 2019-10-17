@@ -7,7 +7,7 @@ before_script:
   - pip install --upgrade pip
   - pip install -r requirements.txt
  
- install:
+install:
   only: master
   script:
     - sh install.sh
