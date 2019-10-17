@@ -7,7 +7,7 @@ before_script:
 stages:
   - deploy
 
-test_deploy:
+deploy:
   stage: deploy
   only: 
     - master
