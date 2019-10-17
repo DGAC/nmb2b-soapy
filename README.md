@@ -5,7 +5,8 @@ Aperçu de l'utilisation du module :
 from soapy.manager import Manager
 
 # on instancie son propre manager
-test_manager = Manager()
+test_manager = Manager()                   # si utilisation du proxy b2b NM
+test_manager = Manager(how_to_auth='cert') # si utilisation de votre propre certificat
 
 # pour afficher les différents services disponibles
 test_manager.show_available_services()
