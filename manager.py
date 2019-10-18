@@ -35,12 +35,14 @@ class Manager():
 		self.available_services = []
 		self.available_operations = {}		
 		self._default_params_for_queries = {
+			'requestedFlightFields':	[],
 			'dataset':                  get_dataset(dataset),
 			'trafficType':              'LOAD',
 			'includeProposalFlights':   True, 
 			'includeForecastFlights':   True,
 			'sendTime':                 utils.sendTime(),
 		}
+		self.params_for_queries = self._default_params_for_queries
 
 		# ------------- certificat ou proxy ? ------------- #
 		if how_to_auth == 'cert': 
@@ -71,11 +73,6 @@ class Manager():
 			'transport':    self.transport
 		}		
 		self.tmp_data = None
-	
-
-	# -----------------------------------------------------------------------------------------
-	def get_wsdl_file(self):
-		pass
 	
 	# -----------------------------------------------------------------------------------------
 	def set_available_services(self):
@@ -112,90 +109,86 @@ class Manager():
 	def convert_data_to_json(self, obj):
 		return serialize_object(self.tmp_data)
 
+	def update_params_for_queries(self, new_params):
+		for param in new_params:
+			if param in self.params_for_queries:
+				self.params_for_queries[param] = new_params[param]
+	
 	# -----------------------------------------------------------------------------------------
-	def queryFlightsByAirspace(
-		self, 
-		airspace, 
-		startTime, 
-		endTime, 
-		requestedFlightFields=  [],
-		dataset=                None,
-		trafficType=            None,
-		includeProposalFlights= None,
-		includeForecastFlights= None,
-		sendTime=               None,
-		):
-
-		dataset = self._default_params_for_queries['dataset'] if not dataset else dataset
-		trafficType = self._default_params_for_queries['trafficType'] if not trafficType else trafficType
-		includeProposalFlights = self._default_params_for_queries['includeProposalFlights'] if not includeProposalFlights else includeProposalFlights
-		includeForecastFlights = self._default_params_for_queries['includeForecastFlights'] if not includeForecastFlights else includeForecastFlights
-		sendTime = self._default_params_for_queries['sendTime'] if not sendTime else sendTime
+	def queryFlightsByAirspace(self, airspace, startTime, endTime, other_params={}):
+		""" Liste des vols par airspace
+		
+		Récupère la liste des vols transitant par un volume d'espace donné.
+		
+		Parameters
+		----------
+		airspace
+			volume d'espace souhaité
+		startTime
+			heure de début (UTC)
+		endTime
+			heure de fin (UTC)
+		other_params
+			dictionnaire pour overrider les valeurs par défaut de _default_params_for_queries
+    	"""
+		
 		trafficWindow = {'wef': startTime, 'unt': endTime}
-
+		self.update_params_for_queries(other_params)		
 		client = Client(**self.conf, service_name='FlightManagementService')
 		self.tmp_data = client.service.queryFlightsByAirspace(
 			airspace=airspace, 
-			dataset=dataset, trafficType=trafficType,
-			includeProposalFlights=includeProposalFlights, includeForecastFlights=includeForecastFlights, 
-			trafficWindow=trafficWindow, requestedFlightFields=requestedFlightFields, sendTime=sendTime)
+			trafficWindow=trafficWindow, 
+			**self.params_for_queries)
 		return self.tmp_data
 	
-	def queryFlightsByAerodrome(
-		self, 
-		aerodrome,
-		aerodromeRole,
-		startTime, 
-		endTime, 
-		requestedFlightFields=  [],
-		dataset=                None,
-		trafficType=            None,
-		includeProposalFlights= None,
-		includeForecastFlights= None,
-		sendTime=               None,
-		):
-
-		dataset = self._default_params_for_queries['dataset'] if not dataset else dataset
-		trafficType = self._default_params_for_queries['trafficType'] if not trafficType else trafficType
-		includeProposalFlights = self._default_params_for_queries['includeProposalFlights'] if not includeProposalFlights else includeProposalFlights
-		includeForecastFlights = self._default_params_for_queries['includeForecastFlights'] if not includeForecastFlights else includeForecastFlights
-		sendTime = self._default_params_for_queries['sendTime'] if not sendTime else sendTime
+	def queryFlightsByAerodrome(self, aerodrome, aerodromeRole, startTime, endTime, other_params={}):
+		""" Liste des vols par aérodrome
+		
+		Récupère la liste des vols au départ ou à l'arrivée d'un aérodrome.
+		
+		Parameters
+		----------
+		aerodrome
+			code OACI du terrain souhaité
+		aerodromeRole
+			rôle du terrain (DEPARTURE...)
+		startTime
+			heure de début (UTC)
+		endTime
+			heure de fin (UTC)
+		other_params
+			dictionnaire pour overrider les valeurs par défaut de _default_params_for_queries
+    	"""
 		trafficWindow = {'wef': startTime, 'unt': endTime}
-
+		self.update_params_for_queries(other_params)
 		client = Client(**self.conf, service_name='FlightManagementService')
 		self.tmp_data = client.service.queryFlightsByAerodrome(
-			aerodrome=aerodrome, aerodromeRole=aerodromeRole, 
-			dataset=dataset, trafficType=trafficType,
-			includeProposalFlights=includeProposalFlights, includeForecastFlights=includeForecastFlights, 
-			trafficWindow=trafficWindow, requestedFlightFields=requestedFlightFields, sendTime=sendTime)
+			aerodrome=aerodrome, aerodromeRole=aerodromeRole,
+			trafficWindow=trafficWindow,
+			**self.params_for_queries)
 		return self.tmp_data
 	
-	def queryFlightsByTrafficVolume(
-		self, 
-		trafficVolume, 
-		startTime, 
-		endTime, 
-		requestedFlightFields=  [],
-		dataset=                None,
-		trafficType=            None,
-		includeProposalFlights= None,
-		includeForecastFlights= None,
-		sendTime=               None,
-		**kwargs
-		):
-
-		dataset = self._default_params_for_queries['dataset'] if not dataset else dataset
-		trafficType = self._default_params_for_queries['trafficType'] if not trafficType else trafficType
-		includeProposalFlights = self._default_params_for_queries['includeProposalFlights'] if not includeProposalFlights else includeProposalFlights
-		includeForecastFlights = self._default_params_for_queries['includeForecastFlights'] if not includeForecastFlights else includeForecastFlights
-		sendTime = self._default_params_for_queries['sendTime'] if not sendTime else sendTime
+	def queryFlightsByTrafficVolume(self, trafficVolume, startTime, endTime, other_params={}):
+		""" Liste des vols par Traffic Volume (TV)
+		
+		Récupère la liste des vols transitant par un TV.
+		
+		Parameters
+		----------
+		trafficVolume
+			nom du TV
+		startTime
+			heure de début (UTC)
+		endTime
+			heure de fin (UTC)
+		other_params
+			dictionnaire pour overrider les valeurs par défaut de _default_params_for_queries
+    	"""
 		trafficWindow = {'wef': startTime, 'unt': endTime}
-
+		self.update_params_for_queries(other_params)
 		client = Client(**self.conf, service_name='FlightManagementService')
 		self.tmp_data = client.service.queryFlightsByTrafficVolume(
 			trafficVolume=trafficVolume, 
-			dataset=dataset, trafficType=trafficType,
-			includeProposalFlights=includeProposalFlights, includeForecastFlights=includeForecastFlights, 
-			trafficWindow=trafficWindow, requestedFlightFields=requestedFlightFields, sendTime=sendTime,
-			**kwargs)
+			trafficWindow=trafficWindow,
+			**self.params_for_queries)
 		return self.tmp_data
