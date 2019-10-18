@@ -15,22 +15,21 @@ test_manager.show_available_services()
 test_manager.show_operations_of_service(service_name='FlightManagementService')
 
 # on précise les champs qui nous intéressent pour des requêtes de listes de vols (requestedFlightFields, voir doc NM), et si nécessaire on override les valeurs par défaut pour la requête (voir _default_params_for_queries dans le code source de Manager).
-other_params = {    
-	'requestedFlightFields': ['flightState', 'cfmuFlightType']
+other_params = {
+    'requestedFlightFields': ['flightState', 'cfmuFlightType']
 }
 
 # pour afficher une liste de vols pour un terrain donné
 flight_list = test_manager.queryFlightsByAerodrome(
-    aerodrome="LFPG",
-	aerodromeRole="DEPARTURE",
-   	startTime="2019-10-18 17:00", endTime="2019-10-18 18:30",
-	other_params=other_params)
+    aerodrome="LFPG", aerodromeRole="DEPARTURE",
+    startTime="2019-10-18 17:00", endTime="2019-10-18 18:30",
+    other_params=other_params)
 print(flight_list.data)
 
 # pour afficher une liste de vols pour un Traffic Volume donné
 flight_list = test_manager.queryFlightsByTrafficVolume(
     trafficVolume='LFFTN',
-   	startTime="2019-10-18 17:00", endTime="2019-10-18 18:30",
-	other_params=other_params)
+    startTime="2019-10-18 17:00", endTime="2019-10-18 18:30",
+    other_params=other_params)
 print(flight_list.data)
 ```
