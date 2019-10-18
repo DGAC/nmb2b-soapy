@@ -1,7 +1,7 @@
 image: docker:latest
 
 before_script:
-  - apk add python3.7
+  - apk add python3
   - python3 --version
   - sh install.sh
   
