@@ -1,7 +1,8 @@
-image: "python:3.7"
+image: docker:latest
 
 before_script:
-  - python --version
+  - apt-get install python3.7
+  - python3 --version
   - sh install.sh
   
 stages:
