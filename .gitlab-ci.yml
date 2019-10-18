@@ -1,15 +1,20 @@
-image: 
-  name: docker:latest
-  entrypoint: [""]
-
+image: "python:3.7"
 
 before_script:
-  - apk add --no-cache py-pip python-dev libffi-dev openssl-dev gcc libc-dev make
-  - pip install --upgrade pip
-  - pip install -r requirements.txt
- 
-install:
-  only: 
-    - master
+  - python --version
+  - sh install.sh
+  
+stages:
+  - test
+  - deploy
+
+test:
+  stage: test
+  script: echo "[Test gitlab-ci] On teste l'application eNews"
+
+deploy:
+  stage: deploy
+  only:
+  - master
   script:
-    - sh install.sh
+  - echo "[Test gitlab-ci] On déploie l'application eNews"
