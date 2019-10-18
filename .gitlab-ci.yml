@@ -3,3 +3,18 @@ image: "python:3.7"
 before_script:
   - python --version
   - sh install.sh
+  
+stages:
+  - test
+  - deploy
+
+test:
+  stage: test
+  script: echo "[Test gitlab-ci] On teste l'application eNews"
+
+deploy:
+  stage: deploy
+  only:
+  - master
+  script:
+  - echo "[Test gitlab-ci] On déploie l'application eNews"
