@@ -2,7 +2,7 @@ image: docker:latest
 
 before_script:
   - apk add --no-cache py-pip python-dev libffi-dev openssl-dev gcc libc-dev make
-  - python3 --version
+  - python --version
   - sh install.sh
   
 stages:
