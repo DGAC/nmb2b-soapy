@@ -26,6 +26,7 @@ echo "...terminé."
 
 echo $SEP
 echo "Mise à jour du fichier collection.py (zeep/xsd/types/collection.py)..."
+find ./venv -name collection.py
 NBR_RESULTS=$(find ./venv -name collection.py | wc -l)
 if [ $NBR_RESULTS != '1' ]; then
     echo "Impossible de trouver collection.py. Avez-vous bien installé la librairie Python Zeep ?"
