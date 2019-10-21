@@ -13,8 +13,10 @@ echo "...terminé."
 
 echo $SEP
 echo "Mise à jour de pip et installation des dépendances..."
-pip --quiet install --upgrade pip
-pip --quiet install -r requirements.txt
+#pip --quiet install --upgrade pip
+#pip --quiet install -r requirements.txt
+pip install --upgrade pip
+pip install -r requirements.txt
 echo "...terminé."
 
 echo $SEP
