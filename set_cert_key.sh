@@ -1,4 +1,5 @@
 #!/bin/sh
+SEP="-----------------------------------------------------"
 NBR_RESULTS=$(find ./cert -name '*.p12' | wc -l)
 if [ $NBR_RESULTS = '0' ]; then
     printf "Aucun fichier trouvé avec l'extension .p12 dans cert/\n"
