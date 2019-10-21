@@ -1,8 +1,8 @@
-image: python:3.7-slim
+image: docker:latest
 
 before_script:
-  #- apk add --no-cache py-pip python-dev libffi-dev openssl-dev gcc libc-dev make
-  - python --version
+  - apk add --no-cache python3.6 python3.6-dev python3-pip libffi-dev openssl-dev gcc libc-dev make
+  - python3 --version
   - sh install.sh
   
 stages:
