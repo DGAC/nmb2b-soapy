@@ -1,25 +1,12 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
-import argparse
 import datetime
-import logging
 import os
-import re
-import sys
-import xml.etree.ElementTree as ET
 
-import requests
-#from elasticsearch import Elasticsearch
-
-#from decolog import *
-#from dsnaproxies import dsnaproxies
 from shared_vars import DATA_PATH
 
 
-# -------------------------------------------------------------------
-# -------------------------------------------------------------------
-# Nouveaux utilitaires par Maxence
 def write_content_to_file(filename, content, rep=DATA_PATH):
 	os.makedirs(os.path.dirname(rep+filename), exist_ok=True)
 	full_path = os.path.join(rep, filename)
@@ -40,3 +27,21 @@ def get_datetime(nbr_days=0):
 def sendTime():
 	sendTime = f"{datetime.datetime.utcnow().replace(microsecond=0)}"
 	return sendTime[:19]
+
+def format_datetime_for_nm(datetime_to_format):
+	# TODO : affiner les warnings, messages d'erreurs etc
+	
+	if type(datetime_to_format) == str:
+		# TODO : vérifier que le format correspond bien à ce qui est attendu par NM
+		return datetime_to_format
+	
+	elif isinstance(datetime_to_format, datetime.datetime):
+		if datetime_to_format.tzinfo != datetime.timezone.utc:
+			print("Attention : l'objet datetime.datetime que vous avez passé en argument n'est pas formaté UTC.")
+		return datetime_to_format.strftime("%Y-%m-%d %H:%M")
+	
+	else:
+		print("La date+heure que vous avez passé en argument n'est pas un format \
+			accepté par soapy (str ou objet datetime.datetime).")
+		# TODO rapidement : lever une exception plutôt 
+		exit(1)

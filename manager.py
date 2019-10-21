@@ -114,6 +114,12 @@ class Manager():
 			if param in self.params_for_queries:
 				self.params_for_queries[param] = new_params[param]
 	
+	def set_traffic_window(self, startTime, endTime):
+		return {
+			'wef': utils.format_datetime_for_nm(startTime), 
+			'unt': utils.format_datetime_for_nm(endTime)
+		}
+	
 	# -----------------------------------------------------------------------------------------
 	def queryFlightsByAirspace(self, airspace, startTime, endTime, other_params={}):
 		""" Liste des vols par airspace
@@ -132,7 +138,7 @@ class Manager():
 			dictionnaire pour overrider les valeurs par défaut de _default_params_for_queries
     	"""
 		
-		trafficWindow = {'wef': startTime, 'unt': endTime}
+		trafficWindow = self.set_traffic_window(startTime, endTime)
 		self.update_params_for_queries(other_params)		
 		client = Client(**self.conf, service_name='FlightManagementService')
 		self.tmp_data = client.service.queryFlightsByAirspace(
@@ -159,7 +165,7 @@ class Manager():
 		other_params
 			dictionnaire pour overrider les valeurs par défaut de _default_params_for_queries
     	"""
-		trafficWindow = {'wef': startTime, 'unt': endTime}
+		trafficWindow = self.set_traffic_window(startTime, endTime)
 		self.update_params_for_queries(other_params)
 		client = Client(**self.conf, service_name='FlightManagementService')
 		self.tmp_data = client.service.queryFlightsByAerodrome(
@@ -184,7 +190,7 @@ class Manager():
 		other_params
 			dictionnaire pour overrider les valeurs par défaut de _default_params_for_queries
     	"""
-		trafficWindow = {'wef': startTime, 'unt': endTime}
+		trafficWindow = self.set_traffic_window(startTime, endTime)
 		self.update_params_for_queries(other_params)
 		client = Client(**self.conf, service_name='FlightManagementService')
 		self.tmp_data = client.service.queryFlightsByTrafficVolume(
