@@ -8,6 +8,11 @@ python3 -V
 echo $SEP
 echo "Création d'un environnement virtuel python pour soapy..."
 python3 -m venv venv
+ls
+echo "...terminé."
+
+echo $SEP
+echo "Utilisation de l'environnement virtuel créé..."
 source venv/bin/activate
 echo "...terminé."
 
