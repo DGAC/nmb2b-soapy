@@ -8,7 +8,6 @@ python3 -V
 echo $SEP
 echo "Création d'un environnement virtuel python pour soapy..."
 python3 -m venv venv
-ls
 echo "...terminé."
 
 echo $SEP
@@ -18,10 +17,8 @@ echo "...terminé."
 
 echo $SEP
 echo "Mise à jour de pip et installation des dépendances..."
-#pip --quiet install --upgrade pip
-#pip --quiet install -r requirements.txt
-pip install --upgrade pip
-pip install -r requirements.txt
+pip --quiet install --upgrade pip
+pip --quiet install -r requirements.txt
 echo "...terminé."
 
 echo $SEP
