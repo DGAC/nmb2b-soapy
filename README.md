@@ -1,4 +1,4 @@
-Pour le wiki complet, [c'est par ici](wikis/home).
+Pour le wiki complet, [c'est par ici](../wikis/home).
 
 Pour utiliser les fonctionnalités offertes par `soapy`,  tout passe par le `manager`.
 ```python
