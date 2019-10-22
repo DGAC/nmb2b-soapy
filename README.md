@@ -1,4 +1,4 @@
-Pour le wiki complet, [c'est par ici](https://gitlab.asap.dsna.fr/maxence.renaud/soapy/wikis/home).
+Pour le wiki complet, [c'est par ici](home).
 
 Pour utiliser les fonctionnalités offertes par `soapy`,  tout passe par le `manager`.
 ```python
