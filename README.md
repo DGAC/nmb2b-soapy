@@ -1,6 +1,6 @@
 Pour le wiki complet :
-* depuis GitLab : [c'est par ici](../wikis/home),
-* depuis GitHub : [c'est par là](./wiki).
+* depuis GitLab : [c'est par ici](https://gitlab.asap.dsna.fr/maxence.renaud/soapy/wikis/home),
+* depuis GitHub : [c'est par là](https://github.com/DGAC/nmb2b-soapy/wiki).
 
 Pour utiliser les fonctionnalités offertes par `soapy`,  tout passe par le `manager`.
 ```python
