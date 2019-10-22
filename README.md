@@ -1,4 +1,6 @@
-Pour le wiki complet, [c'est par ici](../wikis/home).
+Pour le wiki complet :
+* depuis GitLab : [c'est par ici](../wikis/home),
+* depuis GitHub : [c'est par là](./wiki).
 
 Pour utiliser les fonctionnalités offertes par `soapy`,  tout passe par le `manager`.
 ```python
