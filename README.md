@@ -32,15 +32,15 @@ other_params = {
 # pour afficher une liste de vols pour un terrain donné
 flight_list = test_manager.queryFlightsByAerodrome(
     aerodrome="LFPG",
-	aerodromeRole="DEPARTURE",
-   	startTime=startTime, endTime=endTime,
-	other_params=other_params)
+    aerodromeRole="DEPARTURE",
+    startTime=startTime, endTime=endTime,
+    other_params=other_params)
 print(flight_list.data)
 
 # pour afficher une liste de vols pour un Traffic Volume donné
 flight_list = test_manager.queryFlightsByTrafficVolume(
     trafficVolume='LFFTN',
-   	startTime=startTime, endTime=endTime,
-	other_params=other_params)
+    startTime=startTime, endTime=endTime,
+    other_params=other_params)
 print(flight_list.data)
 ```
